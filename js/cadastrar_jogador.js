@@ -1,6 +1,6 @@
 // Conexão com o banco de dados
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
 const appSettings = {
     databaseURL: "https://voleibri-default-rtdb.firebaseio.com/"
 }
@@ -15,12 +15,26 @@ const sexoJogador = document.getElementById("sexo_jogador")
 const alturaJogador = document.getElementById("altura_jogador")
 const pesoJogador = document.getElementById("peso_jogador")
 const botaoCadastrarJogador = document.getElementById("cadastrar_jogador")
-const divRetorno = document.getElementById("retorno")
+const mostrarJogadoresCadastrados = document.getElementById("jogadores_cadastrados")
+const buttonMostrarJogadoresCadastrados = document.getElementById("mostrar_jogadores_cadastrados")
 botaoCadastrarJogador.addEventListener("click", function () {
-    let valorCadastar = `nome: ${nomeJogador.value}, numero_camisa: ${numCamisaJogador.value}, posicao: ${posicaoJogador.value}, sexo: ${sexoJogador.value}, altura: ${alturaJogador.value.replace(/,/g, '.')}, peso: ${pesoJogador.value.replace(/,/g, '.')}, saque_fora: 0, saque dentro: 0`
-    if (posicaoJogador.value === "Oposto") {
-        valorCadastar += ", ataques_acertados: 0, ataques_errados: 0"
+    let valorCadastar = `{"nome":"${nomeJogador.value}", "numero_camisa":"${numCamisaJogador.value}", "posicao": "${posicaoJogador.value}", "sexo": "${sexoJogador.value}", "altura": "${alturaJogador.value.replace(/,/g, '.')}", "peso": "${pesoJogador.value.replace(/,/g, '.')}", "saque_fora": {"por_baixo":"0", "lateral_asiatico":"0", "por_cima":"0","viagem_fundo_do_mar":"0","flutuante":"0","hibrido_misto":"0"}, "saque dentro": {"por_baixo":"0", "lateral_asiatico":"0", "por_cima":"0","viagem_fundo_do_mar":"0","flutuante":"0","hibrido_misto":"0", "ace": {"por_baixo":"0", "lateral_asiatico":"0", "por_cima":"0","viagem_fundo_do_mar":"0","flutuante":"0","hibrido_misto":"0"}}, "passe_A":"0", "passe_B":"0", "passe_C":"0", "passe_D":"0"`
+    if (posicaoJogador.value === "Levantador") {
+        valorCadastar += `, "levantou_para":{"ponta":"0", "centro":"0", "oposto":"0", "pipe":"0", "errou":"0"}}`
+    }
+    else {
+        valorCadastar += `}`
     }
     push(jogadorInDB, valorCadastar)
-    divRetorno.innerHTML += "<p>Jogador cadastrado com sucesso</p>"
+    alert("Jogador Cadastrado com Sucesso")
+})
+buttonMostrarJogadoresCadastrados.addEventListener("click", function () {
+    onValue(jogadorInDB, function (snapshot) {
+        let jogadoresArray = Object.values(snapshot.val())
+        for (let i = 0; i < jogadoresArray.length; i++) {
+            let jogadorAtual = jogadoresArray[i]
+            let jogadorAtualObject = JSON.parse(jogadorAtual)
+            mostrarJogadoresCadastrados.innerHTML += `<tr><td>${jogadorAtualObject.nome}</td><td>${jogadorAtualObject.numero_camisa}</td><td>${jogadorAtualObject.posicao}</td><td>${jogadorAtualObject.sexo}</td></tr>`
+        }
+    })
 })
