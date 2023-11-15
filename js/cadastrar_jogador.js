@@ -17,7 +17,7 @@ const pesoJogador = document.getElementById("peso_jogador")
 const botaoCadastrarJogador = document.getElementById("cadastrar_jogador")
 const divRetorno = document.getElementById("retorno")
 botaoCadastrarJogador.addEventListener("click", function () {
-    let valorCadastar = `nome: ${nomeJogador.value}, numero_camisa: ${numCamisaJogador.value}, posicao: ${posicaoJogador.value}, sexo: ${sexoJogador.value}, altura: ${alturaJogador.value}, peso: ${pesoJogador.value}, saque_fora: 0, saque dentro: 0`
+    let valorCadastar = `nome: ${nomeJogador.value}, numero_camisa: ${numCamisaJogador.value}, posicao: ${posicaoJogador.value}, sexo: ${sexoJogador.value}, altura: ${alturaJogador.value.replace(/,/g, '.')}, peso: ${pesoJogador.value.replace(/,/g, '.')}, saque_fora: 0, saque dentro: 0`
     if (posicaoJogador.value === "Oposto") {
         valorCadastar += ", ataques_acertados: 0, ataques_errados: 0"
     }
