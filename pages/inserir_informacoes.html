@@ -23,23 +23,26 @@
         <label for="nome">jogador</label>
         <select name="nome" id="nome"></select>
         <form action="">
-            <label for="saque">Saque:</label>
-            <input type="radio" name="saque_dentro" id="saque_dentro" value="saque_dentro">
+            <p>Saque:</p>
+            <input type="radio" name="saque" id="saque_dentro" value="saque_dentro">
             <label for="saque_dentro">Dentro</label>
-            <input type="radio" name="saque_fora" id="saque_fora" value="saque_fora">
-            <label for="saque_fora">Fora</label>
+            <input type="radio" name="saque" id="saque_fora" value="saque_fora">
+            <label for="saque_fora">Fora</label><br>
             <label for="tipo_saque">Tipo do saque</label><select name="tipo_saque" id="tipo_saque">
-                <!-- {"por_baixo":"0", "lateral_asiatico":"0", "por_cima":"0","viagem_fundo_do_mar":"0","flutuante":"0","hibrido_misto":"0", "ace": {"por_baixo":"0", "lateral_asiatico":"0", "por_cima":"0","viagem_fundo_do_mar":"0","flutuante":"0","hibrido_misto":"0"} -->
                 <option value="por_baixo">Por Baixo</option>
                 <option value="lateral_asiatico">Lateral ou Asiático</option>
                 <option value="por_cima">Por Cima</option>
                 <option value="viagem_fundo_do_mar">Viagem ou Fundo do Mar</option>
                 <option value="flutuante">Flutuante</option>
                 <option value="hibrido_misto">Híbrido ou Misto</option>
-            </select>
-            <label for="ace">Saque ACE:</label><br>
-            <input type="radio" name="ace" id="ace" value="ace">
+            </select><br>
+            <p>Saque ACE:</p>
+            <label for="ace_nao">Não</label>
+            <input type="radio" name="ace" id="ace_nao" value="nao">
+            <label for="ace_sim">Sim</label>
+            <input type="radio" name="ace" id="ace_sim" value="sim">
         </form>
+        <button id="salvar">Salvar</button>
     </main>
 </body>
 
