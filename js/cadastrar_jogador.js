@@ -35,7 +35,7 @@ botaoCadastrarJogador.addEventListener("click", function () {
             hibrido_misto: 0
         },
         saque_dentro: {
-            por_baix: 0,
+            por_baixo: 0,
             lateral_asiatico: 0,
             por_cima: 0,
             viagem_fundo_do_mar: 0,
