@@ -35,29 +35,188 @@ salvar.addEventListener("click", function () {
     })
     if (document.querySelector('input[name="saque"]:checked').value === "saque_dentro" && document.querySelector('input[name="ace"]:checked').value === "nao") {
         if (tipoSaque.value === "por_baixo") {
-            SaqueDentroNaoACE(idJogador, ++jogadorSelecionado.saque_dentro.por_baixo, jogadorSelecionado.saque_dentro.lateral_asiatico, jogadorSelecionado.saque_dentro.por_cima, jogadorSelecionado.saque_dentro.viagem_fundo_do_mar, jogadorSelecionado.saque_dentro.flutuante, jogadorSelecionado.saque_dentro.hibrido_misto, jogadorSelecionado.saque_dentro.ace.por_baixo, jogadorSelecionado.saque_dentro.ace.lateral_asiatico, jogadorSelecionado.saque_dentro.ace.por_cima, jogadorSelecionado.saque_dentro.ace.viagem_fundo_do_mar, jogadorSelecionado.saque_dentro.ace.flutuante, jogadorSelecionado.saque_dentro.ace.hibrido_misto)
+            SaqueDentroNaoACE(idJogador,
+                ++jogadorSelecionado.saque_dentro.por_baixo,
+                jogadorSelecionado.saque_dentro.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.por_cima,
+                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.flutuante,
+                jogadorSelecionado.saque_dentro.hibrido_misto,
+                jogadorSelecionado.saque_dentro.ace.por_baixo,
+                jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.ace.por_cima,
+                jogadorSelecionado.saque_dentro.ace.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.ace.flutuante,
+                jogadorSelecionado.saque_dentro.ace.hibrido_misto)
         }
-        // let valorAInserir = "/jogador/-NjNG_owPDJ3arThsV4k/saque_dentro/por_baixo/" + (jogadorSelecionado.saque_dentro.por_cima++)
-        // update(ref(database), valorAInserir)
+        if (tipoSaque.value === "lateral_asiatico") {
+            SaqueDentroNaoACE(idJogador,
+                jogadorSelecionado.saque_dentro.por_baixo,
+                ++jogadorSelecionado.saque_dentro.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.por_cima,
+                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.flutuante,
+                jogadorSelecionado.saque_dentro.hibrido_misto,
+                jogadorSelecionado.saque_dentro.ace.por_baixo,
+                jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.ace.por_cima,
+                jogadorSelecionado.saque_dentro.ace.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.ace.flutuante,
+                jogadorSelecionado.saque_dentro.ace.hibrido_misto)
+        }
+        if (tipoSaque.value === "por_cima") {
+            SaqueDentroNaoACE(idJogador,
+                jogadorSelecionado.saque_dentro.por_baixo,
+                jogadorSelecionado.saque_dentro.lateral_asiatico,
+                ++jogadorSelecionado.saque_dentro.por_cima,
+                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.flutuante,
+                jogadorSelecionado.saque_dentro.hibrido_misto,
+                jogadorSelecionado.saque_dentro.ace.por_baixo,
+                jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.ace.por_cima,
+                jogadorSelecionado.saque_dentro.ace.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.ace.flutuante,
+                jogadorSelecionado.saque_dentro.ace.hibrido_misto)
+        }
+        if (tipoSaque.value === "viagem_fundo_do_mar") {
+            SaqueDentroNaoACE(idJogador,
+                jogadorSelecionado.saque_dentro.por_baixo,
+                jogadorSelecionado.saque_dentro.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.por_cima,
+                ++jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.flutuante,
+                jogadorSelecionado.saque_dentro.hibrido_misto,
+                jogadorSelecionado.saque_dentro.ace.por_baixo,
+                jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.ace.por_cima,
+                jogadorSelecionado.saque_dentro.ace.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.ace.flutuante,
+                jogadorSelecionado.saque_dentro.ace.hibrido_misto)
+        }
+        if (tipoSaque.value === "flutuante") {
+            SaqueDentroNaoACE(idJogador,
+                jogadorSelecionado.saque_dentro.por_baixo,
+                jogadorSelecionado.saque_dentro.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.por_cima,
+                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
+                ++jogadorSelecionado.saque_dentro.flutuante,
+                jogadorSelecionado.saque_dentro.hibrido_misto,
+                jogadorSelecionado.saque_dentro.ace.por_baixo,
+                jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.ace.por_cima,
+                jogadorSelecionado.saque_dentro.ace.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.ace.flutuante,
+                jogadorSelecionado.saque_dentro.ace.hibrido_misto)
+        }
+        if (tipoSaque.value === "hibrido_misto") {
+            SaqueDentroNaoACE(idJogador,
+                jogadorSelecionado.saque_dentro.por_baixo,
+                jogadorSelecionado.saque_dentro.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.por_cima,
+                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.flutuante,
+                ++jogadorSelecionado.saque_dentro.hibrido_misto,
+                jogadorSelecionado.saque_dentro.ace.por_baixo,
+                jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.ace.por_cima,
+                jogadorSelecionado.saque_dentro.ace.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.ace.flutuante,
+                jogadorSelecionado.saque_dentro.ace.hibrido_misto)
+        }
     }
     else if (document.querySelector('input[name="saque"]:checked').value === "saque_dentro" && document.querySelector('input[name="ace"]:checked').value === "sim") {
-        // var valorAInserir = {}
-        // valorAtual = idJogador.saque_dentro.ace.por_baixo
-        // console.log(valorAtual)
-        // let tipoSaqueSelecionado = tipoSaque.value
-        // valorAInserir[`/jogador/${idJogador}/${document.querySelector('input[name="saque"]:checked').value}/ace/`] = {
-        //     por_baixo: NovoValor(idJogador.saque_dentro.ace.por_baixo.value),
-        //     lateral_asiatico: 0,
-        //     por_cima: 0,
-        //     viagem_fundo_do_mar: 0,
-        //     flutuante: 0,
-        //     hibrido_misto: 0
-        // }
-        // let localizacaoParaApagar = ref(database, `jogador/${idJogador}/${document.querySelector('input[name="saque"]:checked').value}/ace/${tipoSaque.value}/${jogadorSelecionado.saque_dentro.ace[tipoSaque.value]}`)
-        // let localizacaoParaInserir = ref(database, `jogador/${idJogador}/${document.querySelector('input[name="saque"]:checked').value}/ace/`)
-        // remove(localizacaoParaApagar)
-        // update(ref(database), valorAInserir)
-        // push(localizacaoParaInserir, valorAInserir)
+
+        if (tipoSaque.value === "por_baixo") {
+            SaqueDentroNaoACE(idJogador,
+                jogadorSelecionado.saque_dentro.por_baixo,
+                jogadorSelecionado.saque_dentro.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.por_cima,
+                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.flutuante,
+                jogadorSelecionado.saque_dentro.hibrido_misto,
+                ++jogadorSelecionado.saque_dentro.ace.por_baixo,
+                jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.ace.por_cima,
+                jogadorSelecionado.saque_dentro.ace.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.ace.flutuante,
+                jogadorSelecionado.saque_dentro.ace.hibrido_misto)
+        }
+        if (tipoSaque.value === "lateral_asiatico") {
+            SaqueDentroNaoACE(idJogador,
+                jogadorSelecionado.saque_dentro.por_baixo,
+                jogadorSelecionado.saque_dentro.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.por_cima,
+                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.flutuante,
+                jogadorSelecionado.saque_dentro.hibrido_misto,
+                jogadorSelecionado.saque_dentro.ace.por_baixo,
+                ++jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.ace.por_cima,
+                jogadorSelecionado.saque_dentro.ace.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.ace.flutuante,
+                jogadorSelecionado.saque_dentro.ace.hibrido_misto)
+        }
+        if (tipoSaque.value === "por_cima") {
+            SaqueDentroNaoACE(idJogador,
+                jogadorSelecionado.saque_dentro.por_baixo,
+                jogadorSelecionado.saque_dentro.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.por_cima,
+                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.flutuante,
+                jogadorSelecionado.saque_dentro.hibrido_misto,
+                jogadorSelecionado.saque_dentro.ace.por_baixo,
+                jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
+                ++jogadorSelecionado.saque_dentro.ace.por_cima,
+                jogadorSelecionado.saque_dentro.ace.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.ace.flutuante,
+                jogadorSelecionado.saque_dentro.ace.hibrido_misto)
+        }
+        if (tipoSaque.value === "viagem_fundo_do_mar") {
+            SaqueDentroNaoACE(idJogador,
+                jogadorSelecionado.saque_dentro.por_baixo,
+                jogadorSelecionado.saque_dentro.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.por_cima,
+                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.flutuante,
+                jogadorSelecionado.saque_dentro.hibrido_misto,
+                jogadorSelecionado.saque_dentro.ace.por_baixo,
+                jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.ace.por_cima,
+                ++jogadorSelecionado.saque_dentro.ace.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.ace.flutuante,
+                jogadorSelecionado.saque_dentro.ace.hibrido_misto)
+        }
+        if (tipoSaque.value === "flutuante") {
+            SaqueDentroNaoACE(idJogador,
+                jogadorSelecionado.saque_dentro.por_baixo,
+                jogadorSelecionado.saque_dentro.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.por_cima,
+                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.flutuante,
+                jogadorSelecionado.saque_dentro.hibrido_misto,
+                jogadorSelecionado.saque_dentro.ace.por_baixo,
+                jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.ace.por_cima,
+                jogadorSelecionado.saque_dentro.ace.viagem_fundo_do_mar,
+                ++jogadorSelecionado.saque_dentro.ace.flutuante,
+                jogadorSelecionado.saque_dentro.ace.hibrido_misto)
+        }
+        if (tipoSaque.value === "hibrido_misto") {
+            SaqueDentroNaoACE(idJogador,
+                jogadorSelecionado.saque_dentro.por_baixo,
+                jogadorSelecionado.saque_dentro.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.por_cima,
+                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.flutuante,
+                jogadorSelecionado.saque_dentro.hibrido_misto,
+                jogadorSelecionado.saque_dentro.ace.por_baixo,
+                jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
+                jogadorSelecionado.saque_dentro.ace.por_cima,
+                jogadorSelecionado.saque_dentro.ace.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_dentro.ace.flutuante,
+                ++jogadorSelecionado.saque_dentro.ace.hibrido_misto)
+        }
     }
     else if (document.querySelector('input[name="saque"]:checked').value === "saque_fora") {
 
@@ -85,10 +244,8 @@ function SaqueDentroNaoACE(idJogador, por_baixo, lateral_asiatico, por_cima, via
             hibrido_misto: ace_hibrido_misto
         }
     };
-
     // Write the new post's data simultaneously in the posts list and the user's post list.
     const updates = {};
     updates['/jogador/' + idJogador + '/saque_dentro'] = postData;
-
     return update(ref(db), updates);
 }
