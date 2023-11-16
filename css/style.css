@@ -1,12 +1,39 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-table {
-    border: 1px solid black;
+html {
+    width: 100vw;
+    min-height: 100vh;
 }
 
-tr {
-    border: 1px solid black;
+header {
+    width: 100vw;
+}
+
+nav {
+    width: 100vw;
+}
+
+nav ul {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    align-items: center;
+    justify-content: space-around;
+}
+
+nav ul li {
+    padding: 10px;
+    display: inline-block;
+    background-color: blanchedalmond;
+    border-radius: 5px;
+}
+
+nav ul li a {
+    color: black;
+    text-decoration: none;
 }
