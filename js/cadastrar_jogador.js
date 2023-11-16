@@ -91,8 +91,7 @@ buttonMostrarJogadoresCadastrados.addEventListener("click", function () {
         let jogadoresArray = Object.values(snapshot.val())
         for (let i = 0; i < jogadoresArray.length; i++) {
             let jogadorAtual = jogadoresArray[i]
-            let jogadorAtualObject = JSON.parse(jogadorAtual)
-            mostrarJogadoresCadastrados.innerHTML += `<tr><td>${jogadorAtualObject.nome}</td><td>${jogadorAtualObject.numero_camisa}</td><td>${jogadorAtualObject.posicao}</td><td>${jogadorAtualObject.sexo}</td></tr>`
+            mostrarJogadoresCadastrados.innerHTML += `<tr><td>${jogadorAtual.nome}</td><td>${jogadorAtual.numero_camisa}</td><td>${jogadorAtual.posicao}</td><td>${jogadorAtual.sexo}</td></tr>`
         }
     })
 })
