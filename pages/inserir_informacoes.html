@@ -20,30 +20,37 @@
         </nav>
     </header>
     <main>
-        <label for="nome">jogador</label>
-        <select name="nome" id="nome"></select>
-        <form action="">
-            <p>Saque:</p>
-            <input type="radio" name="saque" id="saque_dentro" value="saque_dentro">
-            <label for="saque_dentro">Dentro</label>
-            <input type="radio" name="saque" id="saque_fora" value="saque_fora">
-            <label for="saque_fora">Fora</label><br>
-            <label for="tipo_saque">Tipo do saque</label><select name="tipo_saque" id="tipo_saque">
-                <option value="por_baixo">Por Baixo</option>
-                <option value="lateral_asiatico">Lateral ou Asiático</option>
-                <option value="por_cima">Por Cima</option>
-                <option value="viagem_fundo_do_mar">Viagem ou Fundo do Mar</option>
-                <option value="flutuante">Flutuante</option>
-                <option value="hibrido_misto">Híbrido ou Misto</option>
-            </select><br>
-            <p>Saque ACE:</p>
-            <label for="ace_nao">Não</label>
-            <input type="radio" name="ace" id="ace_nao" value="nao">
-            <label for="ace_sim">Sim</label>
-            <input type="radio" name="ace" id="ace_sim" value="sim">
-        </form>
-        <button id="salvar">Salvar</button>
+        <section class="saques">
+            <label for="nome">jogador</label>
+            <select name="nome" id="nome"></select>
+            <form action="">
+                <p>Saque:</p>
+                <input type="radio" name="saque" id="saque_dentro" value="saque_dentro">
+                <label for="saque_dentro">Dentro</label>
+                <input type="radio" name="saque" id="saque_fora" value="saque_fora">
+                <label for="saque_fora">Fora</label><br>
+                <label for="tipo_saque">Tipo do saque</label><select name="tipo_saque" id="tipo_saque">
+                    <option value="por_baixo">Por Baixo</option>
+                    <option value="lateral_asiatico">Lateral ou Asiático</option>
+                    <option value="por_cima">Por Cima</option>
+                    <option value="viagem_fundo_do_mar">Viagem ou Fundo do Mar</option>
+                    <option value="flutuante">Flutuante</option>
+                    <option value="hibrido_misto">Híbrido ou Misto</option>
+                </select><br>
+                <p>Saque ACE:</p>
+                <label for="ace_nao">Não</label>
+                <input type="radio" name="ace" id="ace_nao" value="nao">
+                <label for="ace_sim">Sim</label>
+                <input type="radio" name="ace" id="ace_sim" value="sim">
+            </form>
+            <button id="salvar">Salvar</button>
+        </section>
+        <section class="graficos"></section>
     </main>
+    <!-- Primeiro, inclua a biblioteca xlsx no seu HTML -->
+    <script lang="javascript" src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script lang="javascript" src="../js/planilha.js"></script>
 </body>
 
 </html>
