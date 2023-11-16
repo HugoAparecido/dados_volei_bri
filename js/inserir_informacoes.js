@@ -29,13 +29,12 @@ salvar.addEventListener("click", function () {
             if (jogadorAtual[1].nome === selecionarJogador.value) {
                 idJogador = jogadorAtual[0]
                 jogadorSelecionado = jogadorAtual[1]
-                console.log(jogadorSelecionado)
             }
         }
     })
     if (document.querySelector('input[name="saque"]:checked').value === "saque_dentro" && document.querySelector('input[name="ace"]:checked').value === "nao") {
         if (tipoSaque.value === "por_baixo") {
-            SaqueDentroNaoACE(idJogador,
+            SaqueDentroNaoAce(idJogador,
                 ++jogadorSelecionado.saque_dentro.por_baixo,
                 jogadorSelecionado.saque_dentro.lateral_asiatico,
                 jogadorSelecionado.saque_dentro.por_cima,
@@ -50,7 +49,7 @@ salvar.addEventListener("click", function () {
                 jogadorSelecionado.saque_dentro.ace.hibrido_misto)
         }
         if (tipoSaque.value === "lateral_asiatico") {
-            SaqueDentroNaoACE(idJogador,
+            SaqueDentroNaoAce(idJogador,
                 jogadorSelecionado.saque_dentro.por_baixo,
                 ++jogadorSelecionado.saque_dentro.lateral_asiatico,
                 jogadorSelecionado.saque_dentro.por_cima,
@@ -65,7 +64,7 @@ salvar.addEventListener("click", function () {
                 jogadorSelecionado.saque_dentro.ace.hibrido_misto)
         }
         if (tipoSaque.value === "por_cima") {
-            SaqueDentroNaoACE(idJogador,
+            SaqueDentroNaoAce(idJogador,
                 jogadorSelecionado.saque_dentro.por_baixo,
                 jogadorSelecionado.saque_dentro.lateral_asiatico,
                 ++jogadorSelecionado.saque_dentro.por_cima,
@@ -80,7 +79,7 @@ salvar.addEventListener("click", function () {
                 jogadorSelecionado.saque_dentro.ace.hibrido_misto)
         }
         if (tipoSaque.value === "viagem_fundo_do_mar") {
-            SaqueDentroNaoACE(idJogador,
+            SaqueDentroNaoAce(idJogador,
                 jogadorSelecionado.saque_dentro.por_baixo,
                 jogadorSelecionado.saque_dentro.lateral_asiatico,
                 jogadorSelecionado.saque_dentro.por_cima,
@@ -95,7 +94,7 @@ salvar.addEventListener("click", function () {
                 jogadorSelecionado.saque_dentro.ace.hibrido_misto)
         }
         if (tipoSaque.value === "flutuante") {
-            SaqueDentroNaoACE(idJogador,
+            SaqueDentroNaoAce(idJogador,
                 jogadorSelecionado.saque_dentro.por_baixo,
                 jogadorSelecionado.saque_dentro.lateral_asiatico,
                 jogadorSelecionado.saque_dentro.por_cima,
@@ -110,7 +109,7 @@ salvar.addEventListener("click", function () {
                 jogadorSelecionado.saque_dentro.ace.hibrido_misto)
         }
         if (tipoSaque.value === "hibrido_misto") {
-            SaqueDentroNaoACE(idJogador,
+            SaqueDentroNaoAce(idJogador,
                 jogadorSelecionado.saque_dentro.por_baixo,
                 jogadorSelecionado.saque_dentro.lateral_asiatico,
                 jogadorSelecionado.saque_dentro.por_cima,
@@ -126,15 +125,8 @@ salvar.addEventListener("click", function () {
         }
     }
     else if (document.querySelector('input[name="saque"]:checked').value === "saque_dentro" && document.querySelector('input[name="ace"]:checked').value === "sim") {
-
         if (tipoSaque.value === "por_baixo") {
-            SaqueDentroNaoACE(idJogador,
-                jogadorSelecionado.saque_dentro.por_baixo,
-                jogadorSelecionado.saque_dentro.lateral_asiatico,
-                jogadorSelecionado.saque_dentro.por_cima,
-                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
-                jogadorSelecionado.saque_dentro.flutuante,
-                jogadorSelecionado.saque_dentro.hibrido_misto,
+            SaqueDentroACE(idJogador,
                 ++jogadorSelecionado.saque_dentro.ace.por_baixo,
                 jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
                 jogadorSelecionado.saque_dentro.ace.por_cima,
@@ -143,13 +135,7 @@ salvar.addEventListener("click", function () {
                 jogadorSelecionado.saque_dentro.ace.hibrido_misto)
         }
         if (tipoSaque.value === "lateral_asiatico") {
-            SaqueDentroNaoACE(idJogador,
-                jogadorSelecionado.saque_dentro.por_baixo,
-                jogadorSelecionado.saque_dentro.lateral_asiatico,
-                jogadorSelecionado.saque_dentro.por_cima,
-                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
-                jogadorSelecionado.saque_dentro.flutuante,
-                jogadorSelecionado.saque_dentro.hibrido_misto,
+            SaqueDentroACE(idJogador,
                 jogadorSelecionado.saque_dentro.ace.por_baixo,
                 ++jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
                 jogadorSelecionado.saque_dentro.ace.por_cima,
@@ -158,13 +144,7 @@ salvar.addEventListener("click", function () {
                 jogadorSelecionado.saque_dentro.ace.hibrido_misto)
         }
         if (tipoSaque.value === "por_cima") {
-            SaqueDentroNaoACE(idJogador,
-                jogadorSelecionado.saque_dentro.por_baixo,
-                jogadorSelecionado.saque_dentro.lateral_asiatico,
-                jogadorSelecionado.saque_dentro.por_cima,
-                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
-                jogadorSelecionado.saque_dentro.flutuante,
-                jogadorSelecionado.saque_dentro.hibrido_misto,
+            SaqueDentroACE(idJogador,
                 jogadorSelecionado.saque_dentro.ace.por_baixo,
                 jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
                 ++jogadorSelecionado.saque_dentro.ace.por_cima,
@@ -173,13 +153,7 @@ salvar.addEventListener("click", function () {
                 jogadorSelecionado.saque_dentro.ace.hibrido_misto)
         }
         if (tipoSaque.value === "viagem_fundo_do_mar") {
-            SaqueDentroNaoACE(idJogador,
-                jogadorSelecionado.saque_dentro.por_baixo,
-                jogadorSelecionado.saque_dentro.lateral_asiatico,
-                jogadorSelecionado.saque_dentro.por_cima,
-                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
-                jogadorSelecionado.saque_dentro.flutuante,
-                jogadorSelecionado.saque_dentro.hibrido_misto,
+            SaqueDentroACE(idJogador,
                 jogadorSelecionado.saque_dentro.ace.por_baixo,
                 jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
                 jogadorSelecionado.saque_dentro.ace.por_cima,
@@ -188,13 +162,7 @@ salvar.addEventListener("click", function () {
                 jogadorSelecionado.saque_dentro.ace.hibrido_misto)
         }
         if (tipoSaque.value === "flutuante") {
-            SaqueDentroNaoACE(idJogador,
-                jogadorSelecionado.saque_dentro.por_baixo,
-                jogadorSelecionado.saque_dentro.lateral_asiatico,
-                jogadorSelecionado.saque_dentro.por_cima,
-                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
-                jogadorSelecionado.saque_dentro.flutuante,
-                jogadorSelecionado.saque_dentro.hibrido_misto,
+            SaqueDentroACE(idJogador,
                 jogadorSelecionado.saque_dentro.ace.por_baixo,
                 jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
                 jogadorSelecionado.saque_dentro.ace.por_cima,
@@ -203,13 +171,7 @@ salvar.addEventListener("click", function () {
                 jogadorSelecionado.saque_dentro.ace.hibrido_misto)
         }
         if (tipoSaque.value === "hibrido_misto") {
-            SaqueDentroNaoACE(idJogador,
-                jogadorSelecionado.saque_dentro.por_baixo,
-                jogadorSelecionado.saque_dentro.lateral_asiatico,
-                jogadorSelecionado.saque_dentro.por_cima,
-                jogadorSelecionado.saque_dentro.viagem_fundo_do_mar,
-                jogadorSelecionado.saque_dentro.flutuante,
-                jogadorSelecionado.saque_dentro.hibrido_misto,
+            SaqueDentroACE(idJogador,
                 jogadorSelecionado.saque_dentro.ace.por_baixo,
                 jogadorSelecionado.saque_dentro.ace.lateral_asiatico,
                 jogadorSelecionado.saque_dentro.ace.por_cima,
@@ -220,12 +182,64 @@ salvar.addEventListener("click", function () {
     }
     else if (document.querySelector('input[name="saque"]:checked').value === "saque_fora") {
 
+        if (tipoSaque.value === "por_baixo") {
+            SaqueFora(idJogador,
+                ++jogadorSelecionado.saque_fora.por_baixo,
+                jogadorSelecionado.saque_fora.lateral_asiatico,
+                jogadorSelecionado.saque_fora.por_cima,
+                jogadorSelecionado.saque_fora.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_fora.flutuante,
+                jogadorSelecionado.saque_fora.hibrido_misto,)
+        }
+        if (tipoSaque.value === "lateral_asiatico") {
+            SaqueFora(idJogador,
+                jogadorSelecionado.saque_fora.por_baixo,
+                ++jogadorSelecionado.saque_fora.lateral_asiatico,
+                jogadorSelecionado.saque_fora.por_cima,
+                jogadorSelecionado.saque_fora.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_fora.flutuante,
+                jogadorSelecionado.saque_fora.hibrido_misto,)
+        }
+        if (tipoSaque.value === "por_cima") {
+            SaqueFora(idJogador,
+                jogadorSelecionado.saque_fora.por_baixo,
+                jogadorSelecionado.saque_fora.lateral_asiatico,
+                ++jogadorSelecionado.saque_fora.por_cima,
+                jogadorSelecionado.saque_fora.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_fora.flutuante,
+                jogadorSelecionado.saque_fora.hibrido_misto,)
+        }
+        if (tipoSaque.value === "viagem_fundo_do_mar") {
+            SaqueFora(idJogador,
+                jogadorSelecionado.saque_fora.por_baixo,
+                jogadorSelecionado.saque_fora.lateral_asiatico,
+                jogadorSelecionado.saque_fora.por_cima,
+                ++jogadorSelecionado.saque_fora.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_fora.flutuante,
+                jogadorSelecionado.saque_fora.hibrido_misto,)
+        }
+        if (tipoSaque.value === "flutuante") {
+            SaqueFora(idJogador,
+                jogadorSelecionado.saque_fora.por_baixo,
+                jogadorSelecionado.saque_fora.lateral_asiatico,
+                jogadorSelecionado.saque_fora.por_cima,
+                jogadorSelecionado.saque_fora.viagem_fundo_do_mar,
+                ++jogadorSelecionado.saque_fora.flutuante,
+                jogadorSelecionado.saque_fora.hibrido_misto,)
+        }
+        if (tipoSaque.value === "hibrido_misto") {
+            SaqueFora(idJogador,
+                jogadorSelecionado.saque_fora.por_baixo,
+                jogadorSelecionado.saque_fora.lateral_asiatico,
+                jogadorSelecionado.saque_fora.por_cima,
+                jogadorSelecionado.saque_fora.viagem_fundo_do_mar,
+                jogadorSelecionado.saque_fora.flutuante,
+                ++jogadorSelecionado.saque_fora.hibrido_misto,)
+        }
     }
 })
-function NovoValor(valorAtual) {
-    return valorAtual += 1
-}
-function SaqueDentroNaoACE(idJogador, por_baixo, lateral_asiatico, por_cima, viagem_fundo_do_mar, flutuante, hibrido_misto, ace_por_baixo, ace_lateral_asiatico, ace_por_cima, ace_viagem_fundo_do_mar, ace_flutuante, ace_hibrido_misto) {
+// Funções importantes
+function SaqueDentroNaoAce(idJogador, por_baixo, lateral_asiatico, por_cima, viagem_fundo_do_mar, flutuante, hibrido_misto, ace_por_baixo, ace_lateral_asiatico, ace_por_cima, ace_viagem_fundo_do_mar, ace_flutuante, ace_hibrido_misto) {
     const db = getDatabase();
     // A post entry.
     const postData = {
@@ -247,5 +261,37 @@ function SaqueDentroNaoACE(idJogador, por_baixo, lateral_asiatico, por_cima, via
     // Write the new post's data simultaneously in the posts list and the user's post list.
     const updates = {};
     updates['/jogador/' + idJogador + '/saque_dentro'] = postData;
+    return update(ref(db), updates);
+}
+function SaqueFora(idJogador, por_baixo, lateral_asiatico, por_cima, viagem_fundo_do_mar, flutuante, hibrido_misto) {
+    const db = getDatabase();
+    // A post entry.
+    const postData = {
+        por_baixo: por_baixo,
+        lateral_asiatico: lateral_asiatico,
+        por_cima: por_cima,
+        viagem_fundo_do_mar: viagem_fundo_do_mar,
+        flutuante: flutuante,
+        hibrido_misto: hibrido_misto
+    };
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    const updates = {};
+    updates['/jogador/' + idJogador + '/saque_fora'] = postData;
+    return update(ref(db), updates);
+}
+function SaqueDentroACE(idJogador, por_baixo, lateral_asiatico, por_cima, viagem_fundo_do_mar, flutuante, hibrido_misto) {
+    const db = getDatabase();
+    // A post entry.
+    const postData = {
+        por_baixo: por_baixo,
+        lateral_asiatico: lateral_asiatico,
+        por_cima: por_cima,
+        viagem_fundo_do_mar: viagem_fundo_do_mar,
+        flutuante: flutuante,
+        hibrido_misto: hibrido_misto,
+    };
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    const updates = {};
+    updates['/jogador/' + idJogador + '/saque_dentro/ace'] = postData;
     return update(ref(db), updates);
 }
