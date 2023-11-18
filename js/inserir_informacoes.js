@@ -13,6 +13,7 @@ const salvar = document.getElementById("salvar")
 const tipoSaque = document.getElementById("tipo_saque")
 // Ações Botões
 onValue(jogadorInDB, function (snapshot) {
+    selecionarJogador.innerHTML = "";
     let jogadoresArray = Object.values(snapshot.val())
     for (let i = 0; i < jogadoresArray.length; i++) {
         let jogadorAtual = jogadoresArray[i]
@@ -237,6 +238,7 @@ salvar.addEventListener("click", function () {
                 ++jogadorSelecionado.saque_fora.hibrido_misto,)
         }
     }
+    location.reload(true);
 })
 // Funções importantes
 function SaqueDentroNaoAce(idJogador, por_baixo, lateral_asiatico, por_cima, viagem_fundo_do_mar, flutuante, hibrido_misto, ace_por_baixo, ace_lateral_asiatico, ace_por_cima, ace_viagem_fundo_do_mar, ace_flutuante, ace_hibrido_misto) {
