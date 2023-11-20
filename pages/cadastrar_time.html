@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Time</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
@@ -22,7 +24,7 @@
         <section>
             <form action="">
                 <fieldset>
-                    <legend>Cadastra Time</legend>
+                    <legend>Cadastrar Time</legend>
                     <label for="nome_time">Nome do Time:</label>
                     <input type="text" id="nome_time">
                     <select name="sexo_time" id="sexo_time">
@@ -34,18 +36,36 @@
                         <select name="jogador1" id="jogador1"></select>
                         <label for="jogador2">Oposto:</label>
                         <select name="jogador2" id="jogador2"></select>
-                        <label for="jogador3">Levantador:</label>
+                        <label for="jogador3">Central:</label>
                         <select name="jogador3" id="jogador3"></select>
-                        <label for="jogador4">Levantador:</label>
+                        <label for="jogador4">Ponteiro Passador1:</label>
                         <select name="jogador4" id="jogador4"></select>
-                        <label for="jogador5">Levantador:</label>
+                        <label for="jogador5">Ponteiro Passador1:</label>
                         <select name="jogador5" id="jogador5"></select>
-                        <label for="jogador6">Levantador:</label>
+                        <label for="jogador6">Líbero:</label>
                         <select name="jogador6" id="jogador6"></select>
                     </div>
+                    <button id="cadastrar_time">Salvar</button>
                 </fieldset>
             </form>
         </section>
+        <button id="mostrar_times">Mostrar Time</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Sexo</th>
+                    <th>Levantador</th>
+                    <th>Oposto</th>
+                    <th>Central</th>
+                    <th>Ponteiro Passador 1</th>
+                    <th>Ponteiro Passador 2</th>
+                    <th>Líbero</th>
+                </tr>
+            </thead>
+            <tbody id="times_cadastrados">
+            </tbody>
+        </table>
     </main>
     <script src="../js/cadastrar_time.js" type="module"></script>
 </body>
