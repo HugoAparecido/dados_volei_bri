@@ -10,9 +10,13 @@ const jogadorInDB = ref(database, "jogador")
 // transformando os campos em variáveis
 const localGrafico = document.getElementById("graficos")
 const jogadorSelecionado = document.getElementById("nome")
+// para colocar o gráfico
 jogadorSelecionado.addEventListener("change", function () {
+    localGrafico.innerHTML = ""
     localGrafico.innerHTML = `<canvas id="saqueJogador"></canvas>`
+    localGrafico.innerHTML += `<canvas id="saqueJogadorDentroFora"></canvas>`
     const ctx = document.getElementById('saqueJogador');
+    const ctx2 = document.getElementById('saqueJogadorDentroFora');
     var jogadorAPegarDados = {}
     var idJogador = {}
     onValue(jogadorInDB, function (snapshot) {
@@ -80,6 +84,44 @@ jogadorSelecionado.addEventListener("change", function () {
                 pointBorderColor: '#fff',
                 pointHoverBackgroundColor: '#fff',
                 pointHoverBorderColor: 'rgb(54, 162, 235)'
+            }]
+        },
+        options: {
+            elements: {
+                line: {
+                    borderWidth: 3
+                }
+            }
+        }
+    });
+    new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: ['Saques Dentros', 'Saques Fora'],
+            datasets: [{
+                label: 'Saques',
+                data: [
+                    jogadorAPegarDados.saque_dentro.por_baixo +
+                    jogadorAPegarDados.saque_dentro.lateral_asiatico +
+                    jogadorAPegarDados.saque_dentro.por_cima +
+                    jogadorAPegarDados.saque_dentro.viagem_fundo_do_mar +
+                    jogadorAPegarDados.saque_dentro.flutuante +
+                    jogadorAPegarDados.saque_dentro.hibrido_misto +
+                    jogadorAPegarDados.saque_dentro.ace.por_baixo +
+                    jogadorAPegarDados.saque_dentro.ace.lateral_asiatico +
+                    jogadorAPegarDados.saque_dentro.ace.por_cima +
+                    jogadorAPegarDados.saque_dentro.ace.viagem_fundo_do_mar +
+                    jogadorAPegarDados.saque_dentro.ace.flutuante +
+                    jogadorAPegarDados.saque_dentro.ace.hibrido_misto,
+                    jogadorAPegarDados.saque_fora.por_baixo +
+                    jogadorAPegarDados.saque_fora.lateral_asiatico +
+                    jogadorAPegarDados.saque_fora.por_cima +
+                    jogadorAPegarDados.saque_fora.viagem_fundo_do_mar +
+                    jogadorAPegarDados.saque_fora.flutuante +
+                    jogadorAPegarDados.saque_fora.hibrido_misto
+                ],
+                fill: true,
+                backgroundColor: ['rgba(75, 192, 192)', 'rgba(255, 99, 132)'], hoverOffset: 4
             }]
         },
         options: {
