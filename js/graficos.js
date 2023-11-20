@@ -44,15 +44,20 @@ jogadorSelecionado.addEventListener("change", function () {
                 jogadorAPegarDados.saque_dentro.flutuante,
                 jogadorAPegarDados.saque_dentro.hibrido_misto],
                 fill: true,
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgb(255, 99, 132)',
-                pointBackgroundColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgb(75, 192, 192)',
+                pointBackgroundColor: 'rgb(75, 192, 192)',
                 pointBorderColor: '#fff',
                 pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgb(255, 99, 132)'
+                pointHoverBorderColor: 'rgb(75, 192, 192)'
             }, {
                 label: 'Saques Foras',
-                data: [0, 0, 0, 0, 0, 0],
+                data: [jogadorAPegarDados.saque_fora.por_baixo,
+                jogadorAPegarDados.saque_fora.lateral_asiatico,
+                jogadorAPegarDados.saque_fora.por_cima,
+                jogadorAPegarDados.saque_fora.viagem_fundo_do_mar,
+                jogadorAPegarDados.saque_fora.flutuante,
+                jogadorAPegarDados.saque_fora.hibrido_misto],
                 fill: true,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgb(255, 99, 132)',
@@ -62,14 +67,19 @@ jogadorSelecionado.addEventListener("change", function () {
                 pointHoverBorderColor: 'rgb(255, 99, 132)'
             }, {
                 label: 'Saques ACE',
-                data: [0, 0, 0, 0, 0, 0],
+                data: [jogadorAPegarDados.saque_dentro.ace.por_baixo,
+                jogadorAPegarDados.saque_dentro.ace.lateral_asiatico,
+                jogadorAPegarDados.saque_dentro.ace.por_cima,
+                jogadorAPegarDados.saque_dentro.ace.viagem_fundo_do_mar,
+                jogadorAPegarDados.saque_dentro.ace.flutuante,
+                jogadorAPegarDados.saque_dentro.ace.hibrido_misto],
                 fill: true,
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgb(255, 99, 132)',
-                pointBackgroundColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgb(54, 162, 235)',
+                pointBackgroundColor: 'rgb(54, 162, 235)',
                 pointBorderColor: '#fff',
                 pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgb(255, 99, 132)'
+                pointHoverBorderColor: 'rgb(54, 162, 235)'
             }]
         },
         options: {

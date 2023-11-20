@@ -12,14 +12,13 @@ const timeInDB = ref(database, "time")
 const nomeTime = document.getElementById("nome_time")
 const adicionarJogadores = document.getElementById("adicionar_jogadores")
 // colocando valores nos selects
+const idJogador = [document.getElementById("jogador1"), document.getElementById("jogador2"), document.getElementById("jogador3"), document.getElementById("jogador4"), document.getElementById("jogador5"), document.getElementById("jogador6")]
 for (let i = 0; i < 6; i++) {
-    adicionarJogadores.innerHTML += `<select name="jogador${i + 1}" id="jogador${i + 1}"></select>`
-    let idJogador = document.getElementById(`jogador${i + 1}`)
     onValue(jogadorInDB, function (snapshot) {
         let jogadoresArray = Object.values(snapshot.val())
         for (let j = 0; j < jogadoresArray.length; j++) {
             let jogadorAtual = jogadoresArray[j]
-            idJogador.innerHTML += `<option value="${jogadorAtual.nome}">${jogadorAtual.nome}</option>`
+            idJogador[i].innerHTML += `<option value="${jogadorAtual.nome}">${jogadorAtual.nome}</option>`
         }
     })
 }
