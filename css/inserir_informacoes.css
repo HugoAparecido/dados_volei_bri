@@ -18,7 +18,7 @@ section#graficos {
 #insercoesparte1 {
     position: relative;
     height: auto;
-    width: 50%;
+    width: 99%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

@@ -87,8 +87,44 @@
                     </div>
                     <button id="salvar_passe" class="btn btn-primary">Salvar</button>
             </section>
+            <section class="Ataque">
+                <form action="">
+                    <p>Ataque:</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="tipo_ataque" id="ataque_paralelo"
+                            value="ataque_paralelo">
+                        <label class="form-check-label" for="ataque_paralelo">Parelelo</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="tipo_ataque" id="ataque_diagonal"
+                            value="ataque_diagonal">
+                        <label class="form-check-label" for="ataque_diagonal">Diagonal</label>
+                    </div>
+                    <p>Acertou:</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="acertado_errado" id="acertado"
+                            value="acertado">
+                        <label class="form-check-label" for="acertado">Sim</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="acertado_errado" id="errado" value="errado">
+                        <label class="form-check-label" for="errado">Não</label>
+                    </div>
+                    <p>Acontecimento:</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="acontecimento" id="ponto" value="ponto">
+                        <label class="form-check-label" for="ponto">Ponto</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="acontecimento" id="defendido"
+                            value="defendido">
+                        <label class="form-check-label" for="defendido">Defendido</label>
+                    </div>
+                    <button id="salvar_ataque" class="btn btn-primary">Salvar</button>
+            </section>
         </section>
         <section id="graficos">
+            <button class="btn btn-primary">Exibir Gráficos</button>
         </section>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
