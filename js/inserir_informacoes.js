@@ -11,7 +11,7 @@ const timeInDB = ref(database, "time")
 // transformando os campos em variáveis
 const selecionarJogador = document.getElementById("nome")
 const selecionarTime = document.getElementById("time")
-const salvar = document.getElementById("salvar")
+const salvarSaque = document.getElementById("salvar_saque")
 const tipoSaque = document.getElementById("tipo_saque")
 // Ações Botões
 // popular select times
@@ -23,7 +23,7 @@ onValue(timeInDB, function (snapshot) {
         selecionarTime.innerHTML += `<option value="${timeAtual.nome}">${timeAtual.nome}</option>`
     }
 })
-// popular select jogador
+// popular select time
 onValue(jogadorInDB, function (snapshot) {
     var idTime = {}
     var timeSelecionado = {}
@@ -42,10 +42,11 @@ onValue(jogadorInDB, function (snapshot) {
     for (let i = 0; i < jogadoresArray.length; i++) {
         let jogadorAtual = jogadoresArray[i]
         if (Object.values(jogadorAtual).includes(timeSelecionado.levantador) || Object.values(jogadorAtual).includes(timeSelecionado.oposto) || Object.values(jogadorAtual).includes(timeSelecionado.central) || Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador1) || Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador2) || Object.values(jogadorAtual).includes(timeSelecionado.libero)) {
-            selecionarJogador.innerHTML += `<option value="${jogadorAtual.nome}">${jogadorAtual.nome}</option>`
+            selecionarJogador.innerHTML += `<option value="${jogadorAtual.nome}">${jogadorAtual.posicao}: ${jogadorAtual.nome} ${jogadorAtual.numero}</option>`
         }
     }
 })
+// popular select jogador
 selecionarTime.addEventListener("change", function () {
     onValue(jogadorInDB, function (snapshot) {
         var idTime = {}
@@ -71,7 +72,7 @@ selecionarTime.addEventListener("change", function () {
     })
 })
 // cadastrar saque
-salvar.addEventListener("click", function () {
+salvarSaque.addEventListener("click", function () {
     var idJogador = {}
     var jogadorSelecionado = {}
     onValue(jogadorInDB, function (snapshot) {

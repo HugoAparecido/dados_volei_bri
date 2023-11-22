@@ -29,47 +29,71 @@
         <section class="times">
             <label class="form-label" for="time">Time</label>
             <select class="form-control" name="time" id="time"></select>
+            <label class="form-label" for="nome">jogador</label>
+            <select class="form-control" name="nome" id="nome"></select>
         </section>
-        <section class="saques">
-            <form action="">
-                <label class="form-label" for="nome">jogador</label>
-                <select class="form-control" name="nome" id="nome"></select>
-                <p>Saque:</p>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="saque" id="saque_dentro" value="saque_dentro">
-                    <label class="form-check-label" for="saque_dentro">Dentro</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="saque" id="saque_fora" value="saque_fora">
-                    <label class="form-check-label" for="saque_fora">Fora</label>
-                </div>
-                <label class="form-label" for="tipo_saque">Tipo do saque</label>
-                <select class="form-select" name="tipo_saque" id="tipo_saque">
-                    <option value="por_baixo">Por Baixo</option>
-                    <option value="lateral_asiatico">Lateral ou Asiático</option>
-                    <option value="por_cima">Por Cima</option>
-                    <option value="viagem_fundo_do_mar">Viagem ou Fundo do Mar</option>
-                    <option value="flutuante">Flutuante</option>
-                    <option value="hibrido_misto">Híbrido ou Misto</option>
-                </select>
-                <p>Saque ACE:</p>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="ace" id="ace_nao" value="nao">
-                    <label class="form-check-label" for="ace_nao">Não</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="ace" id="ace_sim" value="sim">
-                    <label class="form-check-label" for="ace_sim">Sim</label>
-                </div>
-            </form>
-            <button id="salvar" class="btn btn-primary">Salvar</button>
+        <section id="insercoesparte1">
+            <section class="saques">
+                <form action="">
+                    <p>Saque:</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="saque" id="saque_dentro"
+                            value="saque_dentro">
+                        <label class="form-check-label" for="saque_dentro">Dentro</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="saque" id="saque_fora" value="saque_fora">
+                        <label class="form-check-label" for="saque_fora">Fora</label>
+                    </div>
+                    <label class="form-label" for="tipo_saque">Tipo do saque</label>
+                    <select class="form-select" name="tipo_saque" id="tipo_saque">
+                        <option value="por_baixo">Por Baixo</option>
+                        <option value="lateral_asiatico">Lateral ou Asiático</option>
+                        <option value="por_cima">Por Cima</option>
+                        <option value="viagem_fundo_do_mar">Viagem ou Fundo do Mar</option>
+                        <option value="flutuante">Flutuante</option>
+                        <option value="hibrido_misto">Híbrido ou Misto</option>
+                    </select>
+                    <p>Saque ACE:</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ace" id="ace_nao" value="nao">
+                        <label class="form-check-label" for="ace_nao">Não</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ace" id="ace_sim" value="sim">
+                        <label class="form-check-label" for="ace_sim">Sim</label>
+                    </div>
+                </form>
+                <button id="salvar_saque" class="btn btn-primary">Salvar</button>
+            </section>
+            <section class="Passe">
+                <form action="">
+                    <p>Passe:</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="passe" id="passe_A" value="passe_A">
+                        <label class="form-check-label" for="passe_A">A</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="passe" id="passe_B" value="passe_B">
+                        <label class="form-check-label" for="passe_B">B</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="passe" id="passe_C" value="passe_C">
+                        <label class="form-check-label" for="passe_C">C</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="passe" id="passe_D" value="passe_D">
+                        <label class="form-check-label" for="passe_D">D</label>
+                    </div>
+                    <button id="salvar_passe" class="btn btn-primary">Salvar</button>
+            </section>
         </section>
         <section id="graficos">
         </section>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../js/graficos.js" type="module"></script>
     <script src="../js/inserir_informacoes.js" type="module"></script>
+    <script src="../js/graficos.js" type="module"></script>
 </body>
 
 </html>
