@@ -13,6 +13,9 @@ const selecionarJogador = document.getElementById("nome")
 const selecionarTime = document.getElementById("time")
 const salvarSaque = document.getElementById("salvar_saque")
 const tipoSaque = document.getElementById("tipo_saque")
+const timeExportado = document.getElementById("time_exportado")
+console.log(localStorage.getItem("text"))
+timeExportado.innerText += localStorage.getItem("text")
 // Ações Botões
 // popular select times
 onValue(timeInDB, function (snapshot) {

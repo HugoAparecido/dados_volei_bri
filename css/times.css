@@ -11,3 +11,21 @@ main {
     justify-content: space-around;
     text-align: center;
 }
+
+#times_masculinos {
+    display: flex;
+    flex-direction: column;
+}
+
+#times_masculinos>button {
+    margin-bottom: 10px;
+}
+
+#times_femininos {
+    display: flex;
+    flex-direction: column;
+}
+
+#times_femininos>button {
+    margin-bottom: 10px;
+}
