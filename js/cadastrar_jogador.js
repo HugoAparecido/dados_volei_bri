@@ -49,11 +49,12 @@ botaoCadastrarJogador.addEventListener("click", function () {
                 flutuante: 0,
                 hibrido_misto: 0
             }
+        }, passe: {
+            passe_A: 0,
+            passe_B: 0,
+            passe_C: 0,
+            passe_D: 0
         },
-        passe_A: 0,
-        passe_B: 0,
-        passe_C: 0,
-        passe_D: 0,
         ataque_paralelo: {
             acertado: {
                 defendido: 0,

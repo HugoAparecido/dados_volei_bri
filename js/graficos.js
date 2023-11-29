@@ -9,6 +9,7 @@ const database = getDatabase(app)
 const jogadorInDB = ref(database, "jogador")
 // transformando os campos em variáveis
 const localGraficoSaqueJogador = document.getElementById("grafico_saque_jogador")
+const localGraficoPasseJogador = document.getElementById("grafico_passe_jogador")
 const jogadorSelecionado = document.getElementById("nome")
 const mostrarGraficos = document.getElementById("exibir_graficos")
 // para colocar o gráfico
@@ -18,6 +19,9 @@ mostrarGraficos.addEventListener("click", function () {
     localGraficoSaqueJogador.innerHTML += `<canvas id="saqueJogadorDentroFora"></canvas>`
     const tipoSaqueJogador = document.getElementById('saqueJogador');
     const saqueDentroForaPorcentagem = document.getElementById('saqueJogadorDentroFora');
+    localGraficoPasseJogador.innerHTML = ""
+    localGraficoPasseJogador.innerHTML = `<canvas id="passeJogador"></canvas>`
+    const passePorcentagem = document.getElementById('passeJogador');
     var jogadorAPegarDados = {}
     var idJogador = {}
     onValue(jogadorInDB, function (snapshot) {
@@ -123,6 +127,27 @@ mostrarGraficos.addEventListener("click", function () {
                 ],
                 fill: true,
                 backgroundColor: ['rgba(75, 192, 192)', 'rgba(255, 99, 132)'], hoverOffset: 4
+            }]
+        },
+        options: {
+            elements: {
+                line: {
+                    borderWidth: 3
+                }
+            }
+        }
+    });
+    new Chart(passePorcentagem, {
+        type: 'pie',
+        data: {
+            labels: ['Passe A', 'Passe B', 'Passe C', 'Passe D'],
+            datasets: [{
+                label: 'Passes',
+                data: [
+                    jogadorAPegarDados.passe.passe_A, jogadorAPegarDados.passe.passe_B, jogadorAPegarDados.passe.passe_C, jogadorAPegarDados.passe.passe_D
+                ],
+                fill: true,
+                backgroundColor: ['rgb(75, 192, 192)', 'rgb(255, 205, 86)', 'rgb(255, 159, 64)', 'rgb(255, 99, 132)'], hoverOffset: 4
             }]
         },
         options: {
