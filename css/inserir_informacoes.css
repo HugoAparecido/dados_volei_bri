@@ -24,6 +24,11 @@ section#graficos {
     justify-content: space-between;
 }
 
+.time {
+    display: flex;
+    justify-content: space-around;
+}
+
 @media (max-width: 768px) {
     section#graficos {
         position: relative;

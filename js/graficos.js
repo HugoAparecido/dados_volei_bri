@@ -8,15 +8,16 @@ const app = initializeApp(appSettings)
 const database = getDatabase(app)
 const jogadorInDB = ref(database, "jogador")
 // transformando os campos em variáveis
-const localGrafico = document.getElementById("graficos")
+const localGraficoSaqueJogador = document.getElementById("grafico_saque_jogador")
 const jogadorSelecionado = document.getElementById("nome")
+const mostrarGraficos = document.getElementById("exibir_graficos")
 // para colocar o gráfico
-jogadorSelecionado.addEventListener("change", function () {
-    localGrafico.innerHTML = ""
-    localGrafico.innerHTML = `<canvas id="saqueJogador"></canvas>`
-    localGrafico.innerHTML += `<canvas id="saqueJogadorDentroFora"></canvas>`
-    const ctx = document.getElementById('saqueJogador');
-    const ctx2 = document.getElementById('saqueJogadorDentroFora');
+mostrarGraficos.addEventListener("click", function () {
+    localGraficoSaqueJogador.innerHTML = ""
+    localGraficoSaqueJogador.innerHTML = `<canvas id="saqueJogador"></canvas>`
+    localGraficoSaqueJogador.innerHTML += `<canvas id="saqueJogadorDentroFora"></canvas>`
+    const tipoSaqueJogador = document.getElementById('saqueJogador');
+    const saqueDentroForaPorcentagem = document.getElementById('saqueJogadorDentroFora');
     var jogadorAPegarDados = {}
     var idJogador = {}
     onValue(jogadorInDB, function (snapshot) {
@@ -30,7 +31,7 @@ jogadorSelecionado.addEventListener("change", function () {
         }
     })
 
-    new Chart(ctx, {
+    new Chart(tipoSaqueJogador, {
         type: 'radar',
         data: {
             labels: ['Saque Por Baixo',
@@ -94,7 +95,7 @@ jogadorSelecionado.addEventListener("change", function () {
             }
         }
     });
-    new Chart(ctx2, {
+    new Chart(saqueDentroForaPorcentagem, {
         type: 'pie',
         data: {
             labels: ['Saques Dentros', 'Saques Fora'],

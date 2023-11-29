@@ -17,15 +17,27 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a href="../index.html" class="nav-link">Página Inicial</a>
                 </li>
-                <li class="nav-item"><a href="./cadastro.html#time" class="nav-link">Times</a>
+                <li class="nav-item"><a href="./times.html" class="nav-link">Times</a>
                 </li>
-                <li class="nav-item"><a href="./inserir_informacoes.html" class="nav-link">Visualizar
+                <li class="nav-item"><a href="./estatisticas.html" class="nav-link">Visualizar
                         Estatíticas</a>
                 </li>
             </ul>
         </nav>
     </header>
     <main>
-
+        <section class="times">
+            <label class="form-label" for="time">Time</label>
+            <select class="form-control" name="time" id="time"></select>
+            <label class="form-label" for="nome">jogador</label>
+            <select class="form-control" name="nome" id="nome"></select>
+        </section>
+        <section id="graficos">
+            <button class="btn btn-primary" id="exibir_graficos">Exibir Gráficos</button>
+            <section id="grafico_saque_jogador"></section>
+        </section>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/graficos.js" type="module"></script>
+    <script type="module" src="../js/estatisticas.js"></script>
 </body>

@@ -9,70 +9,55 @@ const database = getDatabase(app)
 const jogadorInDB = ref(database, "jogador")
 const timeInDB = ref(database, "time")
 // transformando os campos em variáveis
-const selecionarJogador = document.getElementById("nome")
-const selecionarTime = document.getElementById("time")
 const salvarSaque = document.getElementById("salvar_saque")
 const tipoSaque = document.getElementById("tipo_saque")
 const timeExportado = document.getElementById("time_exportado")
-console.log(localStorage.getItem("text"))
-timeExportado.innerText += localStorage.getItem("text")
-// Ações Botões
-// popular select times
+const timeSexo = document.getElementById("sexo_time")
+// Pegando o time selecionado e colocando no h1 o nome
+const urlParams = new URLSearchParams(window.location.search)
+const timeSelecionadoConst = urlParams.get("timeSelecionado")
+timeExportado.innerHTML = `Time: ${timeSelecionadoConst}`
+// Colocando o sexo do time
+var timeSelecionado = {}
 onValue(timeInDB, function (snapshot) {
-    selecionarTime.innerHTML = "";
     let timesArray = Object.values(snapshot.val())
     for (let i = 0; i < timesArray.length; i++) {
         let timeAtual = timesArray[i]
-        selecionarTime.innerHTML += `<option value="${timeAtual.nome}">${timeAtual.nome}</option>`
+        if (timeAtual.nome === timeSelecionadoConst) {
+            timeSelecionado = timeAtual
+            timeSexo.innerHTML = `${timeSelecionado.sexo === "M" ? "Sexo: Masculino" : "Sexo: Feminino"}`
+        }
     }
 })
-// popular select time
 onValue(jogadorInDB, function (snapshot) {
-    var idTime = {}
-    var timeSelecionado = {}
-    onValue(timeInDB, function (snapshot) {
-        let timesArray = Object.entries(snapshot.val())
-        for (let i = 0; i < timesArray.length; i++) {
-            let timeAtual = timesArray[i]
-            if (timeAtual[1].nome === selecionarTime.value) {
-                idTime = timeAtual[0]
-                timeSelecionado = timeAtual[1]
-            }
-        }
-    })
-    selecionarJogador.innerHTML = "";
     let jogadoresArray = Object.values(snapshot.val())
     for (let i = 0; i < jogadoresArray.length; i++) {
         let jogadorAtual = jogadoresArray[i]
-        if (Object.values(jogadorAtual).includes(timeSelecionado.levantador) || Object.values(jogadorAtual).includes(timeSelecionado.oposto) || Object.values(jogadorAtual).includes(timeSelecionado.central) || Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador1) || Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador2) || Object.values(jogadorAtual).includes(timeSelecionado.libero)) {
-            selecionarJogador.innerHTML += `<option value="${jogadorAtual.nome}">${jogadorAtual.posicao}: ${jogadorAtual.nome} ${jogadorAtual.numero}</option>`
+        if (Object.values(jogadorAtual).includes(timeSelecionado.levantador)) {
+            document.getElementById("levantador").innerHTML += `<input class="form-check-input" type="radio" name="jogador" id="${jogadorAtual.nome}" value="${jogadorAtual.nome}">
+            <label class="form-check-label" for="${jogadorAtual.nome}">Levantador:${jogadorAtual.numero} ${jogadorAtual.nome}</label>`
+        }
+        if (Object.values(jogadorAtual).includes(timeSelecionado.oposto)) {
+            document.getElementById("oposto").innerHTML += `<input class="form-check-input" type="radio" name="jogador" id="${jogadorAtual.nome}" value="${jogadorAtual.nome}">
+            <label class="form-check-label" for="${jogadorAtual.nome}">Oposto:${jogadorAtual.numero} ${jogadorAtual.nome}</label>`
+        }
+        if (Object.values(jogadorAtual).includes(timeSelecionado.central)) {
+            document.getElementById("central").innerHTML += `<input class="form-check-input" type="radio" name="jogador" id="${jogadorAtual.nome}" value="${jogadorAtual.nome}">
+            <label class="form-check-label" for="${jogadorAtual.nome}">Central:${jogadorAtual.numero} ${jogadorAtual.nome}</label>`
+        }
+        if (Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador1)) {
+            document.getElementById("ponteiro_passador1").innerHTML += `<input class="form-check-input" type="radio" name="jogador" id="${jogadorAtual.nome}" value="${jogadorAtual.nome}">
+            <label class="form-check-label" for="${jogadorAtual.nome}">Ponta 1:${jogadorAtual.numero} ${jogadorAtual.nome}</label>`
+        }
+        if (Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador2)) {
+            document.getElementById("ponteiro_passador2").innerHTML += `<input class="form-check-input" type="radio" name="jogador" id="${jogadorAtual.nome}" value="${jogadorAtual.nome}">
+            <label class="form-check-label" for="${jogadorAtual.nome}">Ponta 2:${jogadorAtual.numero} ${jogadorAtual.nome}</label>`
+        }
+        if (Object.values(jogadorAtual).includes(timeSelecionado.libero)) {
+            document.getElementById("libero").innerHTML += `<input class="form-check-input" type="radio" name="jogador" id="${jogadorAtual.nome}" value="${jogadorAtual.nome}">
+            <label class="form-check-label" for="${jogadorAtual.nome}">Líbero:${jogadorAtual.numero} ${jogadorAtual.nome}</label>`
         }
     }
-})
-// popular select jogador
-selecionarTime.addEventListener("change", function () {
-    onValue(jogadorInDB, function (snapshot) {
-        var idTime = {}
-        var timeSelecionado = {}
-        onValue(timeInDB, function (snapshot) {
-            let timesArray = Object.entries(snapshot.val())
-            for (let i = 0; i < timesArray.length; i++) {
-                let timeAtual = timesArray[i]
-                if (timeAtual[1].nome === selecionarTime.value) {
-                    idTime = timeAtual[0]
-                    timeSelecionado = timeAtual[1]
-                }
-            }
-        })
-        selecionarJogador.innerHTML = "";
-        let jogadoresArray = Object.values(snapshot.val())
-        for (let i = 0; i < jogadoresArray.length; i++) {
-            let jogadorAtual = jogadoresArray[i]
-            if (Object.values(jogadorAtual).includes(timeSelecionado.levantador) || Object.values(jogadorAtual).includes(timeSelecionado.oposto) || Object.values(jogadorAtual).includes(timeSelecionado.central) || Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador1) || Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador2) || Object.values(jogadorAtual).includes(timeSelecionado.libero)) {
-                selecionarJogador.innerHTML += `<option value="${jogadorAtual.nome}">${jogadorAtual.nome}</option>`
-            }
-        }
-    })
 })
 // cadastrar saque
 salvarSaque.addEventListener("click", function () {
@@ -82,7 +67,7 @@ salvarSaque.addEventListener("click", function () {
         let jogadoresArray = Object.entries(snapshot.val())
         for (let i = 0; i < jogadoresArray.length; i++) {
             let jogadorAtual = jogadoresArray[i]
-            if (jogadorAtual[1].nome === selecionarJogador.value) {
+            if (jogadorAtual[1].nome === document.querySelector('input[name="jogador"]:checked').value) {
                 idJogador = jogadorAtual[0]
                 jogadorSelecionado = jogadorAtual[1]
             }
@@ -293,7 +278,6 @@ salvarSaque.addEventListener("click", function () {
                 ++jogadorSelecionado.saque_fora.hibrido_misto,)
         }
     }
-    location.reload(true);
 })
 // Funções importantes
 function SaqueDentroNaoAce(idJogador, por_baixo, lateral_asiatico, por_cima, viagem_fundo_do_mar, flutuante, hibrido_misto, ace_por_baixo, ace_lateral_asiatico, ace_por_cima, ace_viagem_fundo_do_mar, ace_flutuante, ace_hibrido_misto) {

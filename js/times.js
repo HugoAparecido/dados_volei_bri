@@ -16,10 +16,10 @@ onValue(timeInDB, function (snapshot) {
     for (let j = 0; j < timeArray.length; j++) {
         let timeAtual = timeArray[j]
         if (timeAtual.sexo = "M") {
-            mostrarTimeMasculino.innerHTML += `<button class="btn btn-primary"><a class="nav-link" ./inserir_informacoes.html>${timeAtual.nome}</a></button>`
+            mostrarTimeMasculino.innerHTML += `<button class="btn btn-primary"><a class="nav-link" href="./inserir_informacoes.html?timeSelecionado=${timeAtual.nome}">${timeAtual.nome}</a></button>`
         }
         else if (timeAtual.sexo = "F") {
-            mostrarTimeFeminino.innerHTML += `<button class="btn btn-primary"><a class="nav-link">${timeAtual.nome}</a></button>`
+            mostrarTimeFeminino.innerHTML += `<button class="btn btn-primary"><a class="nav-link" href="./inserir_informacoes.html?timeSelecionado=${timeAtual.nome}">${timeAtual.nome}</a></button>`
         }
     }
 })
