@@ -29,6 +29,28 @@ section#graficos {
     justify-content: space-around;
 }
 
+#timeSelecionado {
+    display: none;
+}
+
+.passes {
+    display: flex;
+    flex-direction: row;
+}
+
+.form-label {
+    padding-right: 10px;
+}
+
+.input_number {
+    max-width: 60px;
+    height: 30px;
+}
+
+span {
+    padding-right: 10px;
+}
+
 @media (max-width: 768px) {
     section#graficos {
         position: relative;

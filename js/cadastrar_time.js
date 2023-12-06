@@ -35,7 +35,15 @@ botaoCadastrarTime.addEventListener("click", function () {
         central: idJogador[2].value,
         ponteiro_passador1: idJogador[3].value,
         ponteiro_passador2: idJogador[4].value,
-        libero: idJogador[5].value
+        libero: idJogador[5].value,
+        outros_jogadores: {
+            substituicao1: "",
+            substituicao2: "",
+            substituicao3: "",
+            substituicao4: "",
+            substituicao5: "",
+            substituicao6: ""
+        }
     }
     push(timeInDB, valorCadastar)
     alert("Time Cadastrado com Sucesso")

@@ -28,25 +28,32 @@
         </nav>
     </header>
     <main>
-        <!-- <section class="time">
+        <section class="time">
             <h1 id="time_exportado"></h1>
             <h2 id="sexo_time"></h2>
-        </section> -->
-        <section class="jogadores">
-            <div id="levantador"></div>
-            <div id="oposto"></div>
-            <div id="central"></div>
-            <div id="ponteiro_passador1"></div>
-            <div id="ponteiro_passador2"></div>
-            <div id="libero"></div>
         </section>
-        <section class="times">
-            <label class="form-label" for="time">Time</label>
-            <select class="form-control" name="time" id="time"></select>
-            <label class="form-label" for="nome">jogador</label>
-            <select class="form-control" name="nome" id="nome"></select>
+        <section class="jogadores">
+            <form action="">
+                <div id="levantador"></div>
+                <div id="oposto"></div>
+                <div id="central"></div>
+                <div id="ponteiro_passador1"></div>
+                <div id="ponteiro_passador2"></div>
+                <div id="libero"></div>
+                <div id="jogadores_extras"></div>
+                <div id="adicionar_jogador">
+                    <label class="form-label" for="novo_jogador">jogador</label>
+                    <select class="form-control" name="novo_jogador" id="novo_jogador"></select>
+                    <button id="adicionar_jogador_button">Adicionar Jogador</button>
+                </div>
+                <button id="salvar_passe" type="submit">Enviar Dados</button>
+            </form>
         </section>
         <section id="insercoesparte1">
+            <section class="escolher_jogador_para_insercoes">
+                <label class="form-label" for="nome">jogador</label>
+                <select class="form-control" name="nome" id="nome"></select>
+            </section>
             <section class="saques">
                 <form action="">
                     <fieldset>
@@ -84,29 +91,6 @@
                         <button id="salvar_saque" class="btn btn-primary">Salvar</button>
                     </fieldset>
                 </form>
-            </section>
-            <section class="Passe">
-                <form action="">
-                    <fieldset>
-                        <legend>Passe:</legend>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="passe" id="passe_A" value="passe_A">
-                            <label class="form-check-label" for="passe_A">A</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="passe" id="passe_B" value="passe_B">
-                            <label class="form-check-label" for="passe_B">B</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="passe" id="passe_C" value="passe_C">
-                            <label class="form-check-label" for="passe_C">C</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="passe" id="passe_D" value="passe_D">
-                            <label class="form-check-label" for="passe_D">D</label>
-                        </div>
-                        <button id="salvar_passe" class="btn btn-primary">Salvar</button>
-                    </fieldset>
             </section>
             <section class="Ataque">
                 <form action="">
