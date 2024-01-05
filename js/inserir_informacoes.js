@@ -1,21 +1,5 @@
 // Conexão com o banco de dados
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
-const appSettings = {
-    databaseURL: "https://voleibri-default-rtdb.firebaseio.com/"
-}
-const app = initializeApp(appSettings)
-const database = getDatabase(app)
-// conexão com o campo jogador do banco
-const jogadorInDB = ref(database, "jogador")
-// conexão com o campo time do banco
-const timeInDB = ref(database, "time")
-// Introduzindo o time à página
-const timeExportadoInput = document.getElementById("timeSelecionado")
-const urlParams = new URLSearchParams(window.location.search)
-if (urlParams.get("timeSelecionado") != null) {
-    localStorage.setItem("timeAtual", urlParams.get("timeSelecionado"))
-}
+import { jogadorInDB, timeInDB } from "./acesso_banco.js"; import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
 // botões para salvar
 const salvarSaque = document.getElementById("salvar_saque")
 const salvarPasse = document.getElementById("salvar_passe")
@@ -28,205 +12,60 @@ const timeExportado = document.getElementById("time_exportado")
 const timeSexo = document.getElementById("sexo_time")
 const selecionarJogador = document.getElementById("nome")
 const novoJogadorSelecionar = document.getElementById("novo_jogador")
-// Pegando o time selecionado e colocando no h1 o nome
-timeExportado.innerHTML = `Time: ${localStorage.getItem("timeAtual")}`
-// Colocando o sexo do time
-var idTime = ""
-var timeSelecionado = {}
+const colocarJogadoresDoTime = document.getElementById("jogadores_no_time")
+// iniciando a constante do time
+let timeSelecionado
 onValue(timeInDB, function (snapshot) {
     let timesArray = Object.entries(snapshot.val())
     for (let i = 0; i < timesArray.length; i++) {
         let timeAtual = timesArray[i]
-        if (timeAtual[1].nome === localStorage.getItem("timeAtual")) {
-            timeSelecionado = timeAtual[1]
-            idTime = timeAtual[0]
+        if (timeAtual[0] === localStorage.getItem("timeAtual")) {
+            timeSelecionado = timeAtual[1];
+            timeExportado.innerHTML = `Time: ${timeSelecionado.nome}`
             timeSexo.innerHTML = `${timeSelecionado.sexo === "M" ? "Sexo: Masculino" : "Sexo: Feminino"}`
+            localStorage.setItem("jogadores", timeSelecionado.jogadores)
         }
     }
 })
+let jogadoresNoTimeArray = localStorage.getItem("jogadores").split(",")
 // Colocar os jogadores
 onValue(jogadorInDB, function (snapshot) {
-    let jogadoresArray = Object.values(snapshot.val())
+    let jogadoresArray = Object.entries(snapshot.val())
     for (let i = 0; i < jogadoresArray.length; i++) {
         let jogadorAtual = jogadoresArray[i]
-        if (Object.values(jogadorAtual).includes(timeSelecionado.levantador)) {
-            document.getElementById("levantador").innerHTML += `<span>Levantador: ${jogadorAtual.numero_camisa} ${jogadorAtual.nome}</span>
-            <div class="passes">
-            <span>Passe: </span>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_A" id="${jogadorAtual.nome}_passe_A">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_A">A</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_B" id="${jogadorAtual.nome}_passe_B">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_B">B</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_C" id="${jogadorAtual.nome}_passe_C">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_C">C</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_D" id="${jogadorAtual.nome}_passe_D">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_D">D</label>
-            </div>`
-        }
-        if (Object.values(jogadorAtual).includes(timeSelecionado.oposto)) {
-            document.getElementById("oposto").innerHTML += `<span>Oposto: ${jogadorAtual.numero_camisa} ${jogadorAtual.nome}</span>
-            <div class="passes">
-            <span>Passe: </span>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_A" id="${jogadorAtual.nome}_passe_A">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_A">A</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_B" id="${jogadorAtual.nome}_passe_B">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_B">B</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_C" id="${jogadorAtual.nome}_passe_C">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_C">C</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_D" id="${jogadorAtual.nome}_passe_D">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_D">D</label>
-            </div>`
-        }
-        if (Object.values(jogadorAtual).includes(timeSelecionado.central)) {
-            document.getElementById("central").innerHTML += `<span>Central: ${jogadorAtual.numero_camisa} ${jogadorAtual.nome}</span>
-            <div class="passes">
-            <span>Passe: </span>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_A" id="${jogadorAtual.nome}_passe_A">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_A">A</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_B" id="${jogadorAtual.nome}_passe_B">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_B">B</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_C" id="${jogadorAtual.nome}_passe_C">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_C">C</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_D" id="${jogadorAtual.nome}_passe_D">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_D">D</label>
-            </div>`
-        }
-        if (Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador1)) {
-            document.getElementById("ponteiro_passador1").innerHTML += `<span>Ponteiro Passsador 1: ${jogadorAtual.numero_camisa} ${jogadorAtual.nome}</span>
-            <div class="passes">
-            <span>Passe: </span>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_A" id="${jogadorAtual.nome}_passe_A">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_A">A</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_B" id="${jogadorAtual.nome}_passe_B">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_B">B</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_C" id="${jogadorAtual.nome}_passe_C">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_C">C</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_D" id="${jogadorAtual.nome}_passe_D">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_D">D</label>
-            </div>`
-        }
-        if (Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador2)) {
-            document.getElementById("ponteiro_passador2").innerHTML += `<span>Ponteiro Passsador 2: ${jogadorAtual.numero_camisa} ${jogadorAtual.nome}</span>
-            <div class="passes">
-            <span>Passe: </span>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_A" id="${jogadorAtual.nome}_passe_A">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_A">A</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_B" id="${jogadorAtual.nome}_passe_B">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_B">B</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_C" id="${jogadorAtual.nome}_passe_C">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_C">C</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_D" id="${jogadorAtual.nome}_passe_D">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_D">D</label>
-            </div>`
-        }
-        if (Object.values(jogadorAtual).includes(timeSelecionado.libero)) {
-            document.getElementById("libero").innerHTML += `<span>Líbero: ${jogadorAtual.numero_camisa} ${jogadorAtual.nome}</span>
-            <div class="passes">
-            <span>Passe: </span>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_A" id="${jogadorAtual.nome}_passe_A">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_A">A</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_B" id="${jogadorAtual.nome}_passe_B">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_B">B</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_C" id="${jogadorAtual.nome}_passe_C">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_C">C</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_D" id="${jogadorAtual.nome}_passe_D">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_D">D</label>
-            </div>`
-        }
-        if (jogadorAtual.nome === timeSelecionado.outros_jogadores.substituicao1) {
-            document.getElementById("jogadores_extras").innerHTML += `<span>${jogadorAtual.posicao}: ${jogadorAtual.numero_camisa} ${jogadorAtual.nome}</span>
-            <div class="passes">
-            <span>Passe: </span>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_A" id="${jogadorAtual.nome}_passe_A">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_A">A</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_B" id="${jogadorAtual.nome}_passe_B">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_B">B</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_C" id="${jogadorAtual.nome}_passe_C">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_C">C</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_D" id="${jogadorAtual.nome}_passe_D">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_D">D</label>
-            </div>`
-        }
-        if (jogadorAtual.nome === timeSelecionado.outros_jogadores.substituicao2) {
-            document.getElementById("jogadores_extras").innerHTML += `<span>${jogadorAtual.posicao}: ${jogadorAtual.numero_camisa} ${jogadorAtual.nome}</span>
-            <div class="passes">
-            <span>Passe: </span>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_A" id="${jogadorAtual.nome}_passe_A">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_A">A</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_B" id="${jogadorAtual.nome}_passe_B">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_B">B</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_C" id="${jogadorAtual.nome}_passe_C">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_C">C</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_D" id="${jogadorAtual.nome}_passe_D">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_D">D</label>
-            </div>`
-        }
-        if (jogadorAtual.nome === timeSelecionado.outros_jogadores.substituicao3) {
-            document.getElementById("jogadores_extras").innerHTML += `<span>${jogadorAtual.posicao}: ${jogadorAtual.numero_camisa} ${jogadorAtual.nome}</span>
-            <div class="passes">
-            <span>Passe: </span>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_A" id="${jogadorAtual.nome}_passe_A">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_A">A</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_B" id="${jogadorAtual.nome}_passe_B">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_B">B</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_C" id="${jogadorAtual.nome}_passe_C">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_C">C</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_D" id="${jogadorAtual.nome}_passe_D">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_D">D</label>
-            </div>`
-        }
-        if (jogadorAtual.nome === timeSelecionado.outros_jogadores.substituicao4) {
-            document.getElementById("jogadores_extras").innerHTML += `<span>${jogadorAtual.posicao}: ${jogadorAtual.numero_camisa} ${jogadorAtual.nome}</span>
-            <div class="passes">
-            <span>Passe: </span>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_A" id="${jogadorAtual.nome}_passe_A">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_A">A</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_B" id="${jogadorAtual.nome}_passe_B">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_B">B</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_C" id="${jogadorAtual.nome}_passe_C">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_C">C</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_D" id="${jogadorAtual.nome}_passe_D">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_D">D</label>
-            </div>`
-        }
-        if (jogadorAtual.nome === timeSelecionado.outros_jogadores.substituicao5) {
-            document.getElementById("jogadores_extras").innerHTML += `<span>${jogadorAtual.posicao}: ${jogadorAtual.numero_camisa} ${jogadorAtual.nome}</span>
-            <div class="passes">
-            <span>Passe: </span>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_A" id="${jogadorAtual.nome}_passe_A">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_A">A</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_B" id="${jogadorAtual.nome}_passe_B">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_B">B</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_C" id="${jogadorAtual.nome}_passe_C">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_C">C</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_D" id="${jogadorAtual.nome}_passe_D">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_D">D</label>
-            </div>`
-        }
-        if (jogadorAtual.nome === timeSelecionado.outros_jogadores.substituicao6) {
-            document.getElementById("jogadores_extras").innerHTML += `<span>${jogadorAtual.posicao}: ${jogadorAtual.numero_camisa} ${jogadorAtual.nome}</span>
-            <div class="passes">
-            <span>Passe: </span>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_A" id="${jogadorAtual.nome}_passe_A">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_A">A</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_B" id="${jogadorAtual.nome}_passe_B">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_B">B</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_C" id="${jogadorAtual.nome}_passe_C">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_C">C</label>
-                <input class="form-control input_number" type="number" min="0" value="0" name="${jogadorAtual.nome}_passe_D" id="${jogadorAtual.nome}_passe_D">
-                <label class="form-label" for="${jogadorAtual.nome}_passe_D">D</label>
-            </div>`
+        if (jogadoresNoTimeArray.includes(jogadorAtual[0])) {
+            let divJogador = document.createElement("div")
+            divJogador.id = jogadorAtual[0]
+            let spanInformacoesJogador = document.createElement("span")
+            spanInformacoesJogador.innerHTML = `${jogadorAtual[1].posicao}: ${jogadorAtual[1].numero_camisa} ${jogadorAtual[1].nome}`
+            divJogador.appendChild(spanInformacoesJogador)
+            let divPasses = document.createElement("div")
+            divPasses.className = "passes"
+            divPasses.innerHTML += `<span>Passe: </span>`
+            divPasses.innerHTML += CriarInputsPasses(jogadorAtual[0], "A")
+            divPasses.innerHTML += CriarInputsPasses(jogadorAtual[0], "B")
+            divPasses.innerHTML += CriarInputsPasses(jogadorAtual[0], "C")
+            divPasses.innerHTML += CriarInputsPasses(jogadorAtual[0], "D")
+            divJogador.appendChild(divPasses)
+            colocarJogadoresDoTime.appendChild(divJogador)
+            document.getElementById(`${jogadorAtual[0]}_passe_A`).value = 0
+            document.getElementById(`${jogadorAtual[0]}_passe_B`).value = 0
+            document.getElementById(`${jogadorAtual[0]}_passe_C`).value = 0
+            document.getElementById(`${jogadorAtual[0]}_passe_D`).value = 0
+            document.getElementById(`${jogadorAtual[0]}_label_A`).addEventListener("click", () => { document.getElementById(`${jogadorAtual[0]}_passe_A`).value++ })
+            document.getElementById(`${jogadorAtual[0]}_label_B`).addEventListener("click", () => { document.getElementById(`${jogadorAtual[0]}_passe_B`).value++ })
+            document.getElementById(`${jogadorAtual[0]}_label_C`).addEventListener("click", () => { document.getElementById(`${jogadorAtual[0]}_passe_C`).value++ })
+            document.getElementById(`${jogadorAtual[0]}_label_D`).addEventListener("click", () => { document.getElementById(`${jogadorAtual[0]}_passe_D`).value++ })
         }
     }
 })
 // popular select jogador saque
 onValue(jogadorInDB, function (snapshot) {
-    selecionarJogador.innerHTML = "";
-    let jogadoresArray = Object.values(snapshot.val())
-    for (let i = 0; i < jogadoresArray.length; i++) {
+    let jogadoresArray = Object.entries(snapshot.val())
+    for (let i = 0; i == jogadoresArray.length; i++) {
         let jogadorAtual = jogadoresArray[i]
-        if (Object.values(jogadorAtual).includes(timeSelecionado.levantador) || Object.values(jogadorAtual).includes(timeSelecionado.oposto) || Object.values(jogadorAtual).includes(timeSelecionado.central) || Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador1) || Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador2) || Object.values(jogadorAtual).includes(timeSelecionado.libero)) {
-            selecionarJogador.innerHTML += `<option value="${jogadorAtual.nome}">${jogadorAtual.posicao}: ${jogadorAtual.nome} ${jogadorAtual.numero_camisa}</option>`
+        if (jogadoresNoTimeArray.includes(jogadorAtual[0])) {
+            selecionarJogador.innerHTML += `<option value="${jogadorAtual[1].nome}">${jogadorAtual[1].posicao}: ${jogadorAtual[1].nome} ${jogadorAtual[1].numero_camisa}</option>`
         }
     }
 })
@@ -583,4 +422,8 @@ function NovoJogador(idTime, novo_jogador1, novo_jogador2, novo_jogador3, novo_j
     const updates = {};
     updates['/time/' + idTime + '/outros_jogadores'] = postData;
     return update(ref(db), updates);
+}
+function CriarInputsPasses(idJogador, tipoPasse) {
+    let elemento = `<input class="form-control input_number" type="number" min="0" name="${idJogador}_passe_${tipoPasse}" id="${idJogador}_passe_${tipoPasse}" readonly><label class="form-label" for="${idJogador}_passe_${tipoPasse}" id="${idJogador}_label_${tipoPasse}">${tipoPasse}+</label>`
+    return elemento
 }

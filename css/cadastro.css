@@ -18,3 +18,15 @@ main>section {
 button {
     margin-top: 30px;
 }
+
+.linha_unica {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+label {
+    padding-right: 10px;
+    white-space: nowrap;
+}
