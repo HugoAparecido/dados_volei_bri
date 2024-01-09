@@ -15,12 +15,14 @@ const novoJogadorSelecionar = document.getElementById("novo_jogador")
 const colocarJogadoresDoTime = document.getElementById("jogadores_no_time")
 // iniciando a constante do time
 let timeSelecionado
+let idTimeSelecionado
 onValue(timeInDB, function (snapshot) {
     let timesArray = Object.entries(snapshot.val())
     for (let i = 0; i < timesArray.length; i++) {
         let timeAtual = timesArray[i]
         if (timeAtual[0] === localStorage.getItem("timeAtual")) {
             timeSelecionado = timeAtual[1];
+            idTimeSelecionado = timeAtual[0]
             timeExportado.innerHTML = `Time: ${timeSelecionado.nome}`
             timeSexo.innerHTML = `${timeSelecionado.sexo === "M" ? "Sexo: Masculino" : "Sexo: Feminino"}`
             localStorage.setItem("jogadores", timeSelecionado.jogadores)
@@ -59,44 +61,22 @@ onValue(jogadorInDB, function (snapshot) {
         }
     }
 })
-// popular select jogador saque
+// Popular novo Jogador e Select
 onValue(jogadorInDB, function (snapshot) {
     let jogadoresArray = Object.entries(snapshot.val())
-    for (let i = 0; i == jogadoresArray.length; i++) {
-        let jogadorAtual = jogadoresArray[i]
-        if (jogadoresNoTimeArray.includes(jogadorAtual[0])) {
-            selecionarJogador.innerHTML += `<option value="${jogadorAtual[1].nome}">${jogadorAtual[1].posicao}: ${jogadorAtual[1].nome} ${jogadorAtual[1].numero_camisa}</option>`
-        }
-    }
-})
-// Popular novo Jogador
-onValue(jogadorInDB, function (snapshot) {
-    let jogadoresArray = Object.values(snapshot.val())
     for (let j = 0; j < jogadoresArray.length; j++) {
         let jogadorAtual = jogadoresArray[j]
-        novoJogadorSelecionar.innerHTML += `<option value="${jogadorAtual.nome}">${jogadorAtual.nome}</option>`
+        if (!jogadoresNoTimeArray.includes(jogadorAtual[0])) {
+            novoJogadorSelecionar.innerHTML += `<option value="${jogadorAtual[0]}">${jogadorAtual[1].numero_camisa} ${jogadorAtual[1].nome}</option>`
+        } else {
+            selecionarJogador.innerHTML += `<option value="${jogadorAtual[0]}">${jogadorAtual[1].numero_camisa} ${jogadorAtual[1].nome}</option>`
+
+        }
     }
 })
 // Salvar novo jogador
 salvarOutroJogador.addEventListener("click", function () {
-    if (timeSelecionado.outros_jogadores.substituicao1 === "") {
-        NovoJogador(idTime, novoJogadorSelecionar.value, "", "", "", "", "")
-    }
-    else if (timeSelecionado.outros_jogadores.substituicao2 === "") {
-        NovoJogador(idTime, timeSelecionado.outros_jogadores.substituicao1, novoJogadorSelecionar.value, "", "", "", "")
-    }
-    else if (timeSelecionado.outros_jogadores.substituicao3 === "") {
-        NovoJogador(idTime, timeSelecionado.outros_jogadores.substituicao1, timeSelecionado.outros_jogadores.substituicao2, novoJogadorSelecionar.value, "", "", "")
-    }
-    else if (timeSelecionado.outros_jogadores.substituicao4 === "") {
-        NovoJogador(idTime, timeSelecionado.outros_jogadores.substituicao1, timeSelecionado.outros_jogadores.substituicao2, timeSelecionado.outros_jogadores.substituicao3, novoJogadorSelecionar.value, "", "")
-    }
-    else if (timeSelecionado.outros_jogadores.substituicao5 === "") {
-        NovoJogador(idTime, timeSelecionado.outros_jogadores.substituicao1, timeSelecionado.outros_jogadores.substituicao2, timeSelecionado.outros_jogadores.substituicao3, timeSelecionado.outros_jogadores.substituicao4, novoJogadorSelecionar.value, "")
-    }
-    else if (timeSelecionado.outros_jogadores.substituicao6 === "") {
-        NovoJogador(idTime, timeSelecionado.outros_jogadores.substituicao1, timeSelecionado.outros_jogadores.substituicao2, timeSelecionado.outros_jogadores.substituicao3, timeSelecionado.outros_jogadores.substituicao4, timeSelecionado.outros_jogadores.substituicao5, novoJogadorSelecionar.value)
-    }
+    NovoJogador(idTimeSelecionado, timeSelecionado.jogadores, novoJogadorSelecionar.value, timeSelecionado.nome, timeSelecionado.sexo)
     alert("Novo jogador Cadastrado com Sucesso!")
 })
 // cadastrar saque
@@ -107,7 +87,7 @@ salvarSaque.addEventListener("click", function () {
         let jogadoresArray = Object.entries(snapshot.val())
         for (let i = 0; i < jogadoresArray.length; i++) {
             let jogadorAtual = jogadoresArray[i]
-            if (jogadorAtual[1].nome === selecionarJogador.value) {
+            if (jogadorAtual[0] === selecionarJogador.value) {
                 idJogador = jogadorAtual[0]
                 jogadorSelecionado = jogadorAtual[1]
             }
@@ -327,10 +307,11 @@ salvarPasse.addEventListener("click", function () {
         let jogadoresArray = Object.entries(snapshot.val())
         for (let i = 0; i < jogadoresArray.length; i++) {
             let jogadorAtual = jogadoresArray[i]
-            if (jogadorAtual[1].nome == timeSelecionado.levantador || jogadorAtual[1].nome == timeSelecionado.oposto || jogadorAtual[1].nome == timeSelecionado.central || jogadorAtual[1].nome == timeSelecionado.ponteiro_passador1 || jogadorAtual[1].nome == timeSelecionado.ponteiro_passador2 || jogadorAtual[1].nome == timeSelecionado.libero || jogadorAtual[1].nome == timeSelecionado.outros_jogadores.substituicao1 || jogadorAtual[1].nome == timeSelecionado.outros_jogadores.substituicao2 || jogadorAtual[1].nome == timeSelecionado.outros_jogadores.substituicao3 || jogadorAtual[1].nome == timeSelecionado.outros_jogadores.substituicao4 || jogadorAtual[1].nome == timeSelecionado.outros_jogadores.substituicao5 || jogadorAtual[1].nome == timeSelecionado.outros_jogadores.substituicao6) {
+            if (jogadoresNoTimeArray.includes(jogadorAtual[0])) {
                 idJogador = jogadorAtual[0]
                 jogadorSelecionado = jogadorAtual[1]
-                TipoPasse(idJogador, Number(document.querySelector(`input[name="${jogadorSelecionado.nome}_passe_A"]`).value) + jogadorSelecionado.passe.passe_A, Number(document.querySelector(`input[name="${jogadorSelecionado.nome}_passe_B"]`).value) + jogadorSelecionado.passe.passe_B, Number(document.querySelector(`input[name="${jogadorSelecionado.nome}_passe_C"]`).value) + jogadorSelecionado.passe.passe_C, Number(document.querySelector(`input[name="${jogadorSelecionado.nome}_passe_D"]`).value) + jogadorSelecionado.passe.passe_D)
+                TipoPasse(idJogador, Number(document.querySelector(`input[name="${idJogador}_passe_A"]`).value) + jogadorSelecionado.passe.passe_A, Number(document.querySelector(`input[name="${idJogador}_passe_B"]`).value) + jogadorSelecionado.passe.passe_B, Number(document.querySelector(`input[name="${idJogador}_passe_C"]`).value) + jogadorSelecionado.passe.passe_C, Number(document.querySelector(`input[name="${idJogador}_passe_D"]`).value) + jogadorSelecionado.passe.passe_D)
+                continue
             }
         }
     })
@@ -405,25 +386,25 @@ function TipoPasse(idJogador, passeA, passeB, passeC, passeD) {
     // Write the new post's data simultaneously in the posts list and the user's post list.
     const updates = {};
     updates['/jogador/' + idJogador + '/passe'] = postData;
-    return update(ref(db), updates);
+    update(ref(db), updates);
 }
-function NovoJogador(idTime, novo_jogador1, novo_jogador2, novo_jogador3, novo_jogador4, novo_jogador5, novo_jogador6) {
+function NovoJogador(idTime, jogadoresNoTime, novoJogador, nomeTime, sexoTime) {
     const db = getDatabase();
     // A post entry.
     const postData = {
-        substituicao1: novo_jogador1,
-        substituicao2: novo_jogador2,
-        substituicao3: novo_jogador3,
-        substituicao4: novo_jogador4,
-        substituicao5: novo_jogador5,
-        substituicao6: novo_jogador6,
+        jogadores: jogadoresNoTime + ',' + novoJogador,
+        nome: nomeTime,
+        sexo: sexoTime
     };
     // Write the new post's data simultaneously in the posts list and the user's post list.
     const updates = {};
-    updates['/time/' + idTime + '/outros_jogadores'] = postData;
+    updates['/time/' + idTime] = postData;
     return update(ref(db), updates);
 }
 function CriarInputsPasses(idJogador, tipoPasse) {
     let elemento = `<input class="form-control input_number" type="number" min="0" name="${idJogador}_passe_${tipoPasse}" id="${idJogador}_passe_${tipoPasse}" readonly><label class="form-label" for="${idJogador}_passe_${tipoPasse}" id="${idJogador}_label_${tipoPasse}">${tipoPasse}+</label>`
     return elemento
+}
+async function CadastrarPasses() {
+
 }
