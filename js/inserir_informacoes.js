@@ -311,7 +311,7 @@ salvarPasse.addEventListener("click", function () {
                 idJogador = jogadorAtual[0]
                 jogadorSelecionado = jogadorAtual[1]
                 TipoPasse(idJogador, Number(document.querySelector(`input[name="${idJogador}_passe_A"]`).value) + jogadorSelecionado.passe.passe_A, Number(document.querySelector(`input[name="${idJogador}_passe_B"]`).value) + jogadorSelecionado.passe.passe_B, Number(document.querySelector(`input[name="${idJogador}_passe_C"]`).value) + jogadorSelecionado.passe.passe_C, Number(document.querySelector(`input[name="${idJogador}_passe_D"]`).value) + jogadorSelecionado.passe.passe_D)
-                continue
+                console.log(jogadorSelecionado.nome)
             }
         }
     })
@@ -386,7 +386,7 @@ function TipoPasse(idJogador, passeA, passeB, passeC, passeD) {
     // Write the new post's data simultaneously in the posts list and the user's post list.
     const updates = {};
     updates['/jogador/' + idJogador + '/passe'] = postData;
-    update(ref(db), updates);
+    return update(ref(db), updates);
 }
 function NovoJogador(idTime, jogadoresNoTime, novoJogador, nomeTime, sexoTime) {
     const db = getDatabase();
