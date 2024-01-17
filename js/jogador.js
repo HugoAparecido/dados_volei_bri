@@ -5,11 +5,12 @@ export class Jogador {
         this.idJogador = idJogador;
         this.atributos = {}
     }
-    async DefinirAtibutos() {
+    DefinirAtibutos() {
         let jogadorProcurar = this.idJogador
         let atributos = {}
-        let retorno = await onValue(jogadorInDB, function (snapshot) {
+        onValue(jogadorInDB, function (snapshot) {
             let jogadoresArray = Object.entries(snapshot.val())
+            jogadoresArray.forEach()
             for (let i = 0; i < jogadoresArray.length; i++) {
                 let jogadorAtual = jogadoresArray[i]
                 if (jogadorAtual[0] === jogadorProcurar) {
@@ -82,7 +83,6 @@ export class Jogador {
             }
         }
         );
-        this.atributos = atributos
     }
     CadastrarJogador(nomeJogador, numeroCamisa, posicao, sexo, altura, peso,) {
         let valorCadastar = {
