@@ -83,21 +83,11 @@ export class Jogador {
         const querySnapshot = await getDocs(collection(db, "jogador"));
         querySnapshot.forEach((doc) => {
             mostrarJogador().innerHTML += `<tr>
-            <td>
-            ${doc.id}
-            </td>
-            <td>
-            ${doc.data().nome}
-            </td>
-            <td>
-            ${doc.data().numero_camisa}
-            </td>
-            <td>
-            ${doc.data().posicao}
-            </td>
-            <td>
-            ${doc.data().sexo}
-            </td>
+            <td>${doc.id}</td>
+            <td>${doc.data().nome}</td>
+            <td>${doc.data().numero_camisa}</td>
+            <td>${doc.data().posicao}</td>
+            <td>${doc.data().sexo}</td>
             </tr>`
         });
     }

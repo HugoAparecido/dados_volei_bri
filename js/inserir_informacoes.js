@@ -29,7 +29,6 @@ buttons.logoutButton().addEventListener('click', () => {
 })
 // Populando o cabeçalho
 let time = new Time
-// time.PopularCabecalhoInserirInformacoes(localStorage.getItem("timeAtual"), informacoes.timeExportado(), informacoes.timeSexo())
 time.PopularCabecalhoInserirInformacoes(informacoes.timeExportado(), informacoes.timeSexo());
 // let jogadoresIDNoTimeArray = localStorage.getItem("jogadores").split(",")
 // let jogador1 = new Jogador(jogadoresIDNoTimeArray[0])

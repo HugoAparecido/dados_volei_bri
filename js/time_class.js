@@ -22,25 +22,17 @@ export class Time {
         const querySnapshot = await getDocs(collection(db, "time"));
         querySnapshot.forEach((doc) => {
             mostrarTime().innerHTML += `<tr>
-            <td>
-            ${doc.id}
-            </td>
-            <td>
-            ${doc.data().nome}
-            </td>
-            <td>
-            ${doc.data().sexo}
-            </td>
-            <td>
-            ${doc.data().jogadores}
-            </td>
+            <td>${doc.id}</td>
+            <td>${doc.data().nome}</td>
+            <td>${doc.data().sexo}</td>
+            <td>${doc.data().jogadores}</td>
             </tr>`
         });
     }
     async OrdenarTimesPorSexo(mostrarTimeMasculino, mostrarTimeFeminino) {
         const querySnapshot = await getDocs(collection(db, "time"));
         querySnapshot.forEach((doc) => {
-            if (doc.data().sexo === 'M') {
+            if (doc.data().sexo == 'M') {
                 let botaoTime = document.createElement('button')
                 botaoTime.id = `${doc.id}`
                 botaoTime.onclick = this.IrParaPaginaDeInsercaoDeDados(doc.data().nome, doc.id)
@@ -52,10 +44,10 @@ export class Time {
                 botaoTime.className = 'btn btn-primary'
                 mostrarTimeMasculino().appendChild(botaoTime)
             }
-            else if (doc.data().sexo === 'F') {
+            else {
                 let botaoTime = document.createElement('button')
                 botaoTime.id = `${doc.id}`
-                botaoTime.onclick = this.IrParaPaginaDeInsercaoDeDados(doc.data().nome, doc.id)
+                botaoTime.onclick = () => this.IrParaPaginaDeInsercaoDeDados(doc.data().nome, doc.id)
                 let link = document.createElement('a')
                 link.href = './inserir_informacoes.html'
                 link.innerHTML = `${doc.data().nome}`
@@ -67,6 +59,7 @@ export class Time {
         });
     }
     IrParaPaginaDeInsercaoDeDados(nomeTime, idTime) {
+        localStorage.clear();
         localStorage.setItem("timeAtualID", idTime)
         localStorage.setItem("timeAtualNome", nomeTime)
     }
