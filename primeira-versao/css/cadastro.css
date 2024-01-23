@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+main>section {
+    width: 100%;
+}
+
+button {
+    margin-top: 30px;
+}
+
+.linha_unica {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+label {
+    padding-right: 10px;
+    white-space: nowrap;
+}

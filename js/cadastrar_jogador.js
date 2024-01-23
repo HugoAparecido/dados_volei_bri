@@ -1,51 +1,38 @@
-// Banco de Dados
-import { jogadorInDB } from "./acesso_banco.js";
-import { onValue } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
-import { Jogador } from "./jogador.js";
-// transformando os campos em variáveis
-const nomeJogador = document.getElementById("nome_jogador");
-const numCamisaJogador = document.getElementById("num_camisa_jogador");
-const posicaoJogador = document.getElementById("posicao_jogador");
-const sexoJogador = document.getElementById("sexo_jogador");
-const alturaJogador = document.getElementById("altura_jogador");
-const pesoJogador = document.getElementById("peso_jogador");
-const botaoCadastrarJogador = document.getElementById("cadastrar_jogador")
-const mostrarJogadoresCadastrados = document.getElementById("jogadores_cadastrados");
-const buttonMostrarJogadoresCadastrados = document.getElementById("mostrar_jogadores_cadastrados");
-// Ações Botões
-botaoCadastrarJogador.addEventListener("click", function () {
-    TratarInputTextComoNumber(alturaJogador);
-    TratarInputTextComoNumber(pesoJogador);
-    let jogador = new Jogador("");
-    jogador.CadastrarJogador(nomeJogador.value, numCamisaJogador.value, posicaoJogador.value, sexoJogador.value, alturaJogador.value, pesoJogador.value);
-})
-buttonMostrarJogadoresCadastrados.addEventListener("click", function () {
-    onValue(jogadorInDB, function (snapshot) {
-        let jogadoresArray = Object.values(snapshot.val())
-        for (let i = 0; i < jogadoresArray.length; i++) {
-            if (mostrarJogadoresCadastrados.innerHTML !== "") {
-                let jogadorAtual = jogadoresArray[i]
-                mostrarJogadoresCadastrados.innerHTML += `<tr><td>${jogadorAtual.nome}</td><td>${jogadorAtual.numero_camisa}</td><td>${jogadorAtual.posicao}</td><td>${jogadorAtual.sexo}</td></tr>`
-            }
-        }
-    })
-})
-// Funções para evitar erros
-function RemoverDepoisDoSegundoCaractere(str, char) { //Função gerada pela IA Bing e adapatada para a aplicação
-    var partes = str.split(char);
-    if (partes.length <= 2) {
-        return str; // O caractere não aparece duas vezes
-    }
-    return partes[0] + char + partes[1]; // Retorna a string até o segundo caractere
+// importações necessárias
+import { Auth } from "./auth_class.js";
+import { Validation } from "./validation_class.js";
+import { Jogador } from "./jogador_class.js";
+// Elementos htmls
+const form = {
+    nomeJogador: () => document.getElementById("nome_jogador"),
+    numCamisaJogador: () => document.getElementById("num_camisa_jogador"),
+    posicaoJogador: () => document.getElementById("posicao_jogador"),
+    sexoJogador: () => document.getElementById("sexo_jogador"),
+    alturaJogador: () => document.getElementById("altura_jogador"),
+    pesoJogador: () => document.getElementById("peso_jogador"),
+    botaoCadastrarJogador: () => document.getElementById("cadastrar_jogador")
 }
-function TratarInputTextComoNumber(constInput) {
-    constInput.value = RemoverDepoisDoSegundoCaractere(alturaJogador.value, '.')
-    constInput.value = RemoverDepoisDoSegundoCaractere(alturaJogador.value, ',')
-    constInput.addEventListener('input', function (e) {
-        // Verificando se o valor é um número de ponto flutuante
-        if (!/^[-+]?[0-9]*\.?[0-9]+$/g.test(this.value)) {
-            // Se não for, limpa o valor
-            this.value = '';
-        }
-    });
+const buttons = {
+    logoutButton: () => document.getElementById('logout'),
+    buttonMostrarJogadoresCadastrados: () => document.getElementById("mostrar_jogadores_cadastrados")
 }
+const locaisalteracoes = {
+    mostrarJogadoresCadastrados: () => document.getElementById("jogadores_cadastrados")
+}
+// Gerencia de atenticação
+let auth = new Auth;
+auth.UsuarioNaoLogado();
+buttons.logoutButton().addEventListener('click', () => {
+    auth.Logout();
+})
+// Listeners
+let jogador = new Jogador;
+form.botaoCadastrarJogador().addEventListener('click', () => {
+    let validacoes = new Validation
+    validacoes.TratarInputTextComoNumber(form.alturaJogador())
+    validacoes.TratarInputTextComoNumber(form.pesoJogador())
+    jogador.CadastrarJogador(form.nomeJogador().value, form.sexoJogador().value, form.numCamisaJogador().value, form.posicaoJogador().value, form.alturaJogador().value, form.pesoJogador().value);
+})
+buttons.buttonMostrarJogadoresCadastrados().addEventListener('click', () => {
+    jogador.MostrarTodosJogadores(locaisalteracoes.mostrarJogadoresCadastrados);
+})

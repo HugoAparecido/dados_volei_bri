@@ -1,39 +1,38 @@
-// importações necessárias
-import { Auth } from "./auth_class.js";
-import { Time } from "./time_class.js";
-import { Jogador } from "./jogador_class.js";
-// Elementos htmls
-const buttons = {
-    logoutButton: () => document.getElementById('logout'),
-    salvarSaque: () => document.getElementById("salvar_saque"),
-    salvarPasse: () => document.getElementById("salvar_passe"),
-    salvarAtaque: () => document.getElementById("salvar_ataque"),
-    salvarLevantamento: () => document.getElementById("salvar_levantamento"),
-    salvarOutroJogador: () => document.getElementById("adicionar_jogador_button")
-}
-const form = {
-    tipoSaque: () => document.getElementById("tipo_saque"),
-    selecionarJogador: () => document.getElementById("nome"),
-    novoJogadorSelecionar: () => document.getElementById("novo_jogador"),
-    colocarJogadoresDoTime: () => document.getElementById("jogadores_no_time")
-}
-const informacoes = {
-    timeExportado: () => document.getElementById("time_exportado"),
-    timeSexo: () => document.getElementById("sexo_time")
-}
-// Gerencia de atenticação
-let auth = new Auth;
-auth.UsuarioNaoLogado();
-buttons.logoutButton().addEventListener('click', () => {
-    auth.Logout();
+// Conexão com o banco de dados
+import { jogadorInDB, timeInDB } from "./acesso_banco.js"; import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
+import { Jogador } from "./jogador.js";
+// botões para salvar
+const salvarSaque = document.getElementById("salvar_saque")
+const salvarPasse = document.getElementById("salvar_passe")
+const salvarAtaque = document.getElementById("salvar_ataque")
+const salvarLevantamento = document.getElementById("salvar_levantamento")
+const salvarOutroJogador = document.getElementById("adicionar_jogador_button")
+// itens do formilário para pegar dados
+const tipoSaque = document.getElementById("tipo_saque")
+const timeExportado = document.getElementById("time_exportado")
+const timeSexo = document.getElementById("sexo_time")
+const selecionarJogador = document.getElementById("nome")
+const novoJogadorSelecionar = document.getElementById("novo_jogador")
+const colocarJogadoresDoTime = document.getElementById("jogadores_no_time")
+// iniciando a constante do time
+let timeSelecionado
+let idTimeSelecionado
+onValue(timeInDB, function (snapshot) {
+    let timesArray = Object.entries(snapshot.val())
+    for (let i = 0; i < timesArray.length; i++) {
+        let timeAtual = timesArray[i]
+        if (timeAtual[0] === localStorage.getItem("timeAtual")) {
+            timeSelecionado = timeAtual[1];
+            idTimeSelecionado = timeAtual[0]
+            timeExportado.innerHTML = `Time: ${timeSelecionado.nome}`
+            timeSexo.innerHTML = `${timeSelecionado.sexo === "M" ? "Sexo: Masculino" : "Sexo: Feminino"}`
+            localStorage.setItem("jogadores", timeSelecionado.jogadores)
+        }
+    }
 })
-// Populando o cabeçalho
-let time = new Time
-// time.PopularCabecalhoInserirInformacoes(localStorage.getItem("timeAtual"), informacoes.timeExportado(), informacoes.timeSexo())
-time.PopularCabecalhoInserirInformacoes(informacoes.timeExportado(), informacoes.timeSexo());
-// let jogadoresIDNoTimeArray = localStorage.getItem("jogadores").split(",")
-// let jogador1 = new Jogador(jogadoresIDNoTimeArray[0])
-// jogador1.DefinirAtibutos();
+let jogadoresIDNoTimeArray = localStorage.getItem("jogadores").split(",")
+let jogador1 = new Jogador(jogadoresIDNoTimeArray[0])
+jogador1.DefinirAtibutos();
 // let jogadoresNoTimeObjects = []
 // for (let o = 0; o < jogadoresIDNoTimeArray.length; o++) {
 //     jogadoresNoTimeObjects.push(new Jogador(jogadoresIDNoTimeArray[o]))

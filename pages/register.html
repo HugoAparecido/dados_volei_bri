@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Registrar Usuário</title>
+</head>
+
+<body class="text-center">
+    <header>
+        <h1>Login</h1>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0v">
+                <li class="nav-item"><a href="../index.html" class="nav-link">Página Inicial</a>
+                </li>
+                <li class="nav-item"><a href="./times.html" class="nav-link">Times</a>
+                </li>
+                <li class="nav-item"><a href="./estatisticas.html" class="nav-link">Visualizar
+                        Estatíticas</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <form action="">
+            <div class="form-field">
+                <div><label for="email">Email</label></div>
+                <input type="email" name="email" id="email" placeholder="seu@email.com">
+                <div class="error" id="email_required_error">Email é obrigatório</div>
+                <div class="error" id="email_invalid_error">Email é inválido</div>
+            </div>
+            <div class="form-field">
+                <div><label for="password">Senha</label></div>
+                <input type="password" name="password" id="password" placeholder="Senha">
+                <div class="error" id="password_required_error">Senha é obrigatória</div>
+                <div class="error" id="password_min_length_error">A senha deve ter pelo menos 6 caracteres</div>
+            </div>
+            <div class="form-field">
+                <div><label for="confirmPassword">Confirmar senha</label></div>
+                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confrimar senha">
+                <div class="error" id="password_doesnt_match_error">Senha e confirmar senha devem ser iguais</div>
+            </div>
+            <div><button type="button" class="solid" disabled="true" id="register_button">Registrar</button></div>
+            <div><button type="button" class="clear"><a href="./login.html">Login</a></button></div>
+        </form>
+    </main>
+    <script type="module" src="../js/register.js"></script>
+</body>
+
+</html>
