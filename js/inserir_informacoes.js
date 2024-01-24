@@ -32,46 +32,17 @@ let time = new Time
 let jogador = new Jogador
 time.PopularCabecalhoInserirInformacoes(informacoes.timeExportado(), informacoes.timeSexo());
 jogador.PopularNovosJogadores(form.novoJogadorSelecionar());
+jogador.PopularPasses(form.colocarJogadoresDoTime());
+jogador.PopularSelectSaqueAtaque(form.selecionarJogador())
 // eventos
 buttons.salvarOutroJogador().addEventListener('click', () => {
     var textoSelecionado = form.novoJogadorSelecionar().options[form.novoJogadorSelecionar().selectedIndex].text;
-    var arrayTexto = textoSelecionado.split(" ");
+    var arrayTexto = textoSelecionado.split("-");
     time.InserirJogador(arrayTexto[1], form.novoJogadorSelecionar().value);
 })
-// let jogadoresIDNoTimeArray = localStorage.getItem("jogadores").split(",")
-// let jogador1 = new Jogador(jogadoresIDNoTimeArray[0])
-// jogador1.DefinirAtibutos();
-// let jogadoresNoTimeObjects = []
-// for (let o = 0; o < jogadoresIDNoTimeArray.length; o++) {
-//     jogadoresNoTimeObjects.push(new Jogador(jogadoresIDNoTimeArray[o]))
-//     jogadoresNoTimeObjects[o].DefinirAtibutos()
-// }
-// Colocar os jogadores
-// onValue(jogadorInDB, function (snapshot) {
-//     let jogadoresArray = Object.entries(snapshot.val())
-//     for (let i = 0; i < jogadoresArray.length; i++) {
-//         }
-//     }
-// // })
-// console.log(jogadoresNoTimeObjects)
-// // Popular novo Jogador e Select
-// onValue(jogadorInDB, function (snapshot) {
-//     let jogadoresArray = Object.entries(snapshot.val())
-//     for (let j = 0; j < jogadoresArray.length; j++) {
-//         let jogadorAtual = jogadoresArray[j]
-//         if (!jogadoresIDNoTimeArray.includes(jogadorAtual[0])) {
-//             novoJogadorSelecionar.innerHTML += `<option value="${jogadorAtual[0]}">${jogadorAtual[1].numero_camisa} ${jogadorAtual[1].nome}</option>`
-//         } else {
-//             selecionarJogador.innerHTML += `<option value="${jogadorAtual[0]}">${jogadorAtual[1].numero_camisa} ${jogadorAtual[1].nome}</option>`
-
-//         }
-//     }
-// })
-// Salvar novo jogador
-// salvarOutroJogador.addEventListener("click", function () {
-//     NovoJogador(idTimeSelecionado, timeSelecionado.jogadores, novoJogadorSelecionar.value, timeSelecionado.nome, timeSelecionado.sexo)
-//     alert("Novo jogador Cadastrado com Sucesso!")
-// })
+buttons.salvarPasse().addEventListener('click', () => {
+    jogador.AtualizarPasseDeTodosJogadores();
+})
 // // cadastrar saque
 // salvarSaque.addEventListener("click", function () {
 //     var idJogador = {}

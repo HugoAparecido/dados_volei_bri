@@ -70,7 +70,7 @@ export class Time {
             if (doc.id === localStorage.getItem("timeAtualID")) {
                 timeExportado.innerHTML = `Time: ${doc.data().nome}`
                 timeSexo.innerHTML = `${doc.data().sexo === "M" ? "Sexo: Masculino" : "Sexo: Feminino"}`
-                localStorage.setItem("jogadores", doc.data().jogadores)
+                localStorage.setItem("jogadores", JSON.stringify(doc.data().jogadores))
             }
         });
     }
@@ -83,9 +83,18 @@ export class Time {
                 id = doc.id
             }
         });
-        const timeDocRef = doc(db, "time", id)
-        updateDoc(timeDocRef, {
-            "jogadores": arrayUnion({ nome: nomeJogador, id: idJogador })
-        });
+        try {
+            const timeDocRef = doc(db, "time", id)
+            await updateDoc(timeDocRef, {
+                "jogadores": arrayUnion({ nome: nomeJogador, id: idJogador })
+            });
+            alert('jogador inserido ao time com sucesso!!');
+        }
+        catch (e) {
+            alert("Falha ao cadastrar: " + e)
+        }
+        finally {
+            window.location.reload()
+        }
     }
 }

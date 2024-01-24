@@ -1,6 +1,6 @@
 import { db } from "./acesso_banco.js";
 import { ShowLoading, HideLoading } from "./loading.js";
-import { collection, query, where, orderBy, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { collection, query, where, doc, orderBy, addDoc, getDocs, increment, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 export class Jogador {
     async CadastrarJogador(nomeConst, sexoConst, numeroCamisa, posicaoConst, alturaConst, pesoConst) {
         ShowLoading();
@@ -94,46 +94,107 @@ export class Jogador {
             </tr>`
         });
     }
-    SalvarNovoJogadorAoTime() { }
     async PopularNovosJogadores(adicionarJogador) {
         const q = query(collection(db, "jogador"), orderBy("nome"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if (!localStorage.getItem("jogadores").includes(doc.id)) {
-                adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`
-            }
-            // let divJogador = document.createElement("div")
-            // let spanInformacoesJogador = document.createElement("span")
-            // spanInformacoesJogador.innerHTML = `${doc.data().posicao}: ${doc.data().numero_camisa} ${doc.data().nome}`
-            // divJogador.appendChild(spanInformacoesJogador)
-            // let divPasses = document.createElement("div")
-            // divPasses.className = "passes"
-            // divPasses.innerHTML += `<span>Passe: </span>`
-            // divPasses.innerHTML += CriarInputsPasses(doc.id, "A")
-            // divPasses.innerHTML += CriarInputsPasses(doc.id, "B")
-            // divPasses.innerHTML += CriarInputsPasses(doc.id, "C")
-            // divPasses.innerHTML += CriarInputsPasses(doc.id, "D")
-            // divJogador.appendChild(divPasses)
-            // colocarJogadoresDoTime.appendChild(divJogador)
-            // document.getElementById(`${doc.id}_passe_A`).value = 0
-            // document.getElementById(`${doc.id}_passe_B`).value = 0
-            // document.getElementById(`${doc.id}_passe_C`).value = 0
-            // document.getElementById(`${doc.id}_passe_D`).value = 0
-            // document.getElementById(`${doc.id}_label_A`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_A`).value++ })
-            // document.getElementById(`${doc.id}_label_B`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_B`).value++ })
-            // document.getElementById(`${doc.id}_label_C`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_C`).value++ })
-            // document.getElementById(`${doc.id}_label_D`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_D`).value++ })
-
-            if (doc.id === localStorage.getItem("timeAtualID")) {
-                timeExportado.innerHTML = `Time: ${doc.data().nome}`
-                timeSexo.innerHTML = `${doc.data().sexo === "M" ? "Sexo: Masculino" : "Sexo: Feminino"}`
-                localStorage.setItem("jogadores", doc.data().jogadores)
+                adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa}-${doc.data().nome}</option>`
             }
         })
 
     };
+    async PopularPasses(colocarJogadoresDoTime) {
+        let nomes = []
+        let id = []
+        let jogadores = JSON.parse(localStorage.getItem("jogadores"))
+        jogadores.forEach((jogador) => {
+            nomes.push(jogador.nome)
+            id.push(jogador.id)
+        })
+        const q = query(collection(db, "jogador"), where("nome", "in", nomes));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            if (id.includes(doc.id)) {
+                let divJogador = document.createElement("div")
+                let spanInformacoesJogador = document.createElement("span")
+                spanInformacoesJogador.innerHTML = `${doc.data().posicao}: ${doc.data().numero_camisa} ${doc.data().nome}`
+                divJogador.appendChild(spanInformacoesJogador)
+                let divPasses = document.createElement("div")
+                divPasses.className = "passes"
+                divPasses.innerHTML += `<span>Passe: </span>`
+                divPasses.innerHTML += this.CriarInputsPasses(doc.id, "A")
+                divPasses.innerHTML += this.CriarInputsPasses(doc.id, "B")
+                divPasses.innerHTML += this.CriarInputsPasses(doc.id, "C")
+                divPasses.innerHTML += this.CriarInputsPasses(doc.id, "D")
+                divJogador.appendChild(divPasses)
+                colocarJogadoresDoTime.appendChild(divJogador)
+                document.getElementById(`${doc.id}_passe_A`).value = 0
+                document.getElementById(`${doc.id}_passe_B`).value = 0
+                document.getElementById(`${doc.id}_passe_C`).value = 0
+                document.getElementById(`${doc.id}_passe_D`).value = 0
+                document.getElementById(`${doc.id}_label_A`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_A`).value++ })
+                document.getElementById(`${doc.id}_label_B`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_B`).value++ })
+                document.getElementById(`${doc.id}_label_C`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_C`).value++ })
+                document.getElementById(`${doc.id}_label_D`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_D`).value++ })
+            }
+        });
+    }
     CriarInputsPasses(idJogador, tipoPasse) {
         let elemento = `<input class="form-control input_number" type="number" min="0" name="${idJogador}_passe_${tipoPasse}" id="${idJogador}_passe_${tipoPasse}" readonly><label class="form-label" for="${idJogador}_passe_${tipoPasse}" id="${idJogador}_label_${tipoPasse}">${tipoPasse}+</label>`
         return elemento
+    }
+    async AtualizarPasseDeTodosJogadores() {
+        let nomes = []
+        let id = []
+        let jogadores = JSON.parse(localStorage.getItem("jogadores"))
+        jogadores.forEach((jogador) => {
+            nomes.push(jogador.nome)
+            id.push(jogador.id)
+        })
+        const q = query(collection(db, "jogador"), where("nome", "in", nomes));
+        const querySnapshot = await getDocs(q);
+        try {
+            querySnapshot.forEach((doc) => {
+                if (id.includes(doc.id)) {
+                    let passesIncrementar = [document.getElementById(`${doc.id}_passe_A`).value, document.getElementById(`${doc.id}_passe_B`).value, document.getElementById(`${doc.id}_passe_C`).value, document.getElementById(`${doc.id}_passe_D`).value]
+                    this.AtualizarPasseJogador(doc.id, passesIncrementar.map(Number))
+                }
+            });
+            alert("dados atualizados!!")
+        }
+        catch (e) {
+            alert("Falha nas inserções: " + e)
+        }
+    }
+    async AtualizarPasseJogador(id, aIncrementar) {
+        try {
+            const timeDocRef = doc(db, "jogador", id)
+            await updateDoc(timeDocRef, {
+                "passe.passe_A": increment(aIncrementar[0]),
+                "passe.passe_B": increment(aIncrementar[1]),
+                "passe.passe_C": increment(aIncrementar[2]),
+                "passe.passe_D": increment(aIncrementar[3])
+            });
+        }
+        catch (e) {
+            alert("Falha ao inserir: " + e)
+        }
+    }
+    async PopularSelectSaqueAtaque(colocarJogadoresDoTime) {
+        let nomes = []
+        let id = []
+        let jogadores = JSON.parse(localStorage.getItem("jogadores"))
+        jogadores.forEach((jogador) => {
+            nomes.push(jogador.nome)
+            id.push(jogador.id)
+        })
+        const q = query(collection(db, "jogador"), where("nome", "in", nomes));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            if (id.includes(doc.id)) {
+                colocarJogadoresDoTime.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa}-${doc.data().nome}</option>`
+            }
+        });
     }
 }
