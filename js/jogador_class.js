@@ -197,4 +197,35 @@ export class Jogador {
             }
         });
     }
+    async CadastrarSaque(valorSelect, nomeSelect, ace, dentroFora, tipoSaque) {
+        let id = []
+        let jogadores = JSON.parse(localStorage.getItem("jogadores"))
+        jogadores.forEach((jogador) => {
+            id.push(jogador.id)
+        })
+        const q = query(collection(db, "jogador"), where("nome", "in", nomeSelect));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            if (id.includes(doc.id)) {
+                this.AtualizarSaqueJogador(valorSelect, ace, dentroFora, tipoSaque);
+            }
+        });
+    }
+    async AtualizarSaqueJogador(id, ace, dentroFora, tipoSaque) {
+        try {
+            let local = `${dentroFora}.${tipoSaque}`
+            if (ace === "sim") {
+                let dividir = local.split(".")
+                local = `${dividir[0]}.ace.${dividir[1]}`
+            }
+            const timeDocRef = doc(db, "jogador", id)
+            await updateDoc(timeDocRef, {
+                [local]: increment(1)
+            });
+            alert("Saque Cadastrado")
+        }
+        catch (e) {
+            alert("Falha ao inserir: " + e)
+        }
+    }
 }

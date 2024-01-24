@@ -15,7 +15,9 @@ const form = {
     tipoSaque: () => document.getElementById("tipo_saque"),
     selecionarJogador: () => document.getElementById("nome"),
     novoJogadorSelecionar: () => document.getElementById("novo_jogador"),
-    colocarJogadoresDoTime: () => document.getElementById("jogadores_no_time")
+    colocarJogadoresDoTime: () => document.getElementById("jogadores_no_time"),
+    saqueDentroFora: () => document.querySelector('input[name="saque"]:checked'),
+    saqueAce: () => document.querySelector('input[name="ace"]:checked')
 }
 const informacoes = {
     timeExportado: () => document.getElementById("time_exportado"),
@@ -36,12 +38,17 @@ jogador.PopularPasses(form.colocarJogadoresDoTime());
 jogador.PopularSelectSaqueAtaque(form.selecionarJogador())
 // eventos
 buttons.salvarOutroJogador().addEventListener('click', () => {
-    var textoSelecionado = form.novoJogadorSelecionar().options[form.novoJogadorSelecionar().selectedIndex].text;
-    var arrayTexto = textoSelecionado.split("-");
+    let textoSelecionado = form.novoJogadorSelecionar().options[form.novoJogadorSelecionar().selectedIndex].text;
+    let arrayTexto = textoSelecionado.split("-");
     time.InserirJogador(arrayTexto[1], form.novoJogadorSelecionar().value);
 })
 buttons.salvarPasse().addEventListener('click', () => {
     jogador.AtualizarPasseDeTodosJogadores();
+})
+buttons.salvarSaque().addEventListener('click', () => {
+    let textoSelecionado = form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text;
+    let arrayTexto = textoSelecionado.split("-");
+    jogador.CadastrarSaque(form.selecionarJogador().value, arrayTexto, form.saqueAce().value, form.saqueDentroFora().value, form.tipoSaque().value)
 })
 // // cadastrar saque
 // salvarSaque.addEventListener("click", function () {
