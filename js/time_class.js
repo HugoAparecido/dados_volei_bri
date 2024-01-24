@@ -1,6 +1,6 @@
 import { db } from "./acesso_banco.js";
 import { ShowLoading, HideLoading } from "./loading.js";
-import { collection, query, where, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { collection, query, where, updateDoc, addDoc, doc, getDocs, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 export class Time {
     async CadastrarTime(nomeConst, sexoConst) {
         ShowLoading();
@@ -72,6 +72,20 @@ export class Time {
                 timeSexo.innerHTML = `${doc.data().sexo === "M" ? "Sexo: Masculino" : "Sexo: Feminino"}`
                 localStorage.setItem("jogadores", doc.data().jogadores)
             }
+        });
+    }
+    async InserirJogador(nomeJogador, idJogador) {
+        let id = ""
+        const q = query(collection(db, "time"), where("nome", "==", localStorage.getItem("timeAtualNome")));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            if (doc.id === localStorage.getItem("timeAtualID")) {
+                id = doc.id
+            }
+        });
+        const timeDocRef = doc(db, "time", id)
+        updateDoc(timeDocRef, {
+            "jogadores": arrayUnion({ nome: nomeJogador, id: idJogador })
         });
     }
 }

@@ -29,7 +29,15 @@ buttons.logoutButton().addEventListener('click', () => {
 })
 // Populando o cabeçalho
 let time = new Time
+let jogador = new Jogador
 time.PopularCabecalhoInserirInformacoes(informacoes.timeExportado(), informacoes.timeSexo());
+jogador.PopularNovosJogadores(form.novoJogadorSelecionar());
+// eventos
+buttons.salvarOutroJogador().addEventListener('click', () => {
+    var textoSelecionado = form.novoJogadorSelecionar().options[form.novoJogadorSelecionar().selectedIndex].text;
+    var arrayTexto = textoSelecionado.split(" ");
+    time.InserirJogador(arrayTexto[1], form.novoJogadorSelecionar().value);
+})
 // let jogadoresIDNoTimeArray = localStorage.getItem("jogadores").split(",")
 // let jogador1 = new Jogador(jogadoresIDNoTimeArray[0])
 // jogador1.DefinirAtibutos();
@@ -42,31 +50,6 @@ time.PopularCabecalhoInserirInformacoes(informacoes.timeExportado(), informacoes
 // onValue(jogadorInDB, function (snapshot) {
 //     let jogadoresArray = Object.entries(snapshot.val())
 //     for (let i = 0; i < jogadoresArray.length; i++) {
-//         let jogadorAtual = jogadoresArray[i]
-//         if (jogadoresIDNoTimeArray.includes(jogadorAtual[0])) {
-//             jogadoresNoTimeObjects.push(new Jogador(jogadorAtual[0]))
-//             let divJogador = document.createElement("div")
-//             divJogador.id = jogadorAtual[0]
-//             let spanInformacoesJogador = document.createElement("span")
-//             spanInformacoesJogador.innerHTML = `${jogadorAtual[1].posicao}: ${jogadorAtual[1].numero_camisa} ${jogadorAtual[1].nome}`
-//             divJogador.appendChild(spanInformacoesJogador)
-//             let divPasses = document.createElement("div")
-//             divPasses.className = "passes"
-//             divPasses.innerHTML += `<span>Passe: </span>`
-//             divPasses.innerHTML += CriarInputsPasses(jogadorAtual[0], "A")
-//             divPasses.innerHTML += CriarInputsPasses(jogadorAtual[0], "B")
-//             divPasses.innerHTML += CriarInputsPasses(jogadorAtual[0], "C")
-//             divPasses.innerHTML += CriarInputsPasses(jogadorAtual[0], "D")
-//             divJogador.appendChild(divPasses)
-//             colocarJogadoresDoTime.appendChild(divJogador)
-//             document.getElementById(`${jogadorAtual[0]}_passe_A`).value = 0
-//             document.getElementById(`${jogadorAtual[0]}_passe_B`).value = 0
-//             document.getElementById(`${jogadorAtual[0]}_passe_C`).value = 0
-//             document.getElementById(`${jogadorAtual[0]}_passe_D`).value = 0
-//             document.getElementById(`${jogadorAtual[0]}_label_A`).addEventListener("click", () => { document.getElementById(`${jogadorAtual[0]}_passe_A`).value++ })
-//             document.getElementById(`${jogadorAtual[0]}_label_B`).addEventListener("click", () => { document.getElementById(`${jogadorAtual[0]}_passe_B`).value++ })
-//             document.getElementById(`${jogadorAtual[0]}_label_C`).addEventListener("click", () => { document.getElementById(`${jogadorAtual[0]}_passe_C`).value++ })
-//             document.getElementById(`${jogadorAtual[0]}_label_D`).addEventListener("click", () => { document.getElementById(`${jogadorAtual[0]}_passe_D`).value++ })
 //         }
 //     }
 // // })
@@ -410,10 +393,4 @@ time.PopularCabecalhoInserirInformacoes(informacoes.timeExportado(), informacoes
 //     const updates = {};
 //     updates['/time/' + idTime] = postData;
 //     return update(ref(db), updates);
-// }
-// function CriarInputsPasses(idJogador, tipoPasse) {
-//     let elemento = `<input class="form-control input_number" type="number" min="0" name="${idJogador}_passe_${tipoPasse}" id="${idJogador}_passe_${tipoPasse}" readonly><label class="form-label" for="${idJogador}_passe_${tipoPasse}" id="${idJogador}_label_${tipoPasse}">${tipoPasse}+</label>`
-//     return elemento
-// }
-// async function CadastrarPasses() {
 // }
