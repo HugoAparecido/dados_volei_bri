@@ -38,6 +38,32 @@ section#graficos {
     flex-direction: row;
 }
 
+.jogadores>form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#jogadores_no_time,
+#adicionar_jogador {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#jogadores_no_time>div {
+    margin-bottom: 10px;
+}
+
+
+#jogadores_no_time>div>div {
+    margin-top: 5px;
+}
+
+#novo_jogador {
+    width: auto;
+}
+
 .form-label {
     padding-right: 10px;
 }

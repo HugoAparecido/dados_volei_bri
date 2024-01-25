@@ -17,7 +17,11 @@ const form = {
     novoJogadorSelecionar: () => document.getElementById("novo_jogador"),
     colocarJogadoresDoTime: () => document.getElementById("jogadores_no_time"),
     saqueDentroFora: () => document.querySelector('input[name="saque"]:checked'),
-    saqueAce: () => document.querySelector('input[name="ace"]:checked')
+    saqueAce: () => document.querySelector('input[name="ace"]:checked'),
+    tipoAtaque: () => document.querySelector('input[name="tipo_ataque"]:checked'),
+    acertoAtaque: () => document.querySelector('input[name="acertado_errado"]:checked'),
+    acontecimentoAtaque: () => document.querySelector('input[name="acontecimento"]:checked'),
+    levantamentoPara: () => document.querySelector('input[name="levantamento"]:checked')
 }
 const informacoes = {
     timeExportado: () => document.getElementById("time_exportado"),
@@ -49,4 +53,14 @@ buttons.salvarSaque().addEventListener('click', () => {
     let textoSelecionado = form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text;
     let arrayTexto = textoSelecionado.split("-");
     jogador.CadastrarSaque(form.selecionarJogador().value, arrayTexto, form.saqueAce().value, form.saqueDentroFora().value, form.tipoSaque().value)
+})
+buttons.salvarAtaque().addEventListener('click', () => {
+    let textoSelecionado = form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text;
+    let arrayTexto = textoSelecionado.split("-");
+    jogador.CadastrarAtaque(form.selecionarJogador().value, arrayTexto, form.tipoAtaque().value, form.acertoAtaque().value, form.acontecimentoAtaque().value)
+})
+buttons.salvarLevantamento().addEventListener('click', () => {
+    let textoSelecionado = form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text;
+    let arrayTexto = textoSelecionado.split("-");
+    jogador.CadastrarLevantamento(form.selecionarJogador().value, arrayTexto, form.levantamentoPara().value)
 })

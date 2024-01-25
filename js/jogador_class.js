@@ -228,4 +228,67 @@ export class Jogador {
             alert("Falha ao inserir: " + e)
         }
     }
+    async CadastrarAtaque(valorSelect, nomeSelect, tipoAtaque, acerto, acontecimento) {
+        let id = []
+        let jogadores = JSON.parse(localStorage.getItem("jogadores"))
+        jogadores.forEach((jogador) => {
+            id.push(jogador.id)
+        })
+        const q = query(collection(db, "jogador"), where("nome", "in", nomeSelect));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            if (id.includes(doc.id)) {
+                this.AtualizarAtaqueJogador(valorSelect, tipoAtaque, acerto, acontecimento);
+            }
+        });
+    }
+    async AtualizarAtaqueJogador(id, tipoAtaque, acerto, acontecimento) {
+        try {
+            let local = `${tipoAtaque}`
+            if (acerto === "acertado") {
+                local += `.acertado.${acontecimento}`
+            }
+            else {
+                local += ".errado"
+            }
+            const timeDocRef = doc(db, "jogador", id)
+            await updateDoc(timeDocRef, {
+                [local]: increment(1)
+            });
+            alert("Ataque Cadastrado")
+        }
+        catch (e) {
+            alert("Falha ao inserir: " + e)
+        }
+    }
+    async CadastrarLevantamento(valorSelect, nomeSelect, levantamento) {
+        let id = []
+        let jogadores = JSON.parse(localStorage.getItem("jogadores"))
+        jogadores.forEach((jogador) => {
+            id.push(jogador.id)
+        })
+        const q = query(collection(db, "jogador"), where("nome", "in", nomeSelect));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            if (id.includes(doc.id) && doc.data().posicao === "Levantador") {
+                this.AtualizarLevantamento(valorSelect, levantamento);
+            }
+            else if (doc.data().posicao !== "Levantador") {
+                alert("Não foi possível Cadasatrar o levantamento pois o jogador não é um levantador")
+            }
+        });
+    }
+    async AtualizarLevantamento(id, levantamento) {
+        try {
+            let local = `levantou_para.${levantamento}`
+            const timeDocRef = doc(db, "jogador", id)
+            await updateDoc(timeDocRef, {
+                [local]: increment(1)
+            });
+            alert("Levantamento Cadastrado")
+        }
+        catch (e) {
+            alert("Falha ao inserir: " + e)
+        }
+    }
 }
