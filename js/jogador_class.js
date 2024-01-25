@@ -99,7 +99,7 @@ export class Jogador {
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if (!localStorage.getItem("jogadores").includes(doc.id)) {
-                adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa}-${doc.data().nome}</option>`
+                adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`
             }
         })
 
@@ -112,7 +112,7 @@ export class Jogador {
             nomes.push(jogador.nome)
             id.push(jogador.id)
         })
-        const q = query(collection(db, "jogador"), where("nome", "in", nomes));
+        const q = query(collection(db, "jogador"), where("nome", "in", nomes), orderBy("nome"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if (id.includes(doc.id)) {
@@ -189,11 +189,11 @@ export class Jogador {
             nomes.push(jogador.nome)
             id.push(jogador.id)
         })
-        const q = query(collection(db, "jogador"), where("nome", "in", nomes));
+        const q = query(collection(db, "jogador"), where("nome", "in", nomes), orderBy("nome"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if (id.includes(doc.id)) {
-                colocarJogadoresDoTime.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa}-${doc.data().nome}</option>`
+                colocarJogadoresDoTime.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`
             }
         });
     }
@@ -203,7 +203,7 @@ export class Jogador {
         jogadores.forEach((jogador) => {
             id.push(jogador.id)
         })
-        const q = query(collection(db, "jogador"), where("nome", "in", nomeSelect));
+        const q = query(collection(db, "jogador"), where("nome", "==", nomeSelect));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if (id.includes(doc.id)) {
@@ -234,7 +234,7 @@ export class Jogador {
         jogadores.forEach((jogador) => {
             id.push(jogador.id)
         })
-        const q = query(collection(db, "jogador"), where("nome", "in", nomeSelect));
+        const q = query(collection(db, "jogador"), where("nome", "==", nomeSelect));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if (id.includes(doc.id)) {
@@ -267,7 +267,7 @@ export class Jogador {
         jogadores.forEach((jogador) => {
             id.push(jogador.id)
         })
-        const q = query(collection(db, "jogador"), where("nome", "in", nomeSelect));
+        const q = query(collection(db, "jogador"), where("nome", "==", nomeSelect));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if (id.includes(doc.id) && doc.data().posicao === "Levantador") {

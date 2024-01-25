@@ -50,113 +50,120 @@
                 <label class="form-label" for="nome">Jogador Para Ação</label>
                 <select class="form-control" name="nome" id="nome"></select>
             </section>
-            <section class="saques">
-                <form action="">
-                    <fieldset>
-                        <legend>Saque:</legend>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="saque" id="saque_dentro"
-                                value="saque_dentro">
-                            <label class="form-check-label" for="saque_dentro">Dentro</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="saque" id="saque_fora"
-                                value="saque_fora">
-                            <label class="form-check-label" for="saque_fora">Fora</label>
-                        </div>
-                        <label class="form-label" for="tipo_saque">Tipo do saque</label>
-                        <select class="form-select" name="tipo_saque" id="tipo_saque">
-                            <option value="por_baixo">Por Baixo</option>
-                            <option value="lateral_asiatico">Lateral ou Asiático</option>
-                            <option value="por_cima">Por Cima</option>
-                            <option value="viagem_fundo_do_mar">Viagem ou Fundo do Mar</option>
-                            <option value="flutuante">Flutuante</option>
-                            <option value="hibrido_misto">Híbrido ou Misto</option>
-                        </select>
+            <div>
+
+                <section class="saques">
+                    <form action="">
                         <fieldset>
-                            <legend>Saque ACE:</legend>
+                            <legend>Saque:</legend>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ace" id="ace_nao" value="nao">
-                                <label class="form-check-label" for="ace_nao">Não</label>
+                                <input class="form-check-input" type="radio" name="saque" id="saque_dentro"
+                                    value="saque_dentro">
+                                <label class="form-check-label" for="saque_dentro">Dentro</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ace" id="ace_sim" value="sim">
-                                <label class="form-check-label" for="ace_sim">Sim</label>
+                                <input class="form-check-input" type="radio" name="saque" id="saque_fora"
+                                    value="saque_fora">
+                                <label class="form-check-label" for="saque_fora">Fora</label>
                             </div>
+                            <label class="form-label" for="tipo_saque">Tipo do saque</label>
+                            <select class="form-select" name="tipo_saque" id="tipo_saque">
+                                <option value="por_baixo">Por Baixo</option>
+                                <option value="lateral_asiatico">Lateral ou Asiático</option>
+                                <option value="por_cima">Por Cima</option>
+                                <option value="viagem_fundo_do_mar">Viagem ou Fundo do Mar</option>
+                                <option value="flutuante">Flutuante</option>
+                                <option value="hibrido_misto">Híbrido ou Misto</option>
+                            </select>
+                            <fieldset>
+                                <legend>Saque ACE:</legend>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ace" id="ace_nao" value="nao">
+                                    <label class="form-check-label" for="ace_nao">Não</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ace" id="ace_sim" value="sim">
+                                    <label class="form-check-label" for="ace_sim">Sim</label>
+                                </div>
+                            </fieldset>
+                            <button id="salvar_saque" class="btn btn-primary" type="button">Salvar</button>
                         </fieldset>
-                        <button id="salvar_saque" class="btn btn-primary" type="button">Salvar</button>
-                    </fieldset>
-                </form>
-            </section>
-            <section class="Ataque">
-                <form action="">
-                    <fieldset>
-                        <legend>Ataque:</legend>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tipo_ataque" id="ataque_paralelo"
-                                value="ataque_paralelo">
-                            <label class="form-check-label" for="ataque_paralelo">Parelelo</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tipo_ataque" id="ataque_diagonal"
-                                value="ataque_diagonal">
-                            <label class="form-check-label" for="ataque_diagonal">Diagonal</label>
-                        </div>
-                        <p>Acertou:</p>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="acertado_errado" id="acertado"
-                                value="acertado">
-                            <label class="form-check-label" for="acertado">Sim</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="acertado_errado" id="errado"
-                                value="errado">
-                            <label class="form-check-label" for="errado">Não</label>
-                        </div>
+                    </form>
+                </section>
+                <section class="Ataque">
+                    <form action="">
                         <fieldset>
-                            <legend>Acontecimento:</legend>
+                            <legend>Ataque:</legend>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="acontecimento" id="ponto"
-                                    value="ponto">
-                                <label class="form-check-label" for="ponto">Ponto</label>
+                                <input class="form-check-input" type="radio" name="tipo_ataque" id="ataque_paralelo"
+                                    value="ataque_paralelo">
+                                <label class="form-check-label" for="ataque_paralelo">Parelelo</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="acontecimento" id="defendido"
-                                    value="defendido">
-                                <label class="form-check-label" for="defendido">Defendido</label>
+                                <input class="form-check-input" type="radio" name="tipo_ataque" id="ataque_diagonal"
+                                    value="ataque_diagonal">
+                                <label class="form-check-label" for="ataque_diagonal">Diagonal</label>
                             </div>
-                            <button id="salvar_ataque" class="btn btn-primary" type="button">Salvar</button>
+                            <p>Acertou:</p>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="acertado_errado" id="acertado"
+                                    value="acertado">
+                                <label class="form-check-label" for="acertado">Sim</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="acertado_errado" id="errado"
+                                    value="errado">
+                                <label class="form-check-label" for="errado">Não</label>
+                            </div>
+                            <fieldset>
+                                <legend>Acontecimento:</legend>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="acontecimento" id="ponto"
+                                        value="ponto">
+                                    <label class="form-check-label" for="ponto">Ponto</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="acontecimento" id="defendido"
+                                        value="defendido">
+                                    <label class="form-check-label" for="defendido">Defendido</label>
+                                </div>
+                                <button id="salvar_ataque" class="btn btn-primary" type="button">Salvar</button>
+                            </fieldset>
                         </fieldset>
-                    </fieldset>
-            </section>
-            <section class="levantamento">
-                <form action="">
-                    <fieldset>
-                        <legend>Levantamento Para: </legend>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="levantamento" id="ponta" value="ponta">
-                            <label class="form-check-label" for="ponta">Ponta</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="levantamento" id="centro" value="centro">
-                            <label class="form-check-label" for="centro">Centro</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="levantamento" id="oposto" value="oposto">
-                            <label class="form-check-label" for="oposto">Oposto</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="levantamento" id="pipe" value="pipe">
-                            <label class="form-check-label" for="pipe">Pipe</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="levantamento" id="errou" value="errou">
-                            <label class="form-check-label" for="errou">Errou</label>
-                        </div>
-                        <button id="salvar_levantamento" class="btn btn-primary" type="button">Salvar</button>
-                    </fieldset>
-                </form>
-            </section>
+                </section>
+                <section class="levantamento">
+                    <form action="">
+                        <fieldset>
+                            <legend>Levantamento Para: </legend>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="levantamento" id="ponta"
+                                    value="ponta">
+                                <label class="form-check-label" for="ponta">Ponta</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="levantamento" id="centro"
+                                    value="centro">
+                                <label class="form-check-label" for="centro">Centro</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="levantamento" id="oposto"
+                                    value="oposto">
+                                <label class="form-check-label" for="oposto">Oposto</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="levantamento" id="pipe" value="pipe">
+                                <label class="form-check-label" for="pipe">Pipe</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="levantamento" id="errou"
+                                    value="errou">
+                                <label class="form-check-label" for="errou">Errou</label>
+                            </div>
+                            <button id="salvar_levantamento" class="btn btn-primary" type="button">Salvar</button>
+                        </fieldset>
+                    </form>
+                </section>
+            </div>
         </section>
     </main>
     <script src="../js/inserir_informacoes.js" type="module"></script>

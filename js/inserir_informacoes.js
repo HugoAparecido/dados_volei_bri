@@ -3,6 +3,7 @@ import { Auth } from "./auth_class.js";
 import { Time } from "./time_class.js";
 import { Jogador } from "./jogador_class.js";
 // Elementos htmls
+// botões
 const buttons = {
     logoutButton: () => document.getElementById('logout'),
     salvarSaque: () => document.getElementById("salvar_saque"),
@@ -11,6 +12,7 @@ const buttons = {
     salvarLevantamento: () => document.getElementById("salvar_levantamento"),
     salvarOutroJogador: () => document.getElementById("adicionar_jogador_button")
 }
+// inputs e selects
 const form = {
     tipoSaque: () => document.getElementById("tipo_saque"),
     selecionarJogador: () => document.getElementById("nome"),
@@ -23,44 +25,49 @@ const form = {
     acontecimentoAtaque: () => document.querySelector('input[name="acontecimento"]:checked'),
     levantamentoPara: () => document.querySelector('input[name="levantamento"]:checked')
 }
+// cabeçalho
 const informacoes = {
     timeExportado: () => document.getElementById("time_exportado"),
     timeSexo: () => document.getElementById("sexo_time")
 }
-// Gerencia de atenticação
+// Instanciando Classes
+let time = new Time;
+let jogador = new Jogador;
 let auth = new Auth;
+// Gerencia de atenticação
 auth.UsuarioNaoLogado();
 buttons.logoutButton().addEventListener('click', () => {
     auth.Logout();
 })
 // Populando o cabeçalho
-let time = new Time
-let jogador = new Jogador
 time.PopularCabecalhoInserirInformacoes(informacoes.timeExportado(), informacoes.timeSexo());
+// Populando selects
 jogador.PopularNovosJogadores(form.novoJogadorSelecionar());
-jogador.PopularPasses(form.colocarJogadoresDoTime());
 jogador.PopularSelectSaqueAtaque(form.selecionarJogador())
+// Populando os jogadores e inserções de passes
+jogador.PopularPasses(form.colocarJogadoresDoTime());
 // eventos
+// Cadastrar jogador ao time
 buttons.salvarOutroJogador().addEventListener('click', () => {
-    let textoSelecionado = form.novoJogadorSelecionar().options[form.novoJogadorSelecionar().selectedIndex].text;
-    let arrayTexto = textoSelecionado.split("-");
-    time.InserirJogador(arrayTexto[1], form.novoJogadorSelecionar().value);
+    time.InserirJogador(RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.novoJogadorSelecionar().value);
 })
+// Salvar novos passes
 buttons.salvarPasse().addEventListener('click', () => {
     jogador.AtualizarPasseDeTodosJogadores();
 })
+// Salvar novo saque
 buttons.salvarSaque().addEventListener('click', () => {
-    let textoSelecionado = form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text;
-    let arrayTexto = textoSelecionado.split("-");
-    jogador.CadastrarSaque(form.selecionarJogador().value, arrayTexto, form.saqueAce().value, form.saqueDentroFora().value, form.tipoSaque().value)
+    jogador.CadastrarSaque(form.selecionarJogador().value, RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.saqueAce().value, form.saqueDentroFora().value, form.tipoSaque().value)
 })
+// Salvar novo ataque
 buttons.salvarAtaque().addEventListener('click', () => {
-    let textoSelecionado = form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text;
-    let arrayTexto = textoSelecionado.split("-");
-    jogador.CadastrarAtaque(form.selecionarJogador().value, arrayTexto, form.tipoAtaque().value, form.acertoAtaque().value, form.acontecimentoAtaque().value)
+    jogador.CadastrarAtaque(form.selecionarJogador().value, RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.tipoAtaque().value, form.acertoAtaque().value, form.acontecimentoAtaque().value)
+    // Salvar novo levantamento
 })
 buttons.salvarLevantamento().addEventListener('click', () => {
-    let textoSelecionado = form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text;
-    let arrayTexto = textoSelecionado.split("-");
-    jogador.CadastrarLevantamento(form.selecionarJogador().value, arrayTexto, form.levantamentoPara().value)
+    jogador.CadastrarLevantamento(form.selecionarJogador().value, RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.levantamentoPara().value)
 })
+function RetirarNumeroDoJogadorSelect(texto) {
+    let partes = texto.split(" ");
+    return partes.slice(1).join(" ");
+}

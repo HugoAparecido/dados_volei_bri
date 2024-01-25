@@ -1,19 +1,17 @@
-// Conexão com o banco de dados
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
-const appSettings = {
-    databaseURL: "https://voleibri-default-rtdb.firebaseio.com/"
+// importações necessárias
+import { Graficos } from "./graficos_class.js"
+// Elementos htmls
+// Locais de modificação
+const locais = {
+    localGraficoSaqueJogador: () => document.getElementById("grafico_saque_jogador"),
+    localGraficoPasseJogador: () => document.getElementById("grafico_passe_jogador"),
+    jogadorSelecionado: () => document.getElementById("nome"),
 }
-const app = initializeApp(appSettings)
-const database = getDatabase(app)
-const jogadorInDB = ref(database, "jogador")
-// transformando os campos em variáveis
-const localGraficoSaqueJogador = document.getElementById("grafico_saque_jogador")
-const localGraficoPasseJogador = document.getElementById("grafico_passe_jogador")
-const jogadorSelecionado = document.getElementById("nome")
-const mostrarGraficos = document.getElementById("exibir_graficos")
+const botoes = {
+    mostrarGraficos: () => document.getElementById("exibir_graficos")
+}
 // para colocar o gráfico
-mostrarGraficos.addEventListener("click", function () {
+botoes.mostrarGraficos.addEventListener("click", function () {
     localGraficoSaqueJogador.innerHTML = ""
     localGraficoSaqueJogador.innerHTML = `<canvas id="saqueJogador"></canvas>`
     localGraficoSaqueJogador.innerHTML += `<canvas id="saqueJogadorDentroFora"></canvas>`

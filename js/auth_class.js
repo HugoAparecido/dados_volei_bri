@@ -2,6 +2,7 @@ import { auth } from "./acesso_banco.js";
 import { onAuthStateChanged, signInWithEmailAndPassword, sendPasswordResetEmail, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { ShowLoading, HideLoading } from "./loading.js";
 export class Auth {
+    // Redirecionamento de login.html para time.html CASO o usuário esteja logado
     UsuarioLogado() {
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -9,6 +10,7 @@ export class Auth {
             }
         });
     }
+    // Redirecionamento de time.html para login.html CASO o usuário não esteja logado
     UsuarioNaoLogado() {
         onAuthStateChanged(auth, (user) => {
             if (!user) {
