@@ -1,6 +1,7 @@
 import { db } from "./acesso_banco.js";
 import { ShowLoading, HideLoading } from "./loading.js";
 import { collection, query, where, doc, orderBy, addDoc, getDocs, increment, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { Time } from "./time_class.js";
 export class Jogador {
     async CadastrarJogador(nomeConst, sexoConst, numeroCamisa, posicaoConst, alturaConst, pesoConst) {
         ShowLoading();
@@ -13,26 +14,17 @@ export class Jogador {
             peso: pesoConst,
             saque_fora: {
                 por_baixo: 0,
-                lateral_asiatico: 0,
-                por_cima: 0,
                 viagem_fundo_do_mar: 0,
                 flutuante: 0,
-                hibrido_misto: 0
             },
             saque_dentro: {
                 por_baixo: 0,
-                lateral_asiatico: 0,
-                por_cima: 0,
                 viagem_fundo_do_mar: 0,
                 flutuante: 0,
-                hibrido_misto: 0,
                 ace: {
                     por_baixo: 0,
-                    lateral_asiatico: 0,
-                    por_cima: 0,
                     viagem_fundo_do_mar: 0,
                     flutuante: 0,
-                    hibrido_misto: 0
                 }
             }, passe: {
                 passe_A: 0,
@@ -40,19 +32,14 @@ export class Jogador {
                 passe_C: 0,
                 passe_D: 0
             },
-            ataque_paralelo: {
-                acertado: {
-                    defendido: 0,
-                    ponto: 0
-                },
-                errado: 0
+            ataque: {
+                acertado: 0,
+                errado: 0,
             },
-            ataque_diagonal: {
-                acertado: {
-                    defendido: 0,
-                    ponto: 0
-                },
-                errado: 0
+            bloqueio: {
+                ponto_adversario: 0,
+                ponto_bloqueando: 0,
+
             }
         };
         if (posicaoConst === "Levantador") {
@@ -105,12 +92,13 @@ export class Jogador {
 
     };
     async PopularPasses(colocarJogadoresDoTime) {
+        ShowLoading()
         let nomes = []
         let id = []
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
         jogadores.forEach((jogador) => {
-            nomes.push(jogador.nome)
             id.push(jogador.id)
+            nomes.push(jogador.nome)
         })
         const q = query(collection(db, "jogador"), where("nome", "in", nomes), orderBy("nome"));
         const querySnapshot = await getDocs(q);
@@ -139,6 +127,7 @@ export class Jogador {
                 document.getElementById(`${doc.id}_label_D`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_D`).value++ })
             }
         });
+        HideLoading()
     }
     CriarInputsPasses(idJogador, tipoPasse) {
         let elemento = `<input class="form-control input_number" type="number" min="0" name="${idJogador}_passe_${tipoPasse}" id="${idJogador}_passe_${tipoPasse}" readonly><label class="form-label" for="${idJogador}_passe_${tipoPasse}" id="${idJogador}_label_${tipoPasse}">${tipoPasse}+</label>`
@@ -147,10 +136,11 @@ export class Jogador {
     async AtualizarPasseDeTodosJogadores() {
         let nomes = []
         let id = []
+        let time = new Time
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
         jogadores.forEach((jogador) => {
-            nomes.push(jogador.nome)
             id.push(jogador.id)
+            nomes.push(jogador.nome)
         })
         const q = query(collection(db, "jogador"), where("nome", "in", nomes));
         const querySnapshot = await getDocs(q);
@@ -159,6 +149,7 @@ export class Jogador {
                 if (id.includes(doc.id)) {
                     let passesIncrementar = [document.getElementById(`${doc.id}_passe_A`).value, document.getElementById(`${doc.id}_passe_B`).value, document.getElementById(`${doc.id}_passe_C`).value, document.getElementById(`${doc.id}_passe_D`).value]
                     this.AtualizarPasseJogador(doc.id, passesIncrementar.map(Number))
+                    time.AtualizarPasseJogador(localStorage.getItem("timeAtualID"), passesIncrementar.map(Number), doc.id)
                 }
             });
             alert("dados atualizados!!")
@@ -186,8 +177,8 @@ export class Jogador {
         let id = []
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
         jogadores.forEach((jogador) => {
-            nomes.push(jogador.nome)
             id.push(jogador.id)
+            nomes.push(jogador.nome)
         })
         const q = query(collection(db, "jogador"), where("nome", "in", nomes), orderBy("nome"));
         const querySnapshot = await getDocs(q);
@@ -201,7 +192,7 @@ export class Jogador {
         let id = []
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
         jogadores.forEach((jogador) => {
-            id.push(jogador.id)
+            id.push(Object.entries(jogador)[0][0])
         })
         const q = query(collection(db, "jogador"), where("nome", "==", nomeSelect));
         const querySnapshot = await getDocs(q);
@@ -228,25 +219,25 @@ export class Jogador {
             alert("Falha ao inserir: " + e)
         }
     }
-    async CadastrarAtaque(valorSelect, nomeSelect, tipoAtaque, acerto, acontecimento) {
+    async CadastrarAtaque(valorSelect, nomeSelect, acerto) {
         let id = []
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
         jogadores.forEach((jogador) => {
-            id.push(jogador.id)
+            id.push(Object.entries(jogador)[0][0])
         })
         const q = query(collection(db, "jogador"), where("nome", "==", nomeSelect));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if (id.includes(doc.id)) {
-                this.AtualizarAtaqueJogador(valorSelect, tipoAtaque, acerto, acontecimento);
+                this.AtualizarAtaqueJogador(valorSelect, tipoAtaque, acerto);
             }
         });
     }
-    async AtualizarAtaqueJogador(id, tipoAtaque, acerto, acontecimento) {
+    async AtualizarAtaqueJogador(id, tipoAtaque, acerto) {
         try {
-            let local = `${tipoAtaque}`
+            let local = "ataque"
             if (acerto === "acertado") {
-                local += `.acertado.${acontecimento}`
+                local += `.acertado`
             }
             else {
                 local += ".errado"
@@ -265,7 +256,7 @@ export class Jogador {
         let id = []
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
         jogadores.forEach((jogador) => {
-            id.push(jogador.id)
+            id.push(Object.entries(jogador)[0][0])
         })
         const q = query(collection(db, "jogador"), where("nome", "==", nomeSelect));
         const querySnapshot = await getDocs(q);

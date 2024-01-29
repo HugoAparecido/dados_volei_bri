@@ -20,9 +20,7 @@ const form = {
     colocarJogadoresDoTime: () => document.getElementById("jogadores_no_time"),
     saqueDentroFora: () => document.querySelector('input[name="saque"]:checked'),
     saqueAce: () => document.querySelector('input[name="ace"]:checked'),
-    tipoAtaque: () => document.querySelector('input[name="tipo_ataque"]:checked'),
     acertoAtaque: () => document.querySelector('input[name="acertado_errado"]:checked'),
-    acontecimentoAtaque: () => document.querySelector('input[name="acontecimento"]:checked'),
     levantamentoPara: () => document.querySelector('input[name="levantamento"]:checked')
 }
 // cabeçalho
@@ -49,7 +47,7 @@ jogador.PopularPasses(form.colocarJogadoresDoTime());
 // eventos
 // Cadastrar jogador ao time
 buttons.salvarOutroJogador().addEventListener('click', () => {
-    time.InserirJogador(RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.novoJogadorSelecionar().value);
+    time.InserirJogador(RetirarNumeroDoJogadorSelect(form.novoJogadorSelecionar().options[form.novoJogadorSelecionar().selectedIndex].text), form.novoJogadorSelecionar().value);
 })
 // Salvar novos passes
 buttons.salvarPasse().addEventListener('click', () => {
@@ -61,13 +59,16 @@ buttons.salvarSaque().addEventListener('click', () => {
 })
 // Salvar novo ataque
 buttons.salvarAtaque().addEventListener('click', () => {
-    jogador.CadastrarAtaque(form.selecionarJogador().value, RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.tipoAtaque().value, form.acertoAtaque().value, form.acontecimentoAtaque().value)
+    jogador.CadastrarAtaque(form.selecionarJogador().value, RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.acertoAtaque().value)
     // Salvar novo levantamento
 })
 buttons.salvarLevantamento().addEventListener('click', () => {
     jogador.CadastrarLevantamento(form.selecionarJogador().value, RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.levantamentoPara().value)
 })
 function RetirarNumeroDoJogadorSelect(texto) {
+    if (isNaN(texto.charAt(0))) {
+        return texto
+    }
     let partes = texto.split(" ");
     return partes.slice(1).join(" ");
 }
