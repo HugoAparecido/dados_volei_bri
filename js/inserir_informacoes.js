@@ -9,6 +9,7 @@ const buttons = {
     salvarSaque: () => document.getElementById("salvar_saque"),
     salvarPasse: () => document.getElementById("salvar_passe"),
     salvarAtaque: () => document.getElementById("salvar_ataque"),
+    salvarBloqueio: () => document.getElementById("salvar_bloqueio"),
     salvarLevantamento: () => document.getElementById("salvar_levantamento"),
     salvarOutroJogador: () => document.getElementById("adicionar_jogador_button")
 }
@@ -21,6 +22,7 @@ const form = {
     saqueDentroFora: () => document.querySelector('input[name="saque"]:checked'),
     saqueAce: () => document.querySelector('input[name="ace"]:checked'),
     acertoAtaque: () => document.querySelector('input[name="acertado_errado"]:checked'),
+    acertoBloqueio: () => document.querySelector('input[name="bloqueio"]:checked'),
     levantamentoPara: () => document.querySelector('input[name="levantamento"]:checked')
 }
 // cabeçalho
@@ -60,11 +62,16 @@ buttons.salvarSaque().addEventListener('click', () => {
 // Salvar novo ataque
 buttons.salvarAtaque().addEventListener('click', () => {
     jogador.CadastrarAtaque(form.selecionarJogador().value, RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.acertoAtaque().value)
-    // Salvar novo levantamento
 })
+// Salvar novo bloqueio
+buttons.salvarBloqueio().addEventListener('click', () => {
+    jogador.CadastrarBloqueio(form.selecionarJogador().value, RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.acertoBloqueio().value)
+})
+// Salvar novo levantamento
 buttons.salvarLevantamento().addEventListener('click', () => {
     jogador.CadastrarLevantamento(form.selecionarJogador().value, RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.levantamentoPara().value)
 })
+// Função para pegar o texto do select
 function RetirarNumeroDoJogadorSelect(texto) {
     if (isNaN(texto.charAt(0))) {
         return texto

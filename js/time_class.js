@@ -90,6 +90,7 @@ export class Time {
         let posicao_j = ""
         let camisa = ""
         let jogadoresAnteriores = {}
+        let novoJogador
         const q = query(collection(db, "time"), where("nome", "==", localStorage.getItem("timeAtualNome")));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -108,48 +109,61 @@ export class Time {
             }
         });
         camisa = camisa === undefined ? "" : camisa
-        console.log(posicao_j)
+        novoJogador = {
+            nome: nomeJogador,
+            numero_camisa: camisa,
+            posicao: posicao_j,
+            saque_fora: {
+                por_baixo: 0,
+                viagem_fundo_do_mar: 0,
+                flutuante: 0,
+            },
+            saque_dentro: {
+                por_baixo: 0,
+                viagem_fundo_do_mar: 0,
+                flutuante: 0,
+                ace: {
+                    por_baixo: 0,
+                    viagem_fundo_do_mar: 0,
+                    flutuante: 0,
+                }
+            }, passe: {
+                passe_A: 0,
+                passe_B: 0,
+                passe_C: 0,
+                passe_D: 0
+            },
+            ataque: {
+                acertado: 0,
+                errado: 0,
+            },
+            bloqueio: {
+                ponto_adversario: 0,
+                ponto_bloqueando: 0,
+
+            }
+        }
+        if (posicao_j === "Levantador") {
+            novoJogador = {
+                ...novoJogador,
+                ...{
+                    levantou_para: {
+                        ponta: 0,
+                        centro: 0,
+                        oposto: 0,
+                        pipe: 0,
+                        errou: 0
+                    }
+                }
+            }
+        }
+        novoJogador = { [idJogador]: novoJogador }
         try {
             const timeDocRef = doc(db, "time", id)
             await updateDoc(timeDocRef, {
                 "jogadores": {
                     ...jogadoresAnteriores,
-                    ...{
-                        [idJogador]: {
-                            nome: nomeJogador,
-                            numero_camisa: camisa,
-                            posicao: posicao_j,
-                            saque_fora: {
-                                por_baixo: 0,
-                                viagem_fundo_do_mar: 0,
-                                flutuante: 0,
-                            },
-                            saque_dentro: {
-                                por_baixo: 0,
-                                viagem_fundo_do_mar: 0,
-                                flutuante: 0,
-                                ace: {
-                                    por_baixo: 0,
-                                    viagem_fundo_do_mar: 0,
-                                    flutuante: 0,
-                                }
-                            }, passe: {
-                                passe_A: 0,
-                                passe_B: 0,
-                                passe_C: 0,
-                                passe_D: 0
-                            },
-                            ataque: {
-                                acertado: 0,
-                                errado: 0,
-                            },
-                            bloqueio: {
-                                ponto_adversario: 0,
-                                ponto_bloqueando: 0,
-
-                            }
-                        }
-                    }
+                    ...novoJogador
                 }
             });
             alert('jogador inserido ao time com sucesso!!');
@@ -170,6 +184,70 @@ export class Time {
                 [local[1]]: increment(aIncrementar[1]),
                 [local[2]]: increment(aIncrementar[2]),
                 [local[3]]: increment(aIncrementar[3])
+            });
+        }
+        catch (e) {
+            alert("Falha ao inserir: " + e)
+        }
+    }
+    async AtualizarSaqueJogador(idTime, ace, dentroFora, tipoSaque, idJogador) {
+        try {
+            let local = `jogadores.${idJogador}.${dentroFora}.${tipoSaque}`
+            if (ace === "sim") {
+                let dividir = local.split(".")
+                local = `${dividir[0]}.${dividir[1]}.${dividir[2]}.ace.${dividir[3]}`
+            }
+            const timeDocRef = doc(db, "time", idTime)
+            await updateDoc(timeDocRef, {
+                [local]: increment(1)
+            });
+        }
+        catch (e) {
+            alert("Falha ao inserir: " + e)
+        }
+    }
+    async AtualizarAtaqueJogador(idTime, acerto, idJogador) {
+        try {
+            let local = `jogadores.${idJogador}.ataque`
+            if (acerto === "acertado") {
+                local += `.acertado`
+            }
+            else {
+                local += ".errado"
+            }
+            const timeDocRef = doc(db, "time", idTime)
+            await updateDoc(timeDocRef, {
+                [local]: increment(1)
+            });
+        }
+        catch (e) {
+            alert("Falha ao inserir: " + e)
+        }
+    }
+    async AtualizarBloqueioJogador(idTime, acerto, idJogador) {
+        try {
+            let local = `jogadores.${idJogador}.bloqueio`
+            if (acerto === "ponto_adversario") {
+                local += ".ponto_adversario"
+            }
+            else {
+                local += ".ponto_bloqueando"
+            }
+            const timeDocRef = doc(db, "time", idTime)
+            await updateDoc(timeDocRef, {
+                [local]: increment(1)
+            });
+        }
+        catch (e) {
+            alert("Falha ao inserir: " + e)
+        }
+    }
+    async AtualizarLevantamento(idTime, levantamento, idJogador) {
+        try {
+            let local = `jogadores.${idJogador}.levantou_para.${levantamento}`
+            const timeDocRef = doc(db, "time", idTime)
+            await updateDoc(timeDocRef, {
+                [local]: increment(1)
             });
         }
         catch (e) {

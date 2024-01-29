@@ -97,7 +97,7 @@ export class Jogador {
         let id = []
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
         jogadores.forEach((jogador) => {
-            id.push(jogador.id)
+            id.push(Object.entries(jogador)[0][1])
             nomes.push(jogador.nome)
         })
         const q = query(collection(db, "jogador"), where("nome", "in", nomes), orderBy("nome"));
@@ -139,7 +139,7 @@ export class Jogador {
         let time = new Time
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
         jogadores.forEach((jogador) => {
-            id.push(jogador.id)
+            id.push(Object.entries(jogador)[0][1])
             nomes.push(jogador.nome)
         })
         const q = query(collection(db, "jogador"), where("nome", "in", nomes));
@@ -177,7 +177,7 @@ export class Jogador {
         let id = []
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
         jogadores.forEach((jogador) => {
-            id.push(jogador.id)
+            id.push(Object.entries(jogador)[0][1])
             nomes.push(jogador.nome)
         })
         const q = query(collection(db, "jogador"), where("nome", "in", nomes), orderBy("nome"));
@@ -189,18 +189,22 @@ export class Jogador {
         });
     }
     async CadastrarSaque(valorSelect, nomeSelect, ace, dentroFora, tipoSaque) {
+        ShowLoading()
+        let time = new Time
         let id = []
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
         jogadores.forEach((jogador) => {
-            id.push(Object.entries(jogador)[0][0])
+            id.push(Object.entries(jogador)[0][1])
         })
         const q = query(collection(db, "jogador"), where("nome", "==", nomeSelect));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if (id.includes(doc.id)) {
                 this.AtualizarSaqueJogador(valorSelect, ace, dentroFora, tipoSaque);
+                time.AtualizarSaqueJogador(localStorage.getItem("timeAtualID"), ace, dentroFora, tipoSaque, doc.id)
             }
         });
+        HideLoading()
     }
     async AtualizarSaqueJogador(id, ace, dentroFora, tipoSaque) {
         try {
@@ -220,24 +224,29 @@ export class Jogador {
         }
     }
     async CadastrarAtaque(valorSelect, nomeSelect, acerto) {
+        ShowLoading()
         let id = []
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
+        let time = new Time
         jogadores.forEach((jogador) => {
-            id.push(Object.entries(jogador)[0][0])
+            id.push(Object.entries(jogador)[0][1])
         })
+        console.log(id)
         const q = query(collection(db, "jogador"), where("nome", "==", nomeSelect));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if (id.includes(doc.id)) {
-                this.AtualizarAtaqueJogador(valorSelect, tipoAtaque, acerto);
+                this.AtualizarAtaqueJogador(valorSelect, acerto);
+                time.AtualizarAtaqueJogador(localStorage.getItem("timeAtualID"), acerto, valorSelect)
             }
         });
+        HideLoading()
     }
-    async AtualizarAtaqueJogador(id, tipoAtaque, acerto) {
+    async AtualizarAtaqueJogador(id, acerto) {
         try {
             let local = "ataque"
             if (acerto === "acertado") {
-                local += `.acertado`
+                local += ".acertado"
             }
             else {
                 local += ".errado"
@@ -252,17 +261,56 @@ export class Jogador {
             alert("Falha ao inserir: " + e)
         }
     }
+    async CadastrarBloqueio(valorSelect, nomeSelect, acerto) {
+        ShowLoading()
+        let id = []
+        let jogadores = JSON.parse(localStorage.getItem("jogadores"))
+        let time = new Time
+        jogadores.forEach((jogador) => {
+            id.push(Object.entries(jogador)[0][1])
+        })
+        const q = query(collection(db, "jogador"), where("nome", "==", nomeSelect));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            if (id.includes(doc.id)) {
+                this.AtualizarBloqueioJogador(valorSelect, acerto);
+                time.AtualizarBloqueioJogador(localStorage.getItem("timeAtualID"), acerto, valorSelect)
+            }
+        });
+        HideLoading()
+    }
+    async AtualizarBloqueioJogador(id, acerto) {
+        try {
+            let local = "bloqueio"
+            if (acerto === "ponto_adversario") {
+                local += ".ponto_adversario"
+            }
+            else {
+                local += ".ponto_bloqueando"
+            }
+            const timeDocRef = doc(db, "jogador", id)
+            await updateDoc(timeDocRef, {
+                [local]: increment(1)
+            });
+            alert("Bloqueio Cadastrado")
+        }
+        catch (e) {
+            alert("Falha ao inserir: " + e)
+        }
+    }
     async CadastrarLevantamento(valorSelect, nomeSelect, levantamento) {
         let id = []
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
+        let time = new Time
         jogadores.forEach((jogador) => {
-            id.push(Object.entries(jogador)[0][0])
+            id.push(Object.entries(jogador)[0][1])
         })
         const q = query(collection(db, "jogador"), where("nome", "==", nomeSelect));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if (id.includes(doc.id) && doc.data().posicao === "Levantador") {
                 this.AtualizarLevantamento(valorSelect, levantamento);
+                time.AtualizarLevantamento(localStorage.getItem("timeAtualID"), levantamento, valorSelect)
             }
             else if (doc.data().posicao !== "Levantador") {
                 alert("Não foi possível Cadasatrar o levantamento pois o jogador não é um levantador")
