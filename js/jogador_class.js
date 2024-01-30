@@ -81,6 +81,13 @@ export class Jogador {
             </tr>`
         });
     }
+    async MostrarTodosJogadoresSelect(mostrarJogador) {
+        const q = query(collection(db, "jogador"), orderBy("nome"));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            mostrarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa}: ${doc.data().nome} (${doc.data().posicao})</option>`
+        });
+    }
     async PopularNovosJogadores(adicionarJogador) {
         const q = query(collection(db, "jogador"), orderBy("nome"));
         const querySnapshot = await getDocs(q);

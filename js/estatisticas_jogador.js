@@ -1,51 +1,35 @@
-// Conexão com o banco de dados
-import { jogadorInDB, timeInDB } from "./acesso_banco.js";
-import { onValue } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
-// transformando os campos em variáveis
-const selecionarTime = document.getElementById("time")
-const selecionarJogador = document.getElementById("nome")
-// popular select times
-onValue(timeInDB, function (snapshot) {
-    selecionarTime.innerHTML = "";
-    let timesArray = Object.entries(snapshot.val())
-    for (let i = 0; i < timesArray.length; i++) {
-        let timeAtual = timesArray[i]
-        selecionarTime.innerHTML += `<option value="${timeAtual[0]}">${timeAtual[1].nome}</option>`
-    }
+// importações necessárias
+import { Graficos } from "./graficos_class.js"
+import { Jogador } from "./jogador_class.js"
+// Elementos html
+// Locais de modificação
+const locais = {
+    localGraficoSaqueJogador: () => document.getElementById("grafico_saque_jogador"),
+    localGraficoPasseJogador: () => document.getElementById("grafico_passe_jogador"),
+    localGraficoBloqueioJogador: () => document.getElementById("grafico_bloqueio_jogador"),
+    localGraficoLevantamentoJogador: () => document.getElementById("grafico_levantamento_jogador"),
+    jogadorSelecionado: () => document.getElementById("nome"),
+}
+// Botões
+const botoes = {
+    mostrarGraficos: () => document.getElementById("exibir_graficos")
+}
+// Pepular Select
+let jogador = new Jogador
+jogador.MostrarTodosJogadoresSelect(locais.jogadorSelecionado())
+// Mostrar Gráficos
+let grafico = new Graficos
+botoes.mostrarGraficos().addEventListener('click', () => {
+    locais.localGraficoBloqueioJogador().innerHTML = locais.localGraficoLevantamentoJogador().innerHTML = locais.localGraficoPasseJogador().innerHTML = locais.localGraficoSaqueJogador().innerHTML = "";
+    grafico.PasseJogador(locais.jogadorSelecionado().value, RetirarNumeroDoJogadorEPosicaoSelect(locais.jogadorSelecionado().options[locais.jogadorSelecionado().selectedIndex].text), locais.localGraficoPasseJogador())
+    grafico.TipoSaqueJogador(locais.jogadorSelecionado().value, RetirarNumeroDoJogadorEPosicaoSelect(locais.jogadorSelecionado().options[locais.jogadorSelecionado().selectedIndex].text), locais.localGraficoSaqueJogador())
+    grafico.SaqueJogador(locais.jogadorSelecionado().value, RetirarNumeroDoJogadorEPosicaoSelect(locais.jogadorSelecionado().options[locais.jogadorSelecionado().selectedIndex].text), locais.localGraficoSaqueJogador())
+    grafico.BloqueioJogador(locais.jogadorSelecionado().value, RetirarNumeroDoJogadorEPosicaoSelect(locais.jogadorSelecionado().options[locais.jogadorSelecionado().selectedIndex].text), locais.localGraficoBloqueioJogador())
+    grafico.LevantamentoJogador(locais.jogadorSelecionado().value, RetirarNumeroDoJogadorEPosicaoSelect(locais.jogadorSelecionado().options[locais.jogadorSelecionado().selectedIndex].text), locais.localGraficoLevantamentoJogador())
 })
-// popular select time
-onValue(jogadorInDB, function (snapshot) {
-    selecionarJogador.innerHTML = "";
-    let jogadoresArray = Object.entries(snapshot.val())
-    for (let i = 0; i < jogadoresArray.length; i++) {
-        let jogadorAtual = jogadoresArray[i]
-        if (Object.values(jogadorAtual).includes(timeSelecionado.levantador) || Object.values(jogadorAtual).includes(timeSelecionado.oposto) || Object.values(jogadorAtual).includes(timeSelecionado.central) || Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador1) || Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador2) || Object.values(jogadorAtual).includes(timeSelecionado.libero)) {
-            selecionarJogador.innerHTML += `<option value="${jogadorAtual.nome}">${jogadorAtual.posicao}: ${jogadorAtual.nome} ${jogadorAtual.numero_camisa}</option>`
-        }
-    }
-})
-// popular select jogador
-selecionarTime.addEventListener("change", function () {
-    onValue(jogadorInDB, function (snapshot) {
-        var idTime = {}
-        var timeSelecionado = {}
-        onValue(timeInDB, function (snapshot) {
-            let timesArray = Object.entries(snapshot.val())
-            for (let i = 0; i < timesArray.length; i++) {
-                let timeAtual = timesArray[i]
-                if (timeAtual[1].nome === selecionarTime.value) {
-                    idTime = timeAtual[0]
-                    timeSelecionado = timeAtual[1]
-                }
-            }
-        })
-        selecionarJogador.innerHTML = "";
-        let jogadoresArray = Object.values(snapshot.val())
-        for (let i = 0; i < jogadoresArray.length; i++) {
-            let jogadorAtual = jogadoresArray[i]
-            if (Object.values(jogadorAtual).includes(timeSelecionado.levantador) || Object.values(jogadorAtual).includes(timeSelecionado.oposto) || Object.values(jogadorAtual).includes(timeSelecionado.central) || Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador1) || Object.values(jogadorAtual).includes(timeSelecionado.ponteiro_passador2) || Object.values(jogadorAtual).includes(timeSelecionado.libero)) {
-                selecionarJogador.innerHTML += `<option value="${jogadorAtual.nome}">${jogadorAtual.posicao}: ${jogadorAtual.nome} ${jogadorAtual.numero_camisa}</option>`
-            }
-        }
-    })
-})
+// Função para pegar o texto do select
+function RetirarNumeroDoJogadorEPosicaoSelect(texto) {
+    let partes = texto.split("(");
+    partes = partes[0].split(" ");
+    return partes.slice(1, partes.length - 1).join(" ");
+}

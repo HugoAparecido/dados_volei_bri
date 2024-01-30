@@ -20,6 +20,7 @@ time.PopularSelect(locais.timeSelecionado())
 // Mostrar Gráficos
 let grafico = new Graficos
 botoes.mostrarGraficos().addEventListener('click', () => {
+    locais.localGraficoBloqueioTime().innerHTML = locais.localGraficoLevantamentoTime().innerHTML = locais.localGraficoPasseTime().innerHTML = locais.localGraficoSaqueTime().innerHTML = "";
     grafico.PasseTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoPasseTime())
     grafico.SaqueTimeTipo(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoSaqueTime())
     grafico.SaqueTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoSaqueTime())
