@@ -99,33 +99,53 @@ export class Jogador {
             }
         })
     };
-    async PopularFormCadastro(idJogador, nomeJogador, numeroCamisa, posicao, sexo, altura, peso) {
+    async PopularFormCadastro(idJogador, nomeJogador, numeroCamisa, posicao, sexo, altura, peso, dadosLevantador) {
         const qJogador = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshotJogador = await getDocs(qJogador);
         querySnapshotJogador.forEach((doc) => {
-            if (idJogador === doc.id)
+            if (idJogador === doc.id) {
                 numeroCamisa.value = doc.data().numero_camisa
-            posicao.value = doc.data().posicao
-            sexo.value = doc.data().sexo
-            altura.value = doc.data().altura
-            peso.value = doc.data().peso
+                posicao.value = doc.data().posicao
+                sexo.value = doc.data().sexo
+                altura.value = doc.data().altura
+                peso.value = doc.data().peso
+                if (doc.data().posicao === "Levantador") {
+                    dadosLevantador = true
+                }
+            }
         })
     }
-    async AtualizarJogador(idJogador, nomeJogador, novoNome, numeroCamisa, posicao, sexo, altura, peso) {
+    async AtualizarJogador(idJogador, nomeJogador, novoNome, numeroCamisa, posicao, sexo, altura, peso, dadosLevantador) {
         ShowLoading()
-        if (nomeJogador != "") {
-            const timeDocRef = doc(db, "jogador", idJogador)
-            await updateDoc(timeDocRef, {
-                "nome": novoNome === null ? nomeJogador : novoNome,
-                "numero_camisa": numeroCamisa,
-                "posicao": posicao,
-                "sexo": sexo,
-                "altura": altura,
-                "peso": peso
-            });
-            alert("Atualização Bem sucedida!!!")
+        try {
+            if (nomeJogador != "") {
+                const timeDocRef = doc(db, "jogador", idJogador)
+                await updateDoc(timeDocRef, {
+                    "nome": novoNome === "" ? nomeJogador : novoNome,
+                    "numero_camisa": numeroCamisa,
+                    "posicao": posicao,
+                    "sexo": sexo,
+                    "altura": altura,
+                    "peso": peso
+                });
+                if (dadosLevantador && posicao === "Levantador") {
+                    await updateDoc(timeDocRef, {
+                        "levantou_para": {
+                            ponta: 0,
+                            centro: 0,
+                            oposto: 0,
+                            pipe: 0,
+                            errou: 0
+                        }
+                    });
+                }
+                alert("Atualização Bem sucedida!!!")
+            }
+            else alert("é necessário escolher um jogador")
         }
-        else alert("é necessário escolher um jogador")
+        catch (e) {
+            alert(e)
+        }
         HideLoading()
     }
     async PopularPasses(colocarJogadoresDoTime) {
