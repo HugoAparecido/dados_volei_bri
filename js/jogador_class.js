@@ -82,11 +82,13 @@ export class Jogador {
         });
     }
     async MostrarTodosJogadoresSelect(mostrarJogador) {
+        ShowLoading()
         const q = query(collection(db, "jogador"), orderBy("nome"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             mostrarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa}: ${doc.data().nome} (${doc.data().posicao})</option>`
         });
+        HideLoading()
     }
     async PopularNovosJogadores(adicionarJogador) {
         const q = query(collection(db, "jogador"), orderBy("nome"));
@@ -96,8 +98,36 @@ export class Jogador {
                 adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`
             }
         })
-
     };
+    async PopularFormCadastro(idJogador, nomeJogador, numeroCamisa, posicao, sexo, altura, peso) {
+        const qJogador = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
+        const querySnapshotJogador = await getDocs(qJogador);
+        querySnapshotJogador.forEach((doc) => {
+            if (idJogador === doc.id)
+                numeroCamisa.value = doc.data().numero_camisa
+            posicao.value = doc.data().posicao
+            sexo.value = doc.data().sexo
+            altura.value = doc.data().altura
+            peso.value = doc.data().peso
+        })
+    }
+    async AtualizarJogador(idJogador, nomeJogador, novoNome, numeroCamisa, posicao, sexo, altura, peso) {
+        ShowLoading()
+        if (nomeJogador != "") {
+            const timeDocRef = doc(db, "jogador", idJogador)
+            await updateDoc(timeDocRef, {
+                "nome": novoNome === null ? nomeJogador : novoNome,
+                "numero_camisa": numeroCamisa,
+                "posicao": posicao,
+                "sexo": sexo,
+                "altura": altura,
+                "peso": peso
+            });
+            alert("Atualização Bem sucedida!!!")
+        }
+        else alert("é necessário escolher um jogador")
+        HideLoading()
+    }
     async PopularPasses(colocarJogadoresDoTime) {
         ShowLoading()
         let nomes = []

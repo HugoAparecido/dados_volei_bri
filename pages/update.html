@@ -8,7 +8,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/cadastro.css">
-    <title>Cadastros</title>
+    <title>Atualizações</title>
 </head>
 
 <body>
@@ -29,7 +29,13 @@
                     <legend>Cadastrar Jogador</legend>
                     <div class="linha_unica">
                         <label class="form-label" for="nome_jogador">Nome: </label>
-                        <input class="form-control" type="text" id="nome_jogador" required>
+                        <select class="form-select" name="nome_jogador" id="nome_jogador">
+                            <option value="">--Selecione um Jogador--</option>
+                        </select>
+                    </div>
+                    <div class="linha_unica">
+                        <label class="form-label" for="novo_nome_jogador">Novo nome: </label>
+                        <input class="form-control" type="text" name="novo_nome_jogador" id="novo_nome_jogador">
                     </div>
                     <div class="linha_unica">
                         <label class="form-label" for="num_camisa_jogador">Número da camisa do jogador: </label>
@@ -37,8 +43,7 @@
                     </div>
                     <div class="linha_unica">
                         <label class="form-label" for="posicao_jogador">Posição do jogador: </label>
-                        <select class="form-select" name="posicao_jogador" id="posicao_jogador">
-                            <option value="Não Definida">Não definida</option>
+                        <select class="form-select" name="posicao_jogador" id="posicao_jogador" required>
                             <option value="Levantador">Levantador</option>
                             <option value="Central">Central</option>
                             <option value="Ponta 1">Ponta 1</option>
@@ -49,7 +54,7 @@
                     </div>
                     <div class="linha_unica">
                         <label class="form-label" for="sexo_jogador">Sexo do jogador: </label>
-                        <select class="form-select" name="sexo_jogador" id="sexo_jogador" required>
+                        <select class="form-select" name="sexo_jogador" id="sexo_jogador" disabled>
                             <option value="M">Masculino</option>
                             <option value="F">Feminino</option>
                         </select>
@@ -62,11 +67,9 @@
                         <label class="form-label" for="peso_jogador">Peso do jogador: </label>
                         <input class="form-control" type="text" id="peso_jogador"><br>
                     </div>
-                    <button id="cadastrar_jogador" class="btn btn-primary" type="button">Cadastar Jogador</button>
+                    <button id="cadastrar_jogador" class="btn btn-primary" type="button">Atualizar Jogador</button>
                 </fieldset>
             </form>
-            <button id="update_jogadores_cadastrados" class="btn"><a href="./update.html">Atualizar Jogador
-                    Existente</a></button>
             <button id="mostrar_jogadores_cadastrados" class="btn btn-primary">Mostar Jogadores Cadastrados</button>
             <table>
                 <thead>
@@ -83,7 +86,7 @@
             </table>
         </section>
     </main>
-    <script src="../js/cadastrar_jogador.js" type="module"></script>
+    <script src="../js/update.js" type="module"></script>
 </body>
 
 </html>
