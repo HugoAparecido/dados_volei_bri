@@ -2,6 +2,7 @@
 import { Auth } from "./auth_class.js";
 import { Time } from "./time_class.js";
 import { Jogador } from "./jogador_class.js";
+import { Validation } from "./validation_class.js";
 // Elementos htmls
 // botões
 const buttons = {
@@ -34,19 +35,17 @@ const informacoes = {
 let time = new Time;
 let jogador = new Jogador;
 let auth = new Auth;
+let validation = new Validation
 // Gerencia de atenticação
 auth.UsuarioNaoLogado();
 buttons.logoutButton().addEventListener('click', () => {
     auth.Logout();
 })
-// Populando o cabeçalho
-time.PopularCabecalhoInserirInformacoes(informacoes.timeExportado(), informacoes.timeSexo());
-// Populando selects
-jogador.PopularNovosJogadores(form.novoJogadorSelecionar());
-jogador.PopularSelectSaqueAtaque(form.selecionarJogador())
-// Populando os jogadores e inserções de passes
-jogador.PopularPasses(form.colocarJogadoresDoTime());
+// Criar componentes usuais
+PopularComDadosDoBanco();
 // eventos
+// Verificando se há um time selecionado
+validation.VerificarTimeSelecionadoExixtente()
 // Cadastrar jogador ao time
 buttons.salvarOutroJogador().addEventListener('click', () => {
     time.InserirJogador(RetirarNumeroDoJogadorSelect(form.novoJogadorSelecionar().options[form.novoJogadorSelecionar().selectedIndex].text), form.novoJogadorSelecionar().value);
@@ -58,18 +57,22 @@ buttons.salvarPasse().addEventListener('click', () => {
 // Salvar novo saque
 buttons.salvarSaque().addEventListener('click', () => {
     jogador.CadastrarSaque(form.selecionarJogador().value, RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.saqueAce().value, form.saqueDentroFora().value, form.tipoSaque().value)
+    jogador.AtualizarPasseDeTodosJogadores();
 })
 // Salvar novo ataque
 buttons.salvarAtaque().addEventListener('click', () => {
     jogador.CadastrarAtaque(form.selecionarJogador().value, RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.acertoAtaque().value)
+    jogador.AtualizarPasseDeTodosJogadores();
 })
 // Salvar novo bloqueio
 buttons.salvarBloqueio().addEventListener('click', () => {
     jogador.CadastrarBloqueio(form.selecionarJogador().value, RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.acertoBloqueio().value)
+    jogador.AtualizarPasseDeTodosJogadores();
 })
 // Salvar novo levantamento
 buttons.salvarLevantamento().addEventListener('click', () => {
     jogador.CadastrarLevantamento(form.selecionarJogador().value, RetirarNumeroDoJogadorSelect(form.selecionarJogador().options[form.selecionarJogador().selectedIndex].text), form.levantamentoPara().value)
+    jogador.AtualizarPasseDeTodosJogadores();
 })
 // Função para pegar o texto do select
 function RetirarNumeroDoJogadorSelect(texto) {
@@ -78,4 +81,14 @@ function RetirarNumeroDoJogadorSelect(texto) {
     }
     let partes = texto.split(" ");
     return partes.slice(1).join(" ");
+}
+// Função de criação inicial
+async function PopularComDadosDoBanco() {
+    // Populando o cabeçalho
+    await time.PopularCabecalhoInserirInformacoes(informacoes.timeExportado(), informacoes.timeSexo());
+    // Populando selects
+    jogador.PopularNovosJogadores(form.novoJogadorSelecionar());
+    jogador.PopularSelectSaqueAtaque(form.selecionarJogador())
+    // Populando os jogadores e inserções de passes
+    jogador.PopularPasses(form.colocarJogadoresDoTime());
 }

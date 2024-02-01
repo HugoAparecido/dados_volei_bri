@@ -12,20 +12,15 @@ main {
     text-align: center;
 }
 
-#times_masculinos {
+#times_masculinos,
+#times_femininos,
+#times_misto {
     display: flex;
     flex-direction: column;
 }
 
-#times_masculinos>button {
-    margin-bottom: 10px;
-}
-
-#times_femininos {
-    display: flex;
-    flex-direction: column;
-}
-
-#times_femininos>button {
+#times_masculinos>button,
+#times_femininos>button,
+#times_misto>button {
     margin-bottom: 10px;
 }

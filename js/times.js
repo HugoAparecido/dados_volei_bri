@@ -7,7 +7,8 @@ const buttons = {
 }
 const mostrarTimes = {
     mostrarTimeMasculino: () => document.getElementById("times_masculinos"),
-    mostrarTimeFeminino: () => document.getElementById("times_femininos")
+    mostrarTimeFeminino: () => document.getElementById("times_femininos"),
+    mostrarTimeMisto: () => document.getElementById("times_misto")
 }
 // Gerencia de atenticação
 let auth = new Auth;
@@ -17,4 +18,4 @@ buttons.logoutButton().addEventListener('click', () => {
 })
 // Função para Ordenar os times
 let time = new Time
-time.OrdenarTimesPorSexo(mostrarTimes.mostrarTimeMasculino, mostrarTimes.mostrarTimeFeminino)
+time.OrdenarTimesPorSexo(mostrarTimes.mostrarTimeMasculino, mostrarTimes.mostrarTimeFeminino, mostrarTimes.mostrarTimeMisto)

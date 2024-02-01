@@ -3,6 +3,7 @@ import { ShowLoading, HideLoading } from "./loading.js";
 import { collection, query, where, doc, orderBy, addDoc, getDocs, increment, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { Time } from "./time_class.js";
 export class Jogador {
+    // Cadastro Jogador
     async CadastrarJogador(nomeConst, sexoConst, numeroCamisa, posicaoConst, alturaConst, pesoConst) {
         ShowLoading();
         let atributos = {
@@ -67,6 +68,7 @@ export class Jogador {
             HideLoading();
         }
     }
+    // Mostragem Geral em Tabela dos jogadores
     async MostrarTodosJogadores(mostrarJogador) {
         mostrarJogador().innerHTML = ""
         const q = query(collection(db, "jogador"), orderBy("nome"));
@@ -81,6 +83,7 @@ export class Jogador {
             </tr>`
         });
     }
+    // Colocar Todos os jogadores em um select
     async MostrarTodosJogadoresSelect(mostrarJogador) {
         ShowLoading()
         const q = query(collection(db, "jogador"), orderBy("nome"));
@@ -90,15 +93,27 @@ export class Jogador {
         });
         HideLoading()
     }
+    // Colocar os jogadores que não pertencem a um time, além de colocar somente se o sexo do jogador for igual ao do Time, caso seja misto, aparecerão todos os jogadores
     async PopularNovosJogadores(adicionarJogador) {
-        const q = query(collection(db, "jogador"), orderBy("nome"));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            if (!localStorage.getItem("jogadores").includes(doc.id)) {
-                adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`
-            }
-        })
-    };
+        if (localStorage.getItem("sexo") != "Mis") {
+            const q = query(collection(db, "jogador"), where("sexo", "==", localStorage.getItem("sexo")), orderBy("nome"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                if (!localStorage.getItem("jogadores").includes(doc.id)) {
+                    adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`
+                }
+            })
+        } else {
+            const q = query(collection(db, "jogador"), orderBy("nome"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                if (!localStorage.getItem("jogadores").includes(doc.id)) {
+                    adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`
+                }
+            })
+        }
+    }
+    // Puxar informações do jogador e inseri-las no form para um possível Update
     async PopularFormCadastro(idJogador, nomeJogador, numeroCamisa, posicao, sexo, altura, peso, dadosLevantador) {
         const qJogador = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshotJogador = await getDocs(qJogador);
@@ -115,6 +130,7 @@ export class Jogador {
             }
         })
     }
+    // Update do Jogador
     async AtualizarJogador(idJogador, nomeJogador, novoNome, numeroCamisa, posicao, sexo, altura, peso, dadosLevantador) {
         ShowLoading()
         try {
@@ -148,49 +164,55 @@ export class Jogador {
         }
         HideLoading()
     }
+    // Popular com a iserção de passes conforme os jogadores inseridos no time
     async PopularPasses(colocarJogadoresDoTime) {
         ShowLoading()
         let nomes = []
         let id = []
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
-        jogadores.forEach((jogador) => {
-            id.push(Object.entries(jogador)[0][1])
-            nomes.push(jogador.nome)
-        })
-        const q = query(collection(db, "jogador"), where("nome", "in", nomes), orderBy("nome"));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            if (id.includes(doc.id)) {
-                let divJogador = document.createElement("div")
-                let spanInformacoesJogador = document.createElement("span")
-                spanInformacoesJogador.innerHTML = `${doc.data().posicao}: ${doc.data().numero_camisa} ${doc.data().nome}`
-                divJogador.appendChild(spanInformacoesJogador)
-                let divPasses = document.createElement("div")
-                divPasses.className = "passes"
-                divPasses.innerHTML += `<span>Passe: </span>`
-                divPasses.innerHTML += this.CriarInputsPasses(doc.id, "A")
-                divPasses.innerHTML += this.CriarInputsPasses(doc.id, "B")
-                divPasses.innerHTML += this.CriarInputsPasses(doc.id, "C")
-                divPasses.innerHTML += this.CriarInputsPasses(doc.id, "D")
-                divJogador.appendChild(divPasses)
-                colocarJogadoresDoTime.appendChild(divJogador)
-                document.getElementById(`${doc.id}_passe_A`).value = 0
-                document.getElementById(`${doc.id}_passe_B`).value = 0
-                document.getElementById(`${doc.id}_passe_C`).value = 0
-                document.getElementById(`${doc.id}_passe_D`).value = 0
-                document.getElementById(`${doc.id}_label_A`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_A`).value++ })
-                document.getElementById(`${doc.id}_label_B`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_B`).value++ })
-                document.getElementById(`${doc.id}_label_C`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_C`).value++ })
-                document.getElementById(`${doc.id}_label_D`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_D`).value++ })
-            }
-        });
+        if (jogadores.length != 0) {
+            jogadores.forEach((jogador) => {
+                id.push(Object.entries(jogador)[0][1])
+                nomes.push(jogador.nome)
+            })
+            const q = query(collection(db, "jogador"), where("nome", "in", nomes), orderBy("nome"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                if (id.includes(doc.id)) {
+                    let divJogador = document.createElement("div")
+                    let spanInformacoesJogador = document.createElement("span")
+                    spanInformacoesJogador.innerHTML = `${doc.data().posicao}: ${doc.data().numero_camisa} ${doc.data().nome}`
+                    divJogador.appendChild(spanInformacoesJogador)
+                    let divPasses = document.createElement("div")
+                    divPasses.className = "passes"
+                    divPasses.innerHTML += `<span>Passe: </span>`
+                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "A")
+                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "B")
+                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "C")
+                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "D")
+                    divJogador.appendChild(divPasses)
+                    colocarJogadoresDoTime.appendChild(divJogador)
+                    document.getElementById(`${doc.id}_passe_A`).value = 0
+                    document.getElementById(`${doc.id}_passe_B`).value = 0
+                    document.getElementById(`${doc.id}_passe_C`).value = 0
+                    document.getElementById(`${doc.id}_passe_D`).value = 0
+                    document.getElementById(`${doc.id}_label_A`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_A`).value++ })
+                    document.getElementById(`${doc.id}_label_B`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_B`).value++ })
+                    document.getElementById(`${doc.id}_label_C`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_C`).value++ })
+                    document.getElementById(`${doc.id}_label_D`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_D`).value++ })
+                }
+            });
+        }
         HideLoading()
     }
+    // Função para a criação do input para o passe
     CriarInputsPasses(idJogador, tipoPasse) {
         let elemento = `<input class="form-control input_number" type="number" min="0" name="${idJogador}_passe_${tipoPasse}" id="${idJogador}_passe_${tipoPasse}" readonly><label class="form-label" for="${idJogador}_passe_${tipoPasse}" id="${idJogador}_label_${tipoPasse}">${tipoPasse}+</label>`
         return elemento
     }
+    // Atualização de todos os passes de todos os jogadores presentes
     async AtualizarPasseDeTodosJogadores() {
+        ShowLoading()
         let nomes = []
         let id = []
         let time = new Time
@@ -213,8 +235,11 @@ export class Jogador {
         }
         catch (e) {
             alert("Falha nas inserções: " + e)
-        }
+        } await new Promise(resolve => setTimeout(resolve, 2000));
+        HideLoading()
+        window.location.reload()
     }
+    // Atualização do passe de somente um jogador
     async AtualizarPasseJogador(id, aIncrementar) {
         try {
             const timeDocRef = doc(db, "jogador", id)
@@ -229,22 +254,27 @@ export class Jogador {
             alert("Falha ao inserir: " + e)
         }
     }
+    // População do select para escolher o jogador que fará o saque, ou o ataque, ou o bloqueio, ou o levantamento
     async PopularSelectSaqueAtaque(colocarJogadoresDoTime) {
         let nomes = []
         let id = []
+        await new Promise(resolve => setTimeout(resolve, 2000));
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
-        jogadores.forEach((jogador) => {
-            id.push(Object.entries(jogador)[0][1])
-            nomes.push(jogador.nome)
-        })
-        const q = query(collection(db, "jogador"), where("nome", "in", nomes), orderBy("nome"));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            if (id.includes(doc.id)) {
-                colocarJogadoresDoTime.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`
-            }
-        });
+        if (jogadores.length != 0) {
+            jogadores.forEach((jogador) => {
+                id.push(Object.entries(jogador)[0][1])
+                nomes.push(jogador.nome)
+            })
+            const q = query(collection(db, "jogador"), where("nome", "in", nomes), orderBy("nome"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                if (id.includes(doc.id)) {
+                    colocarJogadoresDoTime.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`
+                }
+            });
+        }
     }
+    // Cadastro do saque no time e no jogador
     async CadastrarSaque(valorSelect, nomeSelect, ace, dentroFora, tipoSaque) {
         ShowLoading()
         let time = new Time
@@ -263,10 +293,11 @@ export class Jogador {
         });
         HideLoading()
     }
+    // cadastro do saque no banco
     async AtualizarSaqueJogador(id, ace, dentroFora, tipoSaque) {
         try {
             let local = `${dentroFora}.${tipoSaque}`
-            if (ace === "sim") {
+            if (ace === "sim" && dentroFora === "saque_dentro") {
                 let dividir = local.split(".")
                 local = `${dividir[0]}.ace.${dividir[1]}`
             }
