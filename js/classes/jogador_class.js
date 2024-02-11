@@ -1,5 +1,5 @@
-import { db } from "./acesso_banco.js";
-import { ShowLoading, HideLoading } from "./loading.js";
+import { db } from "../acesso_banco.js";
+import { ShowLoading, HideLoading } from "../loading.js";
 import { collection, query, where, doc, orderBy, addDoc, getDocs, increment, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { Time } from "./time_class.js";
 export class Jogador {

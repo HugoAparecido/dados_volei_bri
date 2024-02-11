@@ -1,6 +1,6 @@
 // importações necessárias
-import { Auth } from "./auth_class.js";
-import { Time } from "./time_class.js";
+import { Auth } from "./classes/auth_class.js";
+import { Time } from "./classes/time_class.js";
 // Elementos htmls
 const buttons = {
     logoutButton: () => document.getElementById('logout'),
@@ -21,10 +21,15 @@ buttons.logoutButton().addEventListener('click', () => {
     auth.Logout();
 })
 // Listeners
+// selecionar os Sexo por meio do valor da URL
+const urlParams = new URLSearchParams(window.location.search);
+form.sexo().value = urlParams.get('sexo');
+// Cadastrar Time
 let time = new Time;
 form.cadastrarTime().addEventListener('click', () => {
     time.CadastrarTime(form.nome(), form.sexo());
 })
+// Mostrar Times
 buttons.mostrarButton().addEventListener('click', () => {
     time.MostrarTodosTimes(locaisalteracoes.mostrarTimesCadastrados)
 })

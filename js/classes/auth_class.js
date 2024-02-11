@@ -1,6 +1,6 @@
-import { auth } from "./acesso_banco.js";
+import { auth } from "../acesso_banco.js";
 import { onAuthStateChanged, signInWithEmailAndPassword, sendPasswordResetEmail, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { ShowLoading, HideLoading } from "./loading.js";
+import { ShowLoading, HideLoading } from "../loading.js";
 export class Auth {
     // Redirecionamento de login.html para time.html CASO o usuário esteja logado
     UsuarioLogado() {

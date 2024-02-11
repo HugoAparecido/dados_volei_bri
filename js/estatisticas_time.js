@@ -1,6 +1,6 @@
 // importações necessárias
-import { Graficos } from "./graficos_class.js"
-import { Time } from "./time_class.js"
+import { Graficos } from "./classes/graficos_class.js"
+import { Time } from "./classes/time_class.js"
 // Elementos html
 // Locais de modificação
 const locais = {

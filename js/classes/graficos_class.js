@@ -1,4 +1,4 @@
-import { db } from "./acesso_banco.js";
+import { db } from "../acesso_banco.js";
 import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 export class Graficos {
     async PasseTime(idTime, nomeTime, localGrafico) {

@@ -1,5 +1,5 @@
-import { db } from "./acesso_banco.js";
-import { ShowLoading, HideLoading } from "./loading.js";
+import { db } from "../acesso_banco.js";
+import { ShowLoading, HideLoading } from "../loading.js";
 import { collection, query, where, updateDoc, addDoc, doc, getDocs, increment, Timestamp, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 export class Time {
     async CadastrarTime(nomeConst, sexoConst) {

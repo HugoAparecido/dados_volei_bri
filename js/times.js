@@ -1,6 +1,6 @@
 // importações necessárias
-import { Auth } from "./auth_class.js";
-import { Time } from "./time_class.js";
+import { Auth } from "./classes/auth_class.js";
+import { Time } from "./classes/time_class.js";
 // Elementos htmls
 const buttons = {
     logoutButton: () => document.getElementById('logout')

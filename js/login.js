@@ -1,6 +1,6 @@
 // importações necessárias
-import { Validation } from "./validation_class.js";
-import { Auth } from "./auth_class.js";
+import { Validation } from "./classes/validation_class.js";
+import { Auth } from "./classes/auth_class.js";
 // Elementos htmls
 const form = {
     email: () => document.getElementById('email'),

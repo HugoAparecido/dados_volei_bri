@@ -1,7 +1,7 @@
 // importações necessárias
-import { Auth } from "./auth_class.js";
-import { Validation } from "./validation_class.js";
-import { Jogador } from "./jogador_class.js";
+import { Auth } from "./classes/auth_class.js";
+import { Validation } from "./classes/validation_class.js";
+import { Jogador } from "./classes/jogador_class.js";
 // Elementos htmls
 const form = {
     nomeJogador: () => document.getElementById("nome_jogador"),

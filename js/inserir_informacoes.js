@@ -1,8 +1,8 @@
 // importações necessárias
-import { Auth } from "./auth_class.js";
-import { Time } from "./time_class.js";
-import { Jogador } from "./jogador_class.js";
-import { Validation } from "./validation_class.js";
+import { Auth } from "./classes/auth_class.js";
+import { Time } from "./classes/time_class.js";
+import { Jogador } from "./classes/jogador_class.js";
+import { Validation } from "./classes/validation_class.js";
 // Elementos htmls
 // botões
 const buttons = {

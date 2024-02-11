@@ -1,6 +1,6 @@
 // importações necessárias
-import { Graficos } from "./graficos_class.js"
-import { Jogador } from "./jogador_class.js"
+import { Graficos } from "./classes/graficos_class.js"
+import { Jogador } from "./classes/jogador_class.js"
 // Elementos html
 // Locais de modificação
 const locais = {
