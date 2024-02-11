@@ -1,3 +1,20 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+header {
+    text-align: center;
+}
+
+nav>ul {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
 button.fab {
     width: 54px;
     height: 54px;
