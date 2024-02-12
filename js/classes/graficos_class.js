@@ -1,6 +1,7 @@
 import { db } from "../acesso_banco.js";
 import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 export class Graficos {
+    // Gráfico para os passes do time
     async PasseTime(idTime, nomeTime, localGrafico) {
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         const querySnapshot = await getDocs(q);
@@ -55,6 +56,7 @@ export class Graficos {
             }
         });
     }
+    // Gráfico para os tipos de saque feitos pelo time
     async SaqueTimeTipo(idTime, nomeTime, localGrafico) {
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         const querySnapshot = await getDocs(q);
@@ -143,6 +145,7 @@ export class Graficos {
             }
         });
     }
+    // Gráfico de relação acerto e erro dos saque do time
     async SaqueTime(idTime, nomeTime, localGrafico) {
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         const querySnapshot = await getDocs(q);
@@ -211,6 +214,7 @@ export class Graficos {
             }
         });
     }
+    // Gráfico de acerto e erro de bloqueio do time
     async BloqueioTime(idTime, nomeTime, localGrafico) {
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         const querySnapshot = await getDocs(q);
@@ -257,6 +261,7 @@ export class Graficos {
             }
         });
     }
+    // Gráfico de levantamento efetuados no time
     async LevantamentoTime(idTime, nomeTime, localGrafico) {
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         const querySnapshot = await getDocs(q);
@@ -317,6 +322,7 @@ export class Graficos {
             }
         });
     }
+    // gráfico para os passe do jogador feito em todos os jogos
     async PasseJogador(idJogador, nomeJogador, localGrafico) {
         const q = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshot = await getDocs(q);
@@ -364,6 +370,7 @@ export class Graficos {
             }
         });
     }
+    // gráfico para os tipos de saque do jogador feito em todos os jogos
     async TipoSaqueJogador(idJogador, nomeJogador, localGrafico) {
         const q = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshot = await getDocs(q);
@@ -439,6 +446,7 @@ export class Graficos {
             }
         });
     }
+    // gráfico para os saque do jogador em relação acerto e erro feito em todos os jogos
     async SaqueJogador(idJogador, nomeJogador, localGrafico) {
         const q = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshot = await getDocs(q);
@@ -495,6 +503,7 @@ export class Graficos {
             }
         });
     }
+    // gráfico para os bloqueios do jogador feito em todos os jogos
     async BloqueioJogador(idJogador, nomeJogador, localGrafico) {
         const q = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshot = await getDocs(q);
@@ -536,6 +545,7 @@ export class Graficos {
             }
         });
     }
+    // gráfico para os levantamentos do jogador feito em todos os jogos
     async LevantamentoJogador(idJogador, nomeJogador, localGrafico) {
         const q = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshot = await getDocs(q);
