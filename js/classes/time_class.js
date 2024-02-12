@@ -116,7 +116,7 @@ export class Time {
         jogador.PopularNovosJogadores(form.novoJogadorSelecionar());
         jogador.PopularSelectSaqueAtaque(form.selecionarJogador())
         // Populando os jogadores e inserções de passes
-        jogador.PopularPasses(form.colocarJogadoresDoTime());
+        jogador.PopularInsercoes(form.colocarJogadoresDoTime());
     }
     // Popular o início para informar o sexo e o nome do time
     async PopularCabecalhoInserirInformacoes(timeExportado, timeSexo) {

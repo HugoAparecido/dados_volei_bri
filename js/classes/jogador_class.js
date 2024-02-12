@@ -166,7 +166,7 @@ export class Jogador {
         HideLoading()
     }
     // Popular com a iserção de passes conforme os jogadores inseridos no time
-    async PopularPasses(colocarJogadoresDoTime) {
+    async PopularInsercoes(colocarJogadoresDoTime) {
         ShowLoading()
         colocarJogadoresDoTime.innerHTML = "";
         let nomes = []
@@ -194,14 +194,10 @@ export class Jogador {
                     divPasses.innerHTML += this.CriarInputsPasses(doc.id, "D")
                     divJogador.appendChild(divPasses)
                     colocarJogadoresDoTime.appendChild(divJogador)
-                    document.getElementById(`${doc.id}_passe_A`).value = 0
-                    document.getElementById(`${doc.id}_passe_B`).value = 0
-                    document.getElementById(`${doc.id}_passe_C`).value = 0
-                    document.getElementById(`${doc.id}_passe_D`).value = 0
-                    document.getElementById(`${doc.id}_label_A`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_A`).value++ })
-                    document.getElementById(`${doc.id}_label_B`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_B`).value++ })
-                    document.getElementById(`${doc.id}_label_C`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_C`).value++ })
-                    document.getElementById(`${doc.id}_label_D`).addEventListener("click", () => { document.getElementById(`${doc.id}_passe_D`).value++ })
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_A`), document.getElementById(`${doc.id}_diminuir_passe_A`), document.getElementById(`${doc.id}_passe_A`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_B`), document.getElementById(`${doc.id}_diminuir_passe_B`), document.getElementById(`${doc.id}_passe_B`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_C`), document.getElementById(`${doc.id}_diminuir_passe_C`), document.getElementById(`${doc.id}_passe_C`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_D`), document.getElementById(`${doc.id}_diminuir_passe_D`), document.getElementById(`${doc.id}_passe_D`));
                 }
             });
         }
@@ -209,8 +205,14 @@ export class Jogador {
     }
     // Função para a criação do input para o passe
     CriarInputsPasses(idJogador, tipoPasse) {
-        let elemento = `<span id="${idJogador}_diminuir_passe_${tipoPasse}">-${tipoPasse}</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_passe_${tipoPasse}" id="${idJogador}_passe_${tipoPasse}" readonly><span class="form-label" for="${idJogador}_passe_${tipoPasse}" id="${idJogador}_label_${tipoPasse}">${tipoPasse}+</span>`
+        let elemento = `<span id="${idJogador}_diminuir_passe_${tipoPasse}">-${tipoPasse}</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_passe_${tipoPasse}" id="${idJogador}_passe_${tipoPasse}" readonly><span class="form-label" for="${idJogador}_passe_${tipoPasse}" id="${idJogador}_aumentar_passe_${tipoPasse}">${tipoPasse}+</span>`
         return elemento
+    }
+    // Função para aumentar e diminuir a quantidade dos atributos
+    CriarListenersIncrementoDecremento(idIncremento, idDecremento, idAtributo) {
+        idAtributo.value = 0;
+        idIncremento.addEventListener("click", () => idAtributo.value++);
+        idDecremento.addEventListener("click", () => idAtributo.value == 0 ? idAtributo.value : idAtributo.value--);
     }
     // Atualização de todos os passes de todos os jogadores presentes
     async AtualizarPasseDeTodosJogadores() {
