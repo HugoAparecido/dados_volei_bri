@@ -1,7 +1,9 @@
 import { db } from "../acesso_banco.js";
 import { ShowLoading, HideLoading } from "../loading.js";
+import { Jogador } from "./jogador_class.js";
 import { collection, query, where, updateDoc, addDoc, doc, getDocs, increment, Timestamp, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 export class Time {
+    // Cadastrar Time
     async CadastrarTime(nomeConst, sexoConst) {
         ShowLoading();
         try {
@@ -17,75 +19,106 @@ export class Time {
         }
         finally {
             HideLoading();
-            window.location.reload()
+            window.location.reload();
         }
     }
+    // Mostrar times em uma tabela
     async MostrarTodosTimes(mostrarTime) {
-        mostrarTime().innerHTML = ""
-        const querySnapshot = await getDocs(collection(db, "time"));
-        querySnapshot.forEach((doc) => {
-            mostrarTime().innerHTML += `<tr>
+        ShowLoading();
+        try {
+            mostrarTime().innerHTML = "";
+            const querySnapshot = await getDocs(collection(db, "time"));
+            querySnapshot.forEach((doc) => {
+                mostrarTime().innerHTML += `<tr>
             <td>${doc.id}</td>
             <td>${doc.data().nome}</td>
             <td>${doc.data().sexo}</td>
             <td>${doc.data().jogadores}</td>
-            </tr>`
-        });
+            </tr>`;
+            });
+        }
+        catch (e) {
+            alert("Erro: " + e);
+        }
+        finally {
+            HideLoading();
+        }
     }
-    async OrdenarTimesPorSexo(mostrarTimeMasculino, mostrarTimeFeminino, mostrarTimeMisto) {
-        ShowLoading()
-        const q = query(collection(db, "time"), orderBy("data_criacao", "desc"))
+    // Ordenar os times em três colunas (Masculino, Feminino e Misto), sendo botões para exibir as insercoes
+    async OrdenarTimesPorSexo(mostrarTimeMasculino, mostrarTimeFeminino, mostrarTimeMisto, localInsercoes, informacoes, form) {
+        ShowLoading();
+        // Pegando times do mais velho ao mais recente
+        const q = query(collection(db, "time"), orderBy("data_criacao", "desc"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
+            // Masculino
             if (doc.data().sexo == 'M') {
-                let botaoTime = document.createElement('button')
-                botaoTime.id = `${doc.id}`
-                botaoTime.onclick = () => this.IrParaPaginaDeInsercaoDeDados(doc.data().nome, doc.id)
-                let link = document.createElement('a')
-                link.href = './inserir_informacoes.html'
-                link.innerHTML = `${doc.data().nome}`
-                link.className = 'nav-link'
-                botaoTime.appendChild(link)
-                botaoTime.className = 'btn btn-primary'
-                mostrarTimeMasculino().appendChild(botaoTime)
+                let botaoTime = document.createElement('button');
+                botaoTime.id = `${doc.id}`;
+                botaoTime.onclick = () => this.AtivarInsercoes(doc.data().nome, doc.id, localInsercoes, informacoes, form);
+                let link = document.createElement('a');
+                link.target = 'time_selecionado';
+                link.innerHTML = `${doc.data().nome}`;
+                link.className = 'nav-link';
+                botaoTime.appendChild(link);
+                botaoTime.className = 'btn btn-primary';
+                mostrarTimeMasculino().appendChild(botaoTime);
             }
+            // Feminino
             else if (doc.data().sexo == 'F') {
-                let botaoTime = document.createElement('button')
-                botaoTime.id = `${doc.id}`
-                botaoTime.onclick = () => this.IrParaPaginaDeInsercaoDeDados(doc.data().nome, doc.id)
-                let link = document.createElement('a')
-                link.href = './inserir_informacoes.html'
-                link.innerHTML = `${doc.data().nome}`
-                link.className = 'nav-link'
-                botaoTime.appendChild(link)
-                botaoTime.className = 'btn btn-primary'
-                mostrarTimeFeminino().appendChild(botaoTime)
+                let botaoTime = document.createElement('button');
+                botaoTime.id = `${doc.id}`;
+                botaoTime.onclick = () => this.AtivarInsercoes(doc.data().nome, doc.id, localInsercoes, informacoes, form);
+                let link = document.createElement('a');
+                link.target = 'time_selecionado';
+                link.innerHTML = `${doc.data().nome}`;
+                link.className = 'nav-link';
+                botaoTime.appendChild(link);
+                botaoTime.className = 'btn btn-primary';
+                mostrarTimeFeminino().appendChild(botaoTime);
             }
+            // Misto
             else {
-                let botaoTime = document.createElement('button')
-                botaoTime.id = `${doc.id}`
-                botaoTime.onclick = () => this.IrParaPaginaDeInsercaoDeDados(doc.data().nome, doc.id)
-                let link = document.createElement('a')
-                link.href = './inserir_informacoes.html'
-                link.innerHTML = `${doc.data().nome}`
-                link.className = 'nav-link'
-                botaoTime.appendChild(link)
-                botaoTime.className = 'btn btn-primary'
-                mostrarTimeMisto().appendChild(botaoTime)
+                let botaoTime = document.createElement('button');
+                botaoTime.id = `${doc.id}`;
+                botaoTime.onclick = () => this.AtivarInsercoes(doc.data().nome, doc.id, localInsercoes, informacoes, form);
+                let link = document.createElement('a');
+                link.target = 'time_selecionado';
+                link.innerHTML = `${doc.data().nome}`;
+                link.className = 'nav-link';
+                botaoTime.appendChild(link);
+                botaoTime.className = 'btn btn-primary';
+                mostrarTimeMisto().appendChild(botaoTime);
             }
         });
-        HideLoading()
+        HideLoading();
     }
+    // Popular tag select com todos os times
     async PopularSelect(localSelect) {
         const querySnapshot = await getDocs(collection(db, "time"));
         querySnapshot.forEach((doc) => {
             localSelect.innerHTML += `<option value="${doc.id}">${doc.data().nome}</option>`
         });
     }
-    IrParaPaginaDeInsercaoDeDados(nomeTime, idTime) {
-        localStorage.setItem("timeAtualID", idTime)
-        localStorage.setItem("timeAtualNome", nomeTime)
+    // Função para a exibição das inserções
+    async AtivarInsercoes(nomeTime, idTime, localInsercoes, informacoes, form) {
+        localStorage.setItem("timeAtualID", idTime);
+        localStorage.setItem("timeAtualNome", nomeTime);
+        if (localInsercoes().style.display === 'flex') {
+            localInsercoes().style.display = 'none';
+            localInsercoes().style.display = 'block';
+        } else
+            localInsercoes().style.display = 'block';
+        let jogador = new Jogador;
+        // Populando o cabeçalho
+        await this.PopularCabecalhoInserirInformacoes(informacoes.timeExportado(), informacoes.timeSexo());
+        // Populando selects
+        jogador.PopularNovosJogadores(form.novoJogadorSelecionar());
+        jogador.PopularSelectSaqueAtaque(form.selecionarJogador())
+        // Populando os jogadores e inserções de passes
+        jogador.PopularPasses(form.colocarJogadoresDoTime());
     }
+    // Popular o início para informar o sexo e o nome do time
     async PopularCabecalhoInserirInformacoes(timeExportado, timeSexo) {
         const q = query(collection(db, "time"), where("nome", "==", localStorage.getItem("timeAtualNome")));
         const querySnapshot = await getDocs(q);
@@ -103,6 +136,7 @@ export class Time {
             }
         });
     }
+    // Inserir Jogador no Time
     async InserirJogador(nomeJogador, idJogador) {
         let id = ""
         let posicao_j = ""
@@ -161,6 +195,7 @@ export class Time {
 
             }
         }
+        // junção de objetos caso o jogador seja levantador
         if (posicao_j === "Levantador") {
             novoJogador = {
                 ...novoJogador,
@@ -178,6 +213,7 @@ export class Time {
         novoJogador = { [idJogador]: novoJogador }
         try {
             const timeDocRef = doc(db, "time", id)
+            // junção do jogadores anteriores com este jogador
             await updateDoc(timeDocRef, {
                 "jogadores": {
                     ...jogadoresAnteriores,
@@ -193,6 +229,7 @@ export class Time {
             window.location.reload()
         }
     }
+    // Atualização dos passe no Time
     async AtualizarPasseJogador(idTime, aIncrementar, idJogador) {
         try {
             let inserirNovamenteID
@@ -219,6 +256,7 @@ export class Time {
             alert("Falha ao inserir: " + e)
         }
     }
+    // Atualização do saque no Time
     async AtualizarSaqueJogador(idTime, ace, dentroFora, tipoSaque, idJogador) {
         try {
             let inserirNovamenteID
@@ -243,6 +281,7 @@ export class Time {
             alert("Falha ao inserir: " + e)
         }
     }
+    // Atualização do ataque no Time
     async AtualizarAtaqueJogador(idTime, acerto, idJogador) {
         try {
             let inserirNovamenteID
@@ -269,6 +308,7 @@ export class Time {
             alert("Falha ao inserir: " + e)
         }
     }
+    // Atualização do bloqueio no time
     async AtualizarBloqueioJogador(idTime, acerto, idJogador) {
         try {
             let inserirNovamenteID
@@ -295,6 +335,7 @@ export class Time {
             alert("Falha ao inserir: " + e)
         }
     }
+    // Atualização do Levantamento no Time
     async AtualizarLevantamento(idTime, levantamento, idJogador) {
         try {
             let inserirNovamenteID
@@ -315,13 +356,15 @@ export class Time {
             alert("Falha ao inserir: " + e)
         }
     }
-    async VerificarSeEhMisto(idTime, idJogador, tipoInsercao, local, valor) {
+    // Verificação caso o time seja misto para enviar os dados o ultimo time que o jogador jogou correspondente a seu sexo
+    async VerificarSeEhMisto(idJogador) {
         let idTimeAnterior = ""
         if (localStorage.getItem("sexo") === "Mis") {
             idTimeAnterior = await this.ResultadoQueryUltimoTimeDesteJogador(idJogador)
         }
         return idTimeAnterior
     }
+    // Retorno do último time que o jogador jogou
     async ResultadoQueryUltimoTimeDesteJogador(idJogador) {
         let idTime
         const q = query(collection(db, "time"), orderBy("data_criacao"));

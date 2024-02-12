@@ -85,16 +85,17 @@ export class Jogador {
     }
     // Colocar Todos os jogadores em um select
     async MostrarTodosJogadoresSelect(mostrarJogador) {
-        ShowLoading()
+        ShowLoading();
         const q = query(collection(db, "jogador"), orderBy("nome"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            mostrarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa}: ${doc.data().nome} (${doc.data().posicao})</option>`
+            mostrarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa}: ${doc.data().nome} (${doc.data().posicao})</option>`;
         });
-        HideLoading()
+        HideLoading();
     }
     // Colocar os jogadores que não pertencem a um time, além de colocar somente se o sexo do jogador for igual ao do Time, caso seja misto, aparecerão todos os jogadores
     async PopularNovosJogadores(adicionarJogador) {
+        adicionarJogador.innerHTML = '';
         if (localStorage.getItem("sexo") != "Mis") {
             const q = query(collection(db, "jogador"), where("sexo", "==", localStorage.getItem("sexo")), orderBy("nome"));
             const querySnapshot = await getDocs(q);
@@ -167,6 +168,7 @@ export class Jogador {
     // Popular com a iserção de passes conforme os jogadores inseridos no time
     async PopularPasses(colocarJogadoresDoTime) {
         ShowLoading()
+        colocarJogadoresDoTime.innerHTML = "";
         let nomes = []
         let id = []
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
@@ -207,7 +209,7 @@ export class Jogador {
     }
     // Função para a criação do input para o passe
     CriarInputsPasses(idJogador, tipoPasse) {
-        let elemento = `<input class="form-control input_number" type="number" min="0" name="${idJogador}_passe_${tipoPasse}" id="${idJogador}_passe_${tipoPasse}" readonly><label class="form-label" for="${idJogador}_passe_${tipoPasse}" id="${idJogador}_label_${tipoPasse}">${tipoPasse}+</label>`
+        let elemento = `<span id="${idJogador}_diminuir_passe_${tipoPasse}">-${tipoPasse}</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_passe_${tipoPasse}" id="${idJogador}_passe_${tipoPasse}" readonly><span class="form-label" for="${idJogador}_passe_${tipoPasse}" id="${idJogador}_label_${tipoPasse}">${tipoPasse}+</span>`
         return elemento
     }
     // Atualização de todos os passes de todos os jogadores presentes
@@ -311,6 +313,7 @@ export class Jogador {
             alert("Falha ao inserir: " + e)
         }
     }
+    // chamada de cadastro ataque
     async CadastrarAtaque(valorSelect, nomeSelect, acerto) {
         ShowLoading()
         let id = []
@@ -330,6 +333,7 @@ export class Jogador {
         });
         HideLoading()
     }
+    // cadastro do ataque no banco
     async AtualizarAtaqueJogador(id, acerto) {
         try {
             let local = "ataque"
@@ -349,6 +353,7 @@ export class Jogador {
             alert("Falha ao inserir: " + e)
         }
     }
+    // Chamada de cadastro bloqueio
     async CadastrarBloqueio(valorSelect, nomeSelect, acerto) {
         ShowLoading()
         let id = []
@@ -367,6 +372,7 @@ export class Jogador {
         });
         HideLoading()
     }
+    // Cadastro do Bloqueio no banco
     async AtualizarBloqueioJogador(id, acerto) {
         try {
             let local = "bloqueio"
@@ -386,6 +392,7 @@ export class Jogador {
             alert("Falha ao inserir: " + e)
         }
     }
+    // Chamada de Cadastro levantamento
     async CadastrarLevantamento(valorSelect, nomeSelect, levantamento) {
         let id = []
         let jogadores = JSON.parse(localStorage.getItem("jogadores"))
@@ -405,6 +412,7 @@ export class Jogador {
             }
         });
     }
+    // cadastro do levantamento no banco
     async AtualizarLevantamento(id, levantamento) {
         try {
             let local = `levantou_para.${levantamento}`

@@ -24,6 +24,10 @@ section#graficos {
     justify-content: space-between;
 }
 
+.insercoes {
+    display: none;
+}
+
 .time {
     display: flex;
     justify-content: space-around;
@@ -81,6 +85,7 @@ section#graficos {
 
 span {
     padding-right: 10px;
+    padding-left: 10px;
 }
 
 .linha_unica {

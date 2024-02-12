@@ -19,6 +19,7 @@ export class Auth {
             }
         });
     }
+    // Função para login
     Login(email, senha) {
         ShowLoading();
         signInWithEmailAndPassword(auth, email, senha)
@@ -29,6 +30,7 @@ export class Auth {
                 HideLoading(); alert(this.GetErrorMessage(error));
             });
     }
+    // Função para deslogar
     Logout() {
         signOut(auth).then(() => {
             window.location.href = "../index.html";
@@ -36,6 +38,7 @@ export class Auth {
             alert('Erro ao fazer logout: ' + error);
         });
     }
+    // Função para recuperar senha
     RecuperarSenha(email) {
         ShowLoading();
         sendPasswordResetEmail(auth, email)
@@ -48,6 +51,7 @@ export class Auth {
                 alert(GetErrorMessage(error));
             });
     }
+    // função para cadastrar usuario
     CadastrarUsuario(email, password) {
         ShowLoading();
         createUserWithEmailAndPassword(auth, email, password)
@@ -61,6 +65,7 @@ export class Auth {
                 alert(this.GetErrorMessage(error));
             });
     }
+    // função para capturar possíveis erros
     GetErrorMessage(error) {
         if (error.code == "auth/invalid-email") {
             return "Usuário não encontrado"

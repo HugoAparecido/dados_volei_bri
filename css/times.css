@@ -6,10 +6,16 @@
 
 main {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: initial;
     justify-content: space-around;
     text-align: center;
+}
+
+.times {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 #times_masculinos,

@@ -1,12 +1,10 @@
 // importações necessárias
-import { Auth } from "./classes/auth_class.js";
 import { Time } from "./classes/time_class.js";
 import { Jogador } from "./classes/jogador_class.js";
 import { Validation } from "./classes/validation_class.js";
 // Elementos htmls
 // botões
 const buttons = {
-    logoutButton: () => document.getElementById('logout'),
     salvarSaque: () => document.getElementById("salvar_saque"),
     salvarPasse: () => document.getElementById("salvar_passe"),
     salvarAtaque: () => document.getElementById("salvar_ataque"),
@@ -15,7 +13,7 @@ const buttons = {
     salvarOutroJogador: () => document.getElementById("adicionar_jogador_button")
 }
 // inputs e selects
-const form = {
+export const form = {
     tipoSaque: () => document.getElementById("tipo_saque"),
     selecionarJogador: () => document.getElementById("nome"),
     novoJogadorSelecionar: () => document.getElementById("novo_jogador"),
@@ -27,22 +25,14 @@ const form = {
     levantamentoPara: () => document.querySelector('input[name="levantamento"]:checked')
 }
 // cabeçalho
-const informacoes = {
+export const informacoes = {
     timeExportado: () => document.getElementById("time_exportado"),
     timeSexo: () => document.getElementById("sexo_time")
 }
 // Instanciando Classes
 let time = new Time;
 let jogador = new Jogador;
-let auth = new Auth;
 let validation = new Validation
-// Gerencia de atenticação
-auth.UsuarioNaoLogado();
-buttons.logoutButton().addEventListener('click', () => {
-    auth.Logout();
-})
-// Criar componentes usuais
-PopularComDadosDoBanco();
 // eventos
 // Verificando se há um time selecionado
 validation.VerificarTimeSelecionadoExixtente()
@@ -81,14 +71,4 @@ function RetirarNumeroDoJogadorSelect(texto) {
     }
     let partes = texto.split(" ");
     return partes.slice(1).join(" ");
-}
-// Função de criação inicial
-async function PopularComDadosDoBanco() {
-    // Populando o cabeçalho
-    await time.PopularCabecalhoInserirInformacoes(informacoes.timeExportado(), informacoes.timeSexo());
-    // Populando selects
-    jogador.PopularNovosJogadores(form.novoJogadorSelecionar());
-    jogador.PopularSelectSaqueAtaque(form.selecionarJogador())
-    // Populando os jogadores e inserções de passes
-    jogador.PopularPasses(form.colocarJogadoresDoTime());
 }

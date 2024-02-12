@@ -9,6 +9,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/times.css">
+    <link rel="stylesheet" href="../css/inserir_informacoes.css">
     <link rel="shortcut icon" href="../img/logo-volei.ico" type="image/x-icon">
 </head>
 
@@ -34,24 +35,158 @@
         <button type="button" class="fab fixed top right" id="logout">Sair</button>
     </header>
     <main>
-        <section>
-            <h2>Masculino</h2>
-            <div id="times_masculinos"></div>
-            <button class="btn btn-primary"><a href="cadastrar_time.html?sexo=M" class="nav-link">Cadastrar
-                    Time</a></button>
-        </section>
-        <section>
-            <h2>Feminino</h2>
-            <div id="times_femininos"></div>
-            <button class="btn btn-primary"><a href="cadastrar_time.html?sexo=F" class="nav-link">Cadastrar
-                    Time</a></button>
-        </section>
-        <section>
-            <h2>Misto</h2>
-            <div id="times_misto"></div>
-            <button class="btn btn-primary"><a href="cadastrar_time.html?sexo=Mis" class="nav-link">Cadastrar
-                    Time</a></button>
-        </section>
+        <div class="times">
+            <section>
+                <h2>Masculino</h2>
+                <div id="times_masculinos"></div>
+                <button class="btn btn-primary"><a href="cadastrar_time.html?sexo=M" class="nav-link">Cadastrar
+                        Time</a></button>
+            </section>
+            <section>
+                <h2>Feminino</h2>
+                <div id="times_femininos"></div>
+                <button class="btn btn-primary"><a href="cadastrar_time.html?sexo=F" class="nav-link">Cadastrar
+                        Time</a></button>
+            </section>
+            <section>
+                <h2>Misto</h2>
+                <div id="times_misto"></div>
+                <button class="btn btn-primary"><a href="cadastrar_time.html?sexo=Mis" class="nav-link">Cadastrar
+                        Time</a></button>
+            </section>
+        </div>
+        <div class="insercoes" id="insercoes">
+            <section class="time">
+                <h1 id="time_exportado"></h1>
+                <h2 id="sexo_time"></h2>
+            </section>
+            <section class="jogadores">
+                <form action="">
+                    <div id="jogadores_no_time"></div>
+                    <div id="adicionar_jogador">
+                        <label class="form-label" for="novo_jogador">Novo Jogador</label>
+                        <select class="form-select" name="novo_jogador" id="novo_jogador"></select>
+                        <button id="adicionar_jogador_button" type="button">Adicionar Jogador</button>
+                    </div>
+                    <button id="salvar_passe" type="button">Enviar Dados</button>
+                    <button type="button"><a href="./cadastar_jogador.html">Cadastrar Jogador</a></button>
+                </form>
+            </section>
+            <section id="insercoesparte1">
+                <section class="escolher_jogador_para_insercoes">
+                    <label class="form-label" for="nome">Jogador Para Ação</label>
+                    <select class="form-control" name="nome" id="nome"></select>
+                </section>
+                <div>
+                    <section class="saques">
+                        <form action="">
+                            <fieldset>
+                                <legend>Saque:</legend>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="saque" id="saque_dentro"
+                                        value="saque_dentro">
+                                    <label class="form-check-label" for="saque_dentro">Dentro</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="saque" id="saque_fora"
+                                        value="saque_fora">
+                                    <label class="form-check-label" for="saque_fora">Fora</label>
+                                </div>
+                                <label class="form-label" for="tipo_saque">Tipo do saque</label>
+                                <select class="form-select" name="tipo_saque" id="tipo_saque">
+                                    <option value="por_baixo">Por Baixo</option>
+                                    <option value="viagem_fundo_do_mar">Viagem ou Fundo do Mar</option>
+                                    <option value="flutuante">Flutuante</option>
+                                </select>
+                                <fieldset>
+                                    <legend>Saque ACE:</legend>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ace" id="ace_nao"
+                                            value="nao">
+                                        <label class="form-check-label" for="ace_nao">Não</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ace" id="ace_sim"
+                                            value="sim">
+                                        <label class="form-check-label" for="ace_sim">Sim</label>
+                                    </div>
+                                </fieldset>
+                                <button id="salvar_saque" class="btn btn-primary" type="button">Salvar</button>
+                            </fieldset>
+                        </form>
+                    </section>
+                    <section class="Ataque">
+                        <form action="">
+                            <fieldset>
+                                <legend>Ataque:</legend>
+                                <p>Acertou:</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="acertado_errado" id="acertado"
+                                        value="acertado">
+                                    <label class="form-check-label" for="acertado">Sim</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="acertado_errado" id="errado"
+                                        value="errado">
+                                    <label class="form-check-label" for="errado">Não</label>
+                                </div>
+                                <button id="salvar_ataque" class="btn btn-primary" type="button">Salvar</button>
+                            </fieldset>
+                    </section>
+                    <section class="Bloqueio">
+                        <form action="">
+                            <fieldset>
+                                <legend>Bloqueio:</legend>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="bloqueio" id="ponto_bloqueando"
+                                        value="ponto_bloqueando">
+                                    <label class="form-check-label" for="ponto_bloqueando">Ponto para este time</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="bloqueio" id="ponto_adversario"
+                                        value="ponto_adversario">
+                                    <label class="form-check-label" for="ponto_adversario">Ponto adversário</label>
+                                </div>
+                                <button id="salvar_bloqueio" class="btn btn-primary" type="button">Salvar</button>
+                            </fieldset>
+                    </section>
+                    <section class="levantamento">
+                        <form action="">
+                            <fieldset>
+                                <legend>Levantamento Para: </legend>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="levantamento" id="ponta"
+                                        value="ponta">
+                                    <label class="form-check-label" for="ponta">Ponta</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="levantamento" id="centro"
+                                        value="centro">
+                                    <label class="form-check-label" for="centro">Centro</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="levantamento" id="oposto"
+                                        value="oposto">
+                                    <label class="form-check-label" for="oposto">Oposto</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="levantamento" id="pipe"
+                                        value="pipe">
+                                    <label class="form-check-label" for="pipe">Pipe</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="levantamento" id="errou"
+                                        value="errou">
+                                    <label class="form-check-label" for="errou">Errou</label>
+                                </div>
+                                <button id="salvar_levantamento" class="btn btn-primary" type="button">Salvar</button>
+                            </fieldset>
+                        </form>
+                    </section>
+                </div>
+            </section>
+        </div>
     </main>
     <script src="../js/times.js" type="module"></script>
+    <script src="../js/inserir_informacoes.js" type="module"></script>
 </body>
