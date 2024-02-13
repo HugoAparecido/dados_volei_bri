@@ -97,7 +97,7 @@ export class Time {
     async PopularSelect(localSelect) {
         const querySnapshot = await getDocs(collection(db, "time"));
         querySnapshot.forEach((doc) => {
-            localSelect.innerHTML += `<option value="${doc.id}">${doc.data().nome}</option>`
+            localSelect.innerHTML += `<option value="${doc.id}">${doc.data().nome}</option>`;
         });
     }
     // Função para a exibição das inserções
@@ -114,8 +114,7 @@ export class Time {
         await this.PopularCabecalhoInserirInformacoes(informacoes.timeExportado(), informacoes.timeSexo());
         // Populando selects
         jogador.PopularNovosJogadores(form.novoJogadorSelecionar());
-        jogador.PopularSelectSaqueAtaque(form.selecionarJogador())
-        // Populando os jogadores e inserções de passes
+        // Populando os jogadores e inserções de informações
         jogador.PopularInsercoes(form.colocarJogadoresDoTime());
     }
     // Popular o início para informar o sexo e o nome do time
@@ -124,43 +123,43 @@ export class Time {
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if (doc.id === localStorage.getItem("timeAtualID")) {
-                timeExportado.innerHTML = `Time: ${doc.data().nome}`
-                timeSexo.innerHTML = `${doc.data().sexo === "M" ? "Sexo: Masculino" : doc.data().sexo === "F" ? "Sexo: Feminino" : "Time Misto"}`
-                localStorage.setItem('sexo', doc.data().sexo)
-                let jogadoresExportar = []
-                let jogadores = Object.entries(doc.data().jogadores)
+                timeExportado.innerHTML = `Time: ${doc.data().nome}`;
+                timeSexo.innerHTML = `${doc.data().sexo === "M" ? "Sexo: Masculino" : doc.data().sexo === "F" ? "Sexo: Feminino" : "Time Misto"}`;
+                localStorage.setItem('sexo', doc.data().sexo);
+                let jogadoresExportar = [];
+                let jogadores = Object.entries(doc.data().jogadores);
                 jogadores.forEach((jogador) => {
-                    jogadoresExportar.push({ id: jogador[0], nome: jogador[1].nome })
+                    jogadoresExportar.push({ id: jogador[0], nome: jogador[1].nome });
                 })
-                localStorage.setItem("jogadores", JSON.stringify(jogadoresExportar))
+                localStorage.setItem("jogadores", JSON.stringify(jogadoresExportar));
             }
         });
     }
     // Inserir Jogador no Time
     async InserirJogador(nomeJogador, idJogador) {
-        let id = ""
-        let posicao_j = ""
-        let camisa = ""
-        let jogadoresAnteriores = {}
-        let novoJogador
+        let id = "";
+        let posicao_j = "";
+        let camisa = "";
+        let jogadoresAnteriores = {};
+        let novoJogador;
         const q = query(collection(db, "time"), where("nome", "==", localStorage.getItem("timeAtualNome")));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if (doc.id === localStorage.getItem("timeAtualID")) {
-                id = doc.id
-                jogadoresAnteriores = doc.data().jogadores
+                id = doc.id;
+                jogadoresAnteriores = doc.data().jogadores;
             }
         });
         const qJogador = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshotJogador = await getDocs(qJogador);
         querySnapshotJogador.forEach((doc) => {
             if (doc.id === idJogador) {
-                console.log(doc.data().posicao)
-                camisa = doc.data().numero_camisa
-                posicao_j = doc.data().posicao
+                console.log(doc.data().posicao);
+                camisa = doc.data().numero_camisa;
+                posicao_j = doc.data().posicao;
             }
         });
-        camisa = camisa === undefined ? "" : camisa
+        camisa = camisa === undefined ? "" : camisa;
         novoJogador = {
             nome: nomeJogador,
             numero_camisa: camisa,
@@ -194,7 +193,7 @@ export class Time {
                 ponto_bloqueando: 0,
 
             }
-        }
+        };
         // junção de objetos caso o jogador seja levantador
         if (posicao_j === "Levantador") {
             novoJogador = {
@@ -208,11 +207,11 @@ export class Time {
                         errou: 0
                     }
                 }
-            }
+            };
         }
-        novoJogador = { [idJogador]: novoJogador }
+        novoJogador = { [idJogador]: novoJogador };
         try {
-            const timeDocRef = doc(db, "time", id)
+            const timeDocRef = doc(db, "time", id);
             // junção do jogadores anteriores com este jogador
             await updateDoc(timeDocRef, {
                 "jogadores": {
@@ -223,27 +222,27 @@ export class Time {
             alert('jogador inserido ao time com sucesso!!');
         }
         catch (e) {
-            alert("Falha ao cadastrar: " + e)
+            alert("Falha ao cadastrar: " + e);
         }
         finally {
-            window.location.reload()
+            window.location.reload();
         }
     }
     // Atualização dos passe no Time
     async AtualizarPasseJogador(idTime, aIncrementar, idJogador) {
         try {
-            let inserirNovamenteID
-            let local = [`jogadores.${idJogador}.passe.passe_A`, `jogadores.${idJogador}.passe.passe_B`, `jogadores.${idJogador}.passe.passe_C`, `jogadores.${idJogador}.passe.passe_D`]
-            const timeDocRef = doc(db, "time", idTime)
+            let inserirNovamenteID = "";
+            let local = [`jogadores.${idJogador}.passe.passe_A`, `jogadores.${idJogador}.passe.passe_B`, `jogadores.${idJogador}.passe.passe_C`, `jogadores.${idJogador}.passe.passe_D`];
+            const timeDocRef = doc(db, "time", idTime);
             await updateDoc(timeDocRef, {
                 [local[0]]: increment(aIncrementar[0]),
                 [local[1]]: increment(aIncrementar[1]),
                 [local[2]]: increment(aIncrementar[2]),
                 [local[3]]: increment(aIncrementar[3])
             });
-            inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador)
+            inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador);
             if (inserirNovamenteID != "") {
-                const timeDocRef = doc(db, "time", inserirNovamenteID)
+                const timeDocRef = doc(db, "time", inserirNovamenteID);
                 await updateDoc(timeDocRef, {
                     [local[0]]: increment(aIncrementar[0]),
                     [local[1]]: increment(aIncrementar[1]),
@@ -253,107 +252,141 @@ export class Time {
             }
         }
         catch (e) {
-            alert("Falha ao inserir: " + e)
+            alert("Falha ao inserir o Passe: " + e);
         }
     }
-    // Atualização do saque no Time
-    async AtualizarSaqueJogador(idTime, ace, dentroFora, tipoSaque, idJogador) {
+    // Atualização dos saques no Time
+    async AtualizarSaqueJogador(idTime, ace, dentro, fora, idJogador) {
         try {
-            let inserirNovamenteID
-            let local = `jogadores.${idJogador}.${dentroFora}.${tipoSaque}`
-            if (ace === "sim" && dentroFora === "saque_dentro") {
-                let dividir = local.split(".")
-                local = `${dividir[0]}.${dividir[1]}.${dividir[2]}.ace.${dividir[3]}`
-            }
+            let inserirNovamenteID = "";
+            let local = [
+                `jogadores.${idJogador}.saque_dentro.ace.por_baixo`,
+                `jogadores.${idJogador}.saque_dentro.ace.flutuante`,
+                `jogadores.${idJogador}.saque_dentro.ace.viagem_fundo_do_mar`,
+                `jogadores.${idJogador}.saque_dentro.por_baixo`,
+                `jogadores.${idJogador}.saque_dentro.flutuante`,
+                `jogadores.${idJogador}.saque_dentro.viagem_fundo_do_mar`,
+                `jogadores.${idJogador}.saque_fora.por_baixo`,
+                `jogadores.${idJogador}.saque_fora.flutuante`,
+                `jogadores.${idJogador}.saque_fora.viagem_fundo_do_mar`,
+            ];
             const timeDocRef = doc(db, "time", idTime)
             await updateDoc(timeDocRef, {
-                [local]: increment(1)
+                [local[0]]: increment(ace[0]),
+                [local[1]]: increment(ace[1]),
+                [local[2]]: increment(ace[2]),
+                [local[3]]: increment(dentro[0]),
+                [local[4]]: increment(dentro[1]),
+                [local[5]]: increment(dentro[2]),
+                [local[6]]: increment(fora[0]),
+                [local[7]]: increment(fora[1]),
+                [local[8]]: increment(fora[2])
             });
-            inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador)
+            inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador);
             if (inserirNovamenteID != "") {
                 const timeDocRef = doc(db, "time", inserirNovamenteID)
                 await updateDoc(timeDocRef, {
-                    [local]: increment(1)
+                    [local[0]]: increment(ace[0]),
+                    [local[1]]: increment(ace[1]),
+                    [local[2]]: increment(ace[2]),
+                    [local[3]]: increment(dentro[0]),
+                    [local[4]]: increment(dentro[1]),
+                    [local[5]]: increment(dentro[2]),
+                    [local[6]]: increment(fora[0]),
+                    [local[7]]: increment(fora[1]),
+                    [local[8]]: increment(fora[2])
                 });
             }
         }
         catch (e) {
-            alert("Falha ao inserir: " + e)
+            alert("Falha ao inserir o Saques: " + e);
         }
     }
     // Atualização do ataque no Time
-    async AtualizarAtaqueJogador(idTime, acerto, idJogador) {
+    async AtualizarAtaqueJogador(idTime, aIncrementar, idJogador) {
         try {
-            let inserirNovamenteID
-            let local = `jogadores.${idJogador}.ataque`
-            if (acerto === "acertado") {
-                local += `.acertado`
-            }
-            else {
-                local += ".errado"
-            }
-            const timeDocRef = doc(db, "time", idTime)
+            let inserirNovamenteID = "";
+            let local = [
+                `jogadores.${idJogador}.ataque.acertado`,
+                `jogadores.${idJogador}.ataque.errado`
+            ]
+            const timeDocRef = doc(db, "time", idTime);
             await updateDoc(timeDocRef, {
-                [local]: increment(1)
+                [local[0]]: increment(aIncrementar[0]),
+                [local[1]]: increment(aIncrementar[1]),
             });
-            inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador)
+            inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador);
             if (inserirNovamenteID != "") {
                 const timeDocRef = doc(db, "time", inserirNovamenteID)
                 await updateDoc(timeDocRef, {
-                    [local]: increment(1)
+                    [local[0]]: increment(aIncrementar[0]),
+                    [local[1]]: increment(aIncrementar[1]),
                 });
             }
         }
         catch (e) {
-            alert("Falha ao inserir: " + e)
+            alert("Falha ao inserir o Ataque: " + e);
         }
     }
     // Atualização do bloqueio no time
     async AtualizarBloqueioJogador(idTime, acerto, idJogador) {
         try {
-            let inserirNovamenteID
-            let local = `jogadores.${idJogador}.bloqueio`
-            if (acerto === "ponto_adversario") {
-                local += ".ponto_adversario"
-            }
-            else {
-                local += ".ponto_bloqueando"
-            }
-            const timeDocRef = doc(db, "time", idTime)
+            let inserirNovamenteID = "";
+            let local = [
+                `jogadores.${idJogador}.bloqueio.ponto_bloqueando`,
+                `jogadores.${idJogador}.bloqueio.ponto_adversario`
+            ]
+            const timeDocRef = doc(db, "time", idTime);
             await updateDoc(timeDocRef, {
-                [local]: increment(1)
+                [local[0]]: increment(acerto[0]),
+                [local[1]]: increment(acerto[1]),
             });
-            inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador)
+            inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador);
             if (inserirNovamenteID != "") {
                 const timeDocRef = doc(db, "time", inserirNovamenteID)
                 await updateDoc(timeDocRef, {
-                    [local]: increment(1)
+                    [local[0]]: increment(acerto[0]),
+                    [local[1]]: increment(acerto[1]),
                 });
             }
         }
         catch (e) {
-            alert("Falha ao inserir: " + e)
+            alert("Falha ao inserir o Bloqueio: " + e);
         }
     }
     // Atualização do Levantamento no Time
     async AtualizarLevantamento(idTime, levantamento, idJogador) {
         try {
-            let inserirNovamenteID
-            let local = `jogadores.${idJogador}.levantou_para.${levantamento}`
-            const timeDocRef = doc(db, "time", idTime)
+            let inserirNovamenteID = "";
+            let local = [
+                `jogadores.${idJogador}.levantou_para.centro`,
+                `jogadores.${idJogador}.levantou_para.errou`,
+                `jogadores.${idJogador}.levantou_para.oposto`,
+                `jogadores.${idJogador}.levantou_para.pipe`,
+                `jogadores.${idJogador}.levantou_para.ponta`
+            ]
+            const timeDocRef = doc(db, "time", idTime);
             await updateDoc(timeDocRef, {
-                [local]: increment(1)
+                [local[0]]: increment(levantamento[0]),
+                [local[1]]: increment(levantamento[1]),
+                [local[2]]: increment(levantamento[2]),
+                [local[3]]: increment(levantamento[3]),
+                [local[4]]: increment(levantamento[4])
             });
-            inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador)
+            inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador);
             if (inserirNovamenteID != "") {
                 const timeDocRef = doc(db, "time", inserirNovamenteID)
                 await updateDoc(timeDocRef, {
-                    [local]: increment(1)
+                    [local[0]]: increment(levantamento[0]),
+                    [local[1]]: increment(levantamento[1]),
+                    [local[2]]: increment(levantamento[2]),
+                    [local[3]]: increment(levantamento[3]),
+                    [local[4]]: increment(levantamento[4])
                 });
             }
         }
         catch (e) {
-            alert("Falha ao inserir: " + e)
+            alert("Falha ao inserir os levantamentos: " + e);
         }
     }
     // Verificação caso o time seja misto para enviar os dados o ultimo time que o jogador jogou correspondente a seu sexo

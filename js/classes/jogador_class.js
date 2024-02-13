@@ -3,7 +3,7 @@ import { ShowLoading, HideLoading } from "../loading.js";
 import { collection, query, where, doc, orderBy, addDoc, getDocs, increment, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { Time } from "./time_class.js";
 export class Jogador {
-    // Cadastro Jogador
+    // Cadastrar Jogador
     async CadastrarJogador(nomeConst, sexoConst, numeroCamisa, posicaoConst, alturaConst, pesoConst) {
         ShowLoading();
         let atributos = {
@@ -43,6 +43,7 @@ export class Jogador {
 
             }
         };
+        // Se a posição for a de levantador o objeto anterior se junta com atributos de levantador
         if (posicaoConst === "Levantador") {
             atributos = {
                 ...atributos,
@@ -61,7 +62,7 @@ export class Jogador {
             const docRef = await addDoc(collection(db, "jogador"), atributos);
             alert("Jogador cadastrado com sucesso com o ID: " + docRef.id);
             HideLoading();
-            window.location.reload()
+            window.location.reload();
 
         } catch (e) {
             alert("Erro ao adicionar o documento: " + e);
@@ -101,7 +102,7 @@ export class Jogador {
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
                 if (!localStorage.getItem("jogadores").includes(doc.id)) {
-                    adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`
+                    adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`;
                 }
             })
         } else {
@@ -109,7 +110,7 @@ export class Jogador {
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
                 if (!localStorage.getItem("jogadores").includes(doc.id)) {
-                    adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`
+                    adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`;
                 }
             })
         }
@@ -120,23 +121,23 @@ export class Jogador {
         const querySnapshotJogador = await getDocs(qJogador);
         querySnapshotJogador.forEach((doc) => {
             if (idJogador === doc.id) {
-                numeroCamisa.value = doc.data().numero_camisa
-                posicao.value = doc.data().posicao
-                sexo.value = doc.data().sexo
-                altura.value = doc.data().altura
-                peso.value = doc.data().peso
+                numeroCamisa.value = doc.data().numero_camisa;
+                posicao.value = doc.data().posicao;
+                sexo.value = doc.data().sexo;
+                altura.value = doc.data().altura;
+                peso.value = doc.data().peso;
                 if (doc.data().posicao === "Levantador") {
-                    dadosLevantador = true
+                    dadosLevantador = true;
                 }
             }
         })
     }
     // Update do Jogador
     async AtualizarJogador(idJogador, nomeJogador, novoNome, numeroCamisa, posicao, sexo, altura, peso, dadosLevantador) {
-        ShowLoading()
+        ShowLoading();
         try {
             if (nomeJogador != "") {
-                const timeDocRef = doc(db, "jogador", idJogador)
+                const timeDocRef = doc(db, "jogador", idJogador);
                 await updateDoc(timeDocRef, {
                     "nome": novoNome === "" ? nomeJogador : novoNome,
                     "numero_camisa": numeroCamisa,
@@ -156,48 +157,113 @@ export class Jogador {
                         }
                     });
                 }
-                alert("Atualização Bem sucedida!!!")
+                alert("Atualização Bem sucedida!!!");
             }
-            else alert("é necessário escolher um jogador")
+            else alert("é necessário escolher um jogador");
         }
         catch (e) {
-            alert(e)
+            alert(e);
         }
-        HideLoading()
+        HideLoading();
     }
     // Popular com a iserção de passes conforme os jogadores inseridos no time
     async PopularInsercoes(colocarJogadoresDoTime) {
-        ShowLoading()
+        ShowLoading();
         colocarJogadoresDoTime.innerHTML = "";
-        let nomes = []
-        let id = []
-        let jogadores = JSON.parse(localStorage.getItem("jogadores"))
+        let nomes = [];
+        let id = [];
+        let jogadores = JSON.parse(localStorage.getItem("jogadores"));
         if (jogadores.length != 0) {
             jogadores.forEach((jogador) => {
-                id.push(Object.entries(jogador)[0][1])
-                nomes.push(jogador.nome)
+                id.push(Object.entries(jogador)[0][1]);
+                nomes.push(jogador.nome);
             })
             const q = query(collection(db, "jogador"), where("nome", "in", nomes), orderBy("nome"));
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
                 if (id.includes(doc.id)) {
-                    let divJogador = document.createElement("div")
-                    let spanInformacoesJogador = document.createElement("span")
-                    spanInformacoesJogador.innerHTML = `${doc.data().posicao}: ${doc.data().numero_camisa} ${doc.data().nome}`
-                    divJogador.appendChild(spanInformacoesJogador)
-                    let divPasses = document.createElement("div")
-                    divPasses.className = "passes"
-                    divPasses.innerHTML += `<span>Passe: </span>`
-                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "A")
-                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "B")
-                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "C")
-                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "D")
+                    // Criação da div Jogador
+                    let divJogador = document.createElement("div");
+                    let spanInformacoesJogador = document.createElement("span");
+                    spanInformacoesJogador.innerHTML = `${doc.data().posicao}: ${doc.data().numero_camisa} ${doc.data().nome}`;
+                    divJogador.appendChild(spanInformacoesJogador);
+                    // Criação da div Passes do jogador
+                    let divPasses = document.createElement("div");
+                    divPasses.className = "passes";
+                    divPasses.innerHTML += `<strong><span>Passe: </span></strong>`;
+                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "A");
+                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "B");
+                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "C");
+                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "D");
                     divJogador.appendChild(divPasses)
-                    colocarJogadoresDoTime.appendChild(divJogador)
+                    // Criação da div Saques
+                    let divSaques = document.createElement("div");
+                    divSaques.className = "saques"
+                    divSaques.innerHTML = "<strong><span>Saque: </span></strong>";
+                    let divTabelaSaques = document.createElement("table");
+                    let divAcontecimentoSaque = document.createElement('tr');
+                    divAcontecimentoSaque.className = "acontecimentos";
+                    divAcontecimentoSaque.innerHTML += "<th>Tipo</th><th>Dentro</th><th>ACE</th><th>Fora</th>";
+                    divTabelaSaques.appendChild(divAcontecimentoSaque);
+                    divTabelaSaques.innerHTML += this.CriarInputsSaques(doc.id, "por_baixo", "Por Baixo");
+                    divTabelaSaques.innerHTML += this.CriarInputsSaques(doc.id, "flutuante", "Flutuante");
+                    divTabelaSaques.innerHTML += this.CriarInputsSaques(doc.id, "viagem", "Viagem");
+                    divSaques.appendChild(divTabelaSaques);
+                    divJogador.appendChild(divSaques);
+                    colocarJogadoresDoTime.appendChild(divJogador);
+                    // Criação da div Ataques
+                    let divAtaques = document.createElement("div");
+                    divAtaques.className = "ataques";
+                    divAtaques.innerHTML = "<strong><span>Ataque: </span></strong>";
+                    divAtaques.innerHTML += this.CriarInputsAtaques(doc.id);
+                    divJogador.appendChild(divAtaques);
+                    // Criação da div Bloqueios
+                    let divBloqueios = document.createElement("div");
+                    divBloqueios.className = "bloqueios";
+                    divBloqueios.innerHTML = "<strong><span>Bloqueios: </span></strong>";
+                    divBloqueios.innerHTML += this.CriarInputsBloqueios(doc.id);
+                    divJogador.appendChild(divBloqueios);
+                    // Criação da div Levantamentos se for levantador
+                    if (doc.data().posicao === "Levantador") {
+                        let divLevantamentos = document.createElement("div");
+                        divLevantamentos.className = "levantamentos";
+                        divLevantamentos.innerHTML = "<strong><span>Levantamentos: </span></strong>";
+                        divLevantamentos.innerHTML += this.CriarInputsLevantamentos(doc.id);
+                        divJogador.appendChild(divLevantamentos);
+                    }
+                    // Adicionando Listeners aos botoes de incremento e decremento
+                    // Passes
                     this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_A`), document.getElementById(`${doc.id}_diminuir_passe_A`), document.getElementById(`${doc.id}_passe_A`));
                     this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_B`), document.getElementById(`${doc.id}_diminuir_passe_B`), document.getElementById(`${doc.id}_passe_B`));
                     this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_C`), document.getElementById(`${doc.id}_diminuir_passe_C`), document.getElementById(`${doc.id}_passe_C`));
                     this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_D`), document.getElementById(`${doc.id}_diminuir_passe_D`), document.getElementById(`${doc.id}_passe_D`));
+                    // Saque
+                    // saque por baixo
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_dentro_por_baixo`), document.getElementById(`${doc.id}_diminuir_saque_dentro_por_baixo`), document.getElementById(`${doc.id}_saque_dentro_por_baixo`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_ace_por_baixo`), document.getElementById(`${doc.id}_diminuir_saque_ace_por_baixo`), document.getElementById(`${doc.id}_saque_ace_por_baixo`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_fora_por_baixo`), document.getElementById(`${doc.id}_diminuir_saque_fora_por_baixo`), document.getElementById(`${doc.id}_saque_fora_por_baixo`));
+                    // Saque flutuante
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_dentro_flutuante`), document.getElementById(`${doc.id}_diminuir_saque_dentro_flutuante`), document.getElementById(`${doc.id}_saque_dentro_flutuante`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_ace_flutuante`), document.getElementById(`${doc.id}_diminuir_saque_ace_flutuante`), document.getElementById(`${doc.id}_saque_ace_flutuante`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_fora_flutuante`), document.getElementById(`${doc.id}_diminuir_saque_fora_flutuante`), document.getElementById(`${doc.id}_saque_fora_flutuante`));
+                    // Saque viagem
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_dentro_viagem`), document.getElementById(`${doc.id}_diminuir_saque_dentro_viagem`), document.getElementById(`${doc.id}_saque_dentro_viagem`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_ace_viagem`), document.getElementById(`${doc.id}_diminuir_saque_ace_viagem`), document.getElementById(`${doc.id}_saque_ace_viagem`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_fora_viagem`), document.getElementById(`${doc.id}_diminuir_saque_fora_viagem`), document.getElementById(`${doc.id}_saque_fora_viagem`));
+                    // Ataque
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_ataque_acerto`), document.getElementById(`${doc.id}_diminuir_ataque_acerto`), document.getElementById(`${doc.id}_ataque_acerto`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_ataque_erro`), document.getElementById(`${doc.id}_diminuir_ataque_erro`), document.getElementById(`${doc.id}_ataque_erro`));
+                    // Bloqueio
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_bloqueio_ponto_este`), document.getElementById(`${doc.id}_diminuir_bloqueio_ponto_este`), document.getElementById(`${doc.id}_bloqueio_ponto_este`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_bloqueio_ponto_adversario`), document.getElementById(`${doc.id}_diminuir_bloqueio_ponto_adversario`), document.getElementById(`${doc.id}_bloqueio_ponto_adversario`));
+                    // Levantamentos
+                    if (doc.data().posicao === "Levantador") {
+                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_ponta`), document.getElementById(`${doc.id}_diminuir_levantamento_ponta`), document.getElementById(`${doc.id}_levantamento_ponta`));
+                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_centro`), document.getElementById(`${doc.id}_diminuir_levantamento_centro`), document.getElementById(`${doc.id}_levantamento_centro`));
+                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_oposto`), document.getElementById(`${doc.id}_diminuir_levantamento_oposto`), document.getElementById(`${doc.id}_levantamento_oposto`));
+                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_pipe`), document.getElementById(`${doc.id}_diminuir_levantamento_pipe`), document.getElementById(`${doc.id}_levantamento_pipe`));
+                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_errou`), document.getElementById(`${doc.id}_diminuir_levantamento_errou`), document.getElementById(`${doc.id}_levantamento_errou`));
+                    }
                 }
             });
         }
@@ -205,8 +271,39 @@ export class Jogador {
     }
     // Função para a criação do input para o passe
     CriarInputsPasses(idJogador, tipoPasse) {
-        let elemento = `<span id="${idJogador}_diminuir_passe_${tipoPasse}">-${tipoPasse}</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_passe_${tipoPasse}" id="${idJogador}_passe_${tipoPasse}" readonly><span class="form-label" for="${idJogador}_passe_${tipoPasse}" id="${idJogador}_aumentar_passe_${tipoPasse}">${tipoPasse}+</span>`
-        return elemento
+        let elemento = `<span id="${idJogador}_diminuir_passe_${tipoPasse}">-${tipoPasse}</span>
+        <input class="form-control input_number" type="number" min="0" name="${idJogador}_passe_${tipoPasse}" id="${idJogador}_passe_${tipoPasse}" readonly>
+        <span id="${idJogador}_aumentar_passe_${tipoPasse}">${tipoPasse}+</span>`;
+        return elemento;
+    }
+    // Função para a criação do input Saque
+    CriarInputsSaques(idJogador, tipoSaque, nomePasse) {
+        let elemento = `<td>${nomePasse}</td>`
+        let elementoDentro = `<td class='input_saque'><span id="${idJogador}_diminuir_saque_dentro_${tipoSaque}">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_saque_dentro_${tipoSaque}" id="${idJogador}_saque_dentro_${tipoSaque}" readonly><span id="${idJogador}_aumentar_saque_dentro_${tipoSaque}">+</span></td>`;
+        let elementoACE = `<td class='input_saque'><span id="${idJogador}_diminuir_saque_ace_${tipoSaque}">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_saque_ace_${tipoSaque}" id="${idJogador}_saque_ace_${tipoSaque}" readonly><span id="${idJogador}_aumentar_saque_ace_${tipoSaque}">+</span></td>`;
+        let elementoFora = `<td class='input_saque'><span id="${idJogador}_diminuir_saque_fora_${tipoSaque}">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_saque_fora_${tipoSaque}" id="${idJogador}_saque_fora_${tipoSaque}" readonly><span id="${idJogador}_aumentar_saque_fora_${tipoSaque}">+</span></td>`;
+        elemento += elementoDentro;
+        elemento += elementoACE;
+        elemento += elementoFora;
+        return `<tr>${elemento}</tr>`;
+    }
+    CriarInputsAtaques(idJogador) {
+        let elemento = `<span>Acertado: </span><span id="${idJogador}_diminuir_ataque_acerto">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_ataque_acerto" id="${idJogador}_ataque_acerto" readonly><span id="${idJogador}_aumentar_ataque_acerto">+</span>
+        <span>Errado: </span><span id="${idJogador}_diminuir_ataque_erro">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_ataque_erro" id="${idJogador}_ataque_erro" readonly><span id="${idJogador}_aumentar_ataque_erro">+</span>`;
+        return elemento;
+    }
+    CriarInputsBloqueios(idJogador) {
+        let elemento = `<span>Ponto para este time: </span><span id="${idJogador}_diminuir_bloqueio_ponto_este">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_bloqueio_ponto_este" id="${idJogador}_bloqueio_ponto_este" readonly><span id="${idJogador}_aumentar_bloqueio_ponto_este">+</span>
+        <span>Ponto adversário: </span><span id="${idJogador}_diminuir_bloqueio_ponto_adversario">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_bloqueio_ponto_adversario" id="${idJogador}_bloqueio_ponto_adversario" readonly><span id="${idJogador}_aumentar_bloqueio_ponto_adversario">+</span>`;
+        return elemento;
+    }
+    CriarInputsLevantamentos(idJogador) {
+        let elemento = `<span>Ponta: </span><span id="${idJogador}_diminuir_levantamento_ponta">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_ponta" id="${idJogador}_levantamento_ponta" readonly><span id="${idJogador}_aumentar_levantamento_ponta">+</span>
+        <span>Centro: </span><span id="${idJogador}_diminuir_levantamento_centro">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_centro" id="${idJogador}_levantamento_centro" readonly><span id="${idJogador}_aumentar_levantamento_centro">+</span>
+        <span>Oposto: </span><span id="${idJogador}_diminuir_levantamento_oposto">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_oposto" id="${idJogador}_levantamento_oposto" readonly><span id="${idJogador}_aumentar_levantamento_oposto">+</span>
+        <span>Pipe: </span><span id="${idJogador}_diminuir_levantamento_pipe">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_pipe" id="${idJogador}_levantamento_pipe" readonly><span id="${idJogador}_aumentar_levantamento_pipe">+</span>
+        <span>Errou: </span><span id="${idJogador}_diminuir_levantamento_errou">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_errou" id="${idJogador}_levantamento_errou" readonly><span id="${idJogador}_aumentar_levantamento_errou">+</span>`;
+        return elemento;
     }
     // Função para aumentar e diminuir a quantidade dos atributos
     CriarListenersIncrementoDecremento(idIncremento, idDecremento, idAtributo) {
@@ -214,34 +311,91 @@ export class Jogador {
         idIncremento.addEventListener("click", () => idAtributo.value++);
         idDecremento.addEventListener("click", () => idAtributo.value == 0 ? idAtributo.value : idAtributo.value--);
     }
-    // Atualização de todos os passes de todos os jogadores presentes
-    async AtualizarPasseDeTodosJogadores() {
-        ShowLoading()
-        let nomes = []
-        let id = []
-        let time = new Time
-        let jogadores = JSON.parse(localStorage.getItem("jogadores"))
+    // Atualização de todas as informações de todos os jogadores presentes
+    async AtualizarInformacoesDeTodosJogadores() {
+        ShowLoading();
+        let nomes = [];
+        let id = [];
+        let time = new Time;
+        let jogadores = JSON.parse(localStorage.getItem("jogadores"));
         jogadores.forEach((jogador) => {
-            id.push(Object.entries(jogador)[0][1])
-            nomes.push(jogador.nome)
+            id.push(Object.entries(jogador)[0][1]);
+            nomes.push(jogador.nome);
         })
         const q = query(collection(db, "jogador"), where("nome", "in", nomes));
         const querySnapshot = await getDocs(q);
         try {
             querySnapshot.forEach((doc) => {
                 if (id.includes(doc.id)) {
-                    let passesIncrementar = [document.getElementById(`${doc.id}_passe_A`).value, document.getElementById(`${doc.id}_passe_B`).value, document.getElementById(`${doc.id}_passe_C`).value, document.getElementById(`${doc.id}_passe_D`).value]
-                    this.AtualizarPasseJogador(doc.id, passesIncrementar.map(Number))
-                    time.AtualizarPasseJogador(localStorage.getItem("timeAtualID"), passesIncrementar.map(Number), doc.id)
+                    // pegando os valores dos campos
+                    // passes
+                    let passesIncrementar = [
+                        document.getElementById(`${doc.id}_passe_A`).value,
+                        document.getElementById(`${doc.id}_passe_B`).value,
+                        document.getElementById(`${doc.id}_passe_C`).value,
+                        document.getElementById(`${doc.id}_passe_D`).value
+                    ];
+                    // saques ace
+                    let saquesIncrementarAce = [
+                        document.getElementById(`${doc.id}_saque_ace_por_baixo`).value,
+                        document.getElementById(`${doc.id}_saque_ace_flutuante`).value,
+                        document.getElementById(`${doc.id}_saque_ace_viagem`).value
+                    ];
+                    // saques dentro
+                    let saquesIncrementarDentro = [
+                        document.getElementById(`${doc.id}_saque_dentro_por_baixo`).value,
+                        document.getElementById(`${doc.id}_saque_dentro_flutuante`).value,
+                        document.getElementById(`${doc.id}_saque_dentro_viagem`).value
+                    ];
+                    // saques fora
+                    let saquesIncrementarFora = [
+                        document.getElementById(`${doc.id}_saque_fora_por_baixo`).value,
+                        document.getElementById(`${doc.id}_saque_fora_flutuante`).value,
+                        document.getElementById(`${doc.id}_saque_fora_viagem`).value
+                    ];
+                    // ataques
+                    let ataquesIncrementar = [
+                        document.getElementById(`${doc.id}_ataque_acerto`).value,
+                        document.getElementById(`${doc.id}_ataque_erro`).value
+                    ]
+                    // bloqueio
+                    let bloqueiosIncrementar = [
+                        document.getElementById(`${doc.id}_bloqueio_ponto_este`).value,
+                        document.getElementById(`${doc.id}_bloqueio_ponto_adversario`).value
+                    ]
+                    // Chamada das funções de atualizção no banco
+                    // passes
+                    this.AtualizarPasseJogador(doc.id, passesIncrementar.map(Number));
+                    time.AtualizarPasseJogador(localStorage.getItem("timeAtualID"), passesIncrementar.map(Number), doc.id);
+                    // saques
+                    this.AtualizarSaqueJogador(doc.id, saquesIncrementarAce.map(Number), saquesIncrementarDentro.map(Number), saquesIncrementarFora.map(Number));
+                    time.AtualizarSaqueJogador(localStorage.getItem("timeAtualID"), saquesIncrementarAce.map(Number), saquesIncrementarDentro.map(Number), saquesIncrementarFora.map(Number), doc.id);
+                    // ataques
+                    this.AtualizarAtaqueJogador(doc.id, ataquesIncrementar.map(Number));
+                    time.AtualizarAtaqueJogador(localStorage.getItem("timeAtualID"), ataquesIncrementar.map(Number), doc.id);
+                    // bloqueios
+                    this.AtualizarBloqueioJogador(doc.id, bloqueiosIncrementar.map(Number));
+                    time.AtualizarBloqueioJogador(localStorage.getItem("timeAtualID"), bloqueiosIncrementar.map(Number), doc.id);
+                    // Levantamentos
+                    if (doc.data().posicao === "Levantador") {
+                        let levantamentosIncrementar = [
+                            document.getElementById(`${doc.id}_levantamento_centro`).value,
+                            document.getElementById(`${doc.id}_levantamento_errou`).value,
+                            document.getElementById(`${doc.id}_levantamento_oposto`).value,
+                            document.getElementById(`${doc.id}_levantamento_pipe`).value,
+                            document.getElementById(`${doc.id}_levantamento_ponta`).value
+                        ]
+                        this.AtualizarLevantamento(doc.id, levantamentosIncrementar.map(Number));
+                        time.AtualizarLevantamento(localStorage.getItem("timeAtualID"), levantamentosIncrementar.map(Number), doc.id)
+                    }
                 }
             });
-            alert("dados atualizados!!")
+            alert("dados atualizados!!");
         }
         catch (e) {
             alert("Falha nas inserções: " + e)
-        } await new Promise(resolve => setTimeout(resolve, 2000));
+        }
         HideLoading()
-        window.location.reload()
     }
     // Atualização do passe de somente um jogador
     async AtualizarPasseJogador(id, aIncrementar) {
@@ -255,177 +409,69 @@ export class Jogador {
             });
         }
         catch (e) {
-            alert("Falha ao inserir: " + e)
+            alert("Falha ao inserir Passe: " + e)
         }
     }
-    // População do select para escolher o jogador que fará o saque, ou o ataque, ou o bloqueio, ou o levantamento
-    async PopularSelectSaqueAtaque(colocarJogadoresDoTime) {
-        let nomes = []
-        let id = []
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        let jogadores = JSON.parse(localStorage.getItem("jogadores"))
-        if (jogadores.length != 0) {
-            jogadores.forEach((jogador) => {
-                id.push(Object.entries(jogador)[0][1])
-                nomes.push(jogador.nome)
-            })
-            const q = query(collection(db, "jogador"), where("nome", "in", nomes), orderBy("nome"));
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-                if (id.includes(doc.id)) {
-                    colocarJogadoresDoTime.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`
-                }
-            });
-        }
-    }
-    // Cadastro do saque no time e no jogador
-    async CadastrarSaque(valorSelect, nomeSelect, ace, dentroFora, tipoSaque) {
-        ShowLoading()
-        let time = new Time
-        let id = []
-        let jogadores = JSON.parse(localStorage.getItem("jogadores"))
-        jogadores.forEach((jogador) => {
-            id.push(Object.entries(jogador)[0][1])
-        })
-        const q = query(collection(db, "jogador"), where("nome", "==", nomeSelect));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            if (id.includes(doc.id)) {
-                this.AtualizarSaqueJogador(valorSelect, ace, dentroFora, tipoSaque);
-                time.AtualizarSaqueJogador(localStorage.getItem("timeAtualID"), ace, dentroFora, tipoSaque, doc.id)
-            }
-        });
-        HideLoading()
-    }
-    // cadastro do saque no banco
-    async AtualizarSaqueJogador(id, ace, dentroFora, tipoSaque) {
+    // Atualização dos saques no banco de somente um jogador
+    async AtualizarSaqueJogador(id, ace, dentro, fora) {
         try {
-            let local = `${dentroFora}.${tipoSaque}`
-            if (ace === "sim" && dentroFora === "saque_dentro") {
-                let dividir = local.split(".")
-                local = `${dividir[0]}.ace.${dividir[1]}`
-            }
             const timeDocRef = doc(db, "jogador", id)
             await updateDoc(timeDocRef, {
-                [local]: increment(1)
+                "saque_dentro.ace.por_baixo": increment(ace[0]),
+                "saque_dentro.ace.flutuante": increment(ace[1]),
+                "saque_dentro.ace.viagem_fundo_do_mar": increment(ace[2]),
+                "saque_dentro.por_baixo": increment(dentro[0]),
+                "saque_dentro.flutuante": increment(dentro[1]),
+                "saque_dentro.viagem_fundo_do_mar": increment(dentro[2]),
+                "saque_fora.por_baixo": increment(fora[0]),
+                "saque_fora.flutuante": increment(fora[1]),
+                "saque_fora.viagem_fundo_do_mar": increment(fora[2])
             });
-            alert("Saque Cadastrado")
         }
         catch (e) {
-            alert("Falha ao inserir: " + e)
+            alert("Falha ao inserir Saque: " + e);
         }
     }
-    // chamada de cadastro ataque
-    async CadastrarAtaque(valorSelect, nomeSelect, acerto) {
-        ShowLoading()
-        let id = []
-        let jogadores = JSON.parse(localStorage.getItem("jogadores"))
-        let time = new Time
-        jogadores.forEach((jogador) => {
-            id.push(Object.entries(jogador)[0][1])
-        })
-        console.log(id)
-        const q = query(collection(db, "jogador"), where("nome", "==", nomeSelect));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            if (id.includes(doc.id)) {
-                this.AtualizarAtaqueJogador(valorSelect, acerto);
-                time.AtualizarAtaqueJogador(localStorage.getItem("timeAtualID"), acerto, valorSelect)
-            }
-        });
-        HideLoading()
-    }
-    // cadastro do ataque no banco
-    async AtualizarAtaqueJogador(id, acerto) {
+    // Atualização dos ataques no banco de somente um jogador
+    async AtualizarAtaqueJogador(id, ataques) {
         try {
-            let local = "ataque"
-            if (acerto === "acertado") {
-                local += ".acertado"
-            }
-            else {
-                local += ".errado"
-            }
-            const timeDocRef = doc(db, "jogador", id)
+            const timeDocRef = doc(db, "jogador", id);
             await updateDoc(timeDocRef, {
-                [local]: increment(1)
+                "ataque.acertado": increment(ataques[0]),
+                "ataque.errado": increment(ataques[1])
             });
-            alert("Ataque Cadastrado")
         }
         catch (e) {
-            alert("Falha ao inserir: " + e)
+            alert("Falha ao inserir ataque: " + e);
         }
-    }
-    // Chamada de cadastro bloqueio
-    async CadastrarBloqueio(valorSelect, nomeSelect, acerto) {
-        ShowLoading()
-        let id = []
-        let jogadores = JSON.parse(localStorage.getItem("jogadores"))
-        let time = new Time
-        jogadores.forEach((jogador) => {
-            id.push(Object.entries(jogador)[0][1])
-        })
-        const q = query(collection(db, "jogador"), where("nome", "==", nomeSelect));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            if (id.includes(doc.id)) {
-                this.AtualizarBloqueioJogador(valorSelect, acerto);
-                time.AtualizarBloqueioJogador(localStorage.getItem("timeAtualID"), acerto, valorSelect)
-            }
-        });
-        HideLoading()
     }
     // Cadastro do Bloqueio no banco
-    async AtualizarBloqueioJogador(id, acerto) {
+    async AtualizarBloqueioJogador(id, bloqueio) {
         try {
-            let local = "bloqueio"
-            if (acerto === "ponto_adversario") {
-                local += ".ponto_adversario"
-            }
-            else {
-                local += ".ponto_bloqueando"
-            }
-            const timeDocRef = doc(db, "jogador", id)
+            const timeDocRef = doc(db, "jogador", id);
             await updateDoc(timeDocRef, {
-                [local]: increment(1)
+                "bloqueio.ponto_bloqueando": increment(bloqueio[0]),
+                "bloqueio.ponto_adversario": increment(bloqueio[1])
             });
-            alert("Bloqueio Cadastrado")
         }
         catch (e) {
-            alert("Falha ao inserir: " + e)
+            alert("Falha ao inserir bloqueio: " + e);
         }
-    }
-    // Chamada de Cadastro levantamento
-    async CadastrarLevantamento(valorSelect, nomeSelect, levantamento) {
-        let id = []
-        let jogadores = JSON.parse(localStorage.getItem("jogadores"))
-        let time = new Time
-        jogadores.forEach((jogador) => {
-            id.push(Object.entries(jogador)[0][1])
-        })
-        const q = query(collection(db, "jogador"), where("nome", "==", nomeSelect));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            if (id.includes(doc.id) && doc.data().posicao === "Levantador") {
-                this.AtualizarLevantamento(valorSelect, levantamento);
-                time.AtualizarLevantamento(localStorage.getItem("timeAtualID"), levantamento, valorSelect)
-            }
-            else if (doc.data().posicao !== "Levantador") {
-                alert("Não foi possível Cadasatrar o levantamento pois o jogador não é um levantador")
-            }
-        });
     }
     // cadastro do levantamento no banco
     async AtualizarLevantamento(id, levantamento) {
         try {
-            let local = `levantou_para.${levantamento}`
-            const timeDocRef = doc(db, "jogador", id)
+            const timeDocRef = doc(db, "jogador", id);
             await updateDoc(timeDocRef, {
-                [local]: increment(1)
+                "levantou_para.centro": increment(levantamento[0]),
+                "levantou_para.errou": increment(levantamento[1]),
+                "levantou_para.oposto": increment(levantamento[2]),
+                "levantou_para.pipe": increment(levantamento[3]),
+                "levantou_para.ponta": increment(levantamento[4]),
             });
-            alert("Levantamento Cadastrado")
         }
         catch (e) {
-            alert("Falha ao inserir: " + e)
+            alert("Falha ao inserir levantamento: " + e);
         }
     }
 }
