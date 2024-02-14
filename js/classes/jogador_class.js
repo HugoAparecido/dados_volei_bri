@@ -184,9 +184,9 @@ export class Jogador {
                 if (id.includes(doc.id)) {
                     // Criação da div Jogador
                     let divJogador = document.createElement("div");
-                    let spanInformacoesJogador = document.createElement("span");
-                    spanInformacoesJogador.innerHTML = `${doc.data().posicao}: ${doc.data().numero_camisa} ${doc.data().nome}`;
-                    divJogador.appendChild(spanInformacoesJogador);
+                    let h3InformacoesJogador = document.createElement("h3");
+                    h3InformacoesJogador.innerHTML = `${doc.data().posicao}: ${doc.data().numero_camisa} ${doc.data().nome}`;
+                    divJogador.appendChild(h3InformacoesJogador);
                     // Criação da div Passes do jogador
                     let divPasses = document.createElement("div");
                     divPasses.className = "passes";
@@ -201,13 +201,15 @@ export class Jogador {
                     divSaques.className = "saques"
                     divSaques.innerHTML = "<strong><span>Saque: </span></strong>";
                     let divTabelaSaques = document.createElement("table");
+                    let bodyTable = document.createElement("tbody");
                     let divAcontecimentoSaque = document.createElement('tr');
                     divAcontecimentoSaque.className = "acontecimentos";
                     divAcontecimentoSaque.innerHTML += "<th>Tipo</th><th>Dentro</th><th>ACE</th><th>Fora</th>";
-                    divTabelaSaques.appendChild(divAcontecimentoSaque);
-                    divTabelaSaques.innerHTML += this.CriarInputsSaques(doc.id, "por_baixo", "Por Baixo");
-                    divTabelaSaques.innerHTML += this.CriarInputsSaques(doc.id, "flutuante", "Flutuante");
-                    divTabelaSaques.innerHTML += this.CriarInputsSaques(doc.id, "viagem", "Viagem");
+                    bodyTable.appendChild(divAcontecimentoSaque);
+                    bodyTable.innerHTML += this.CriarInputsSaques(doc.id, "por_baixo", "Por Baixo");
+                    bodyTable.innerHTML += this.CriarInputsSaques(doc.id, "flutuante", "Flutuante");
+                    bodyTable.innerHTML += this.CriarInputsSaques(doc.id, "viagem", "Viagem");
+                    divTabelaSaques.appendChild(bodyTable);
                     divSaques.appendChild(divTabelaSaques);
                     divJogador.appendChild(divSaques);
                     colocarJogadoresDoTime.appendChild(divJogador);
@@ -279,30 +281,30 @@ export class Jogador {
     // Função para a criação do input Saque
     CriarInputsSaques(idJogador, tipoSaque, nomePasse) {
         let elemento = `<td>${nomePasse}</td>`
-        let elementoDentro = `<td class='input_saque'><span id="${idJogador}_diminuir_saque_dentro_${tipoSaque}">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_saque_dentro_${tipoSaque}" id="${idJogador}_saque_dentro_${tipoSaque}" readonly><span id="${idJogador}_aumentar_saque_dentro_${tipoSaque}">+</span></td>`;
-        let elementoACE = `<td class='input_saque'><span id="${idJogador}_diminuir_saque_ace_${tipoSaque}">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_saque_ace_${tipoSaque}" id="${idJogador}_saque_ace_${tipoSaque}" readonly><span id="${idJogador}_aumentar_saque_ace_${tipoSaque}">+</span></td>`;
-        let elementoFora = `<td class='input_saque'><span id="${idJogador}_diminuir_saque_fora_${tipoSaque}">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_saque_fora_${tipoSaque}" id="${idJogador}_saque_fora_${tipoSaque}" readonly><span id="${idJogador}_aumentar_saque_fora_${tipoSaque}">+</span></td>`;
+        let elementoDentro = `<td class='input_saque'><div><span id="${idJogador}_diminuir_saque_dentro_${tipoSaque}">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_saque_dentro_${tipoSaque}" id="${idJogador}_saque_dentro_${tipoSaque}" readonly><span id="${idJogador}_aumentar_saque_dentro_${tipoSaque}">+</span></div></td>`;
+        let elementoACE = `<td class='input_saque'><div><span id="${idJogador}_diminuir_saque_ace_${tipoSaque}">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_saque_ace_${tipoSaque}" id="${idJogador}_saque_ace_${tipoSaque}" readonly><span id="${idJogador}_aumentar_saque_ace_${tipoSaque}">+</span></div></td>`;
+        let elementoFora = `<td class='input_saque'><div><span id="${idJogador}_diminuir_saque_fora_${tipoSaque}">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_saque_fora_${tipoSaque}" id="${idJogador}_saque_fora_${tipoSaque}" readonly><span id="${idJogador}_aumentar_saque_fora_${tipoSaque}">+</span></div></td>`;
         elemento += elementoDentro;
         elemento += elementoACE;
         elemento += elementoFora;
         return `<tr>${elemento}</tr>`;
     }
     CriarInputsAtaques(idJogador) {
-        let elemento = `<span>Acertado: </span><span id="${idJogador}_diminuir_ataque_acerto">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_ataque_acerto" id="${idJogador}_ataque_acerto" readonly><span id="${idJogador}_aumentar_ataque_acerto">+</span>
-        <span>Errado: </span><span id="${idJogador}_diminuir_ataque_erro">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_ataque_erro" id="${idJogador}_ataque_erro" readonly><span id="${idJogador}_aumentar_ataque_erro">+</span>`;
+        let elemento = `<strong><span>Acertado: </span></strong><span id="${idJogador}_diminuir_ataque_acerto">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_ataque_acerto" id="${idJogador}_ataque_acerto" readonly><span id="${idJogador}_aumentar_ataque_acerto">+</span>
+        <strong><span>Errado: </span></strong><span id="${idJogador}_diminuir_ataque_erro">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_ataque_erro" id="${idJogador}_ataque_erro" readonly><span id="${idJogador}_aumentar_ataque_erro">+</span>`;
         return elemento;
     }
     CriarInputsBloqueios(idJogador) {
-        let elemento = `<span>Ponto para este time: </span><span id="${idJogador}_diminuir_bloqueio_ponto_este">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_bloqueio_ponto_este" id="${idJogador}_bloqueio_ponto_este" readonly><span id="${idJogador}_aumentar_bloqueio_ponto_este">+</span>
-        <span>Ponto adversário: </span><span id="${idJogador}_diminuir_bloqueio_ponto_adversario">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_bloqueio_ponto_adversario" id="${idJogador}_bloqueio_ponto_adversario" readonly><span id="${idJogador}_aumentar_bloqueio_ponto_adversario">+</span>`;
+        let elemento = `<strong><span>Ponto para este time: </span></strong><span id="${idJogador}_diminuir_bloqueio_ponto_este">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_bloqueio_ponto_este" id="${idJogador}_bloqueio_ponto_este" readonly><span id="${idJogador}_aumentar_bloqueio_ponto_este">+</span>
+        <strong><span>Ponto adversário: </span></strong><span id="${idJogador}_diminuir_bloqueio_ponto_adversario">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_bloqueio_ponto_adversario" id="${idJogador}_bloqueio_ponto_adversario" readonly><span id="${idJogador}_aumentar_bloqueio_ponto_adversario">+</span>`;
         return elemento;
     }
     CriarInputsLevantamentos(idJogador) {
-        let elemento = `<span>Ponta: </span><span id="${idJogador}_diminuir_levantamento_ponta">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_ponta" id="${idJogador}_levantamento_ponta" readonly><span id="${idJogador}_aumentar_levantamento_ponta">+</span>
-        <span>Centro: </span><span id="${idJogador}_diminuir_levantamento_centro">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_centro" id="${idJogador}_levantamento_centro" readonly><span id="${idJogador}_aumentar_levantamento_centro">+</span>
-        <span>Oposto: </span><span id="${idJogador}_diminuir_levantamento_oposto">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_oposto" id="${idJogador}_levantamento_oposto" readonly><span id="${idJogador}_aumentar_levantamento_oposto">+</span>
-        <span>Pipe: </span><span id="${idJogador}_diminuir_levantamento_pipe">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_pipe" id="${idJogador}_levantamento_pipe" readonly><span id="${idJogador}_aumentar_levantamento_pipe">+</span>
-        <span>Errou: </span><span id="${idJogador}_diminuir_levantamento_errou">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_errou" id="${idJogador}_levantamento_errou" readonly><span id="${idJogador}_aumentar_levantamento_errou">+</span>`;
+        let elemento = `<strong><span>Ponta: </span></strong><span id="${idJogador}_diminuir_levantamento_ponta">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_ponta" id="${idJogador}_levantamento_ponta" readonly><span id="${idJogador}_aumentar_levantamento_ponta">+</span>
+        <strong><span>Centro: </span></strong><span id="${idJogador}_diminuir_levantamento_centro">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_centro" id="${idJogador}_levantamento_centro" readonly><span id="${idJogador}_aumentar_levantamento_centro">+</span>
+        <strong><span>Oposto: </span></strong><span id="${idJogador}_diminuir_levantamento_oposto">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_oposto" id="${idJogador}_levantamento_oposto" readonly><span id="${idJogador}_aumentar_levantamento_oposto">+</span>
+        <strong><span>Pipe: </span></strong><span id="${idJogador}_diminuir_levantamento_pipe">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_pipe" id="${idJogador}_levantamento_pipe" readonly><span id="${idJogador}_aumentar_levantamento_pipe">+</span>
+        <strong><span>Errou: </span></strong><span id="${idJogador}_diminuir_levantamento_errou">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_errou" id="${idJogador}_levantamento_errou" readonly><span id="${idJogador}_aumentar_levantamento_errou">+</span>`;
         return elemento;
     }
     // Função para aumentar e diminuir a quantidade dos atributos
