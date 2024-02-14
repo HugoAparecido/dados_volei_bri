@@ -95,9 +95,9 @@ export class Graficos {
                 localGrafico.appendChild(titulo)
                 if (saqueAce.por_baixo != 0 || saqueAce.viagem_fundo_do_mar != 0 || saqueAce.flutuante != 0 || saqueDentro.por_baixo != 0 || saqueDentro.flutuante != 0 || saqueDentro.viagem_fundo_do_mar != 0 || saqueFora.por_baixo != 0 || saqueFora.flutuante != 0 || saqueFora.viagem_fundo_do_mar != 0) {
                     const canva = document.createElement('canvas')
-                    canva.id = 'tipoSaqueChart'
+                    canva.id = 'tipoSaqueChartTime'
                     localGrafico.appendChild(canva)
-                    const ctx = document.getElementById("tipoSaqueChart")
+                    const ctx = document.getElementById("tipoSaqueChartTime")
                     const data = {
                         labels: [
                             'Por Baixo',
@@ -186,9 +186,9 @@ export class Graficos {
                 localGrafico.appendChild(titulo)
                 if (totalSaquesDentro != 0 || totalSaquesForas != 0) {
                     const canva = document.createElement('canvas')
-                    canva.id = 'saqueChart'
+                    canva.id = 'saqueChartTime'
                     localGrafico.appendChild(canva)
-                    const ctx = document.getElementById("saqueChart")
+                    const ctx = document.getElementById("saqueChartTime")
                     const data = {
                         labels: [
                             'Dentro',
@@ -197,6 +197,53 @@ export class Graficos {
                         datasets: [{
                             label: 'saques',
                             data: [totalSaquesDentro, totalSaquesForas],
+                            backgroundColor: [
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 99, 132)'
+                            ],
+                            hoverOffset: 4
+                        }]
+                    };
+                    const config = {
+                        type: 'pie',
+                        data: data,
+                    };
+                    new Chart(ctx, config);
+                }
+                else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>"
+            }
+        });
+    }
+    // Gráfico de acerto e erro de bloqueio do time
+    async AtaqueTime(idTime, nomeTime, localGrafico) {
+        const q = query(collection(db, "time"), where("nome", "==", nomeTime));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            if (doc.id === idTime) {
+                let jogadores = Object.entries(doc.data().jogadores)
+                let ataqueAcertado = 0
+                let ataqueErrado = 0
+                jogadores.forEach((jogador) => {
+                    ataqueAcertado += jogador[1].ataque.acertado
+                    ataqueErrado += jogador[1].ataque.errado
+                })
+                const titulo = document.createElement("h2")
+                titulo.innerHTML = "Ataques"
+                titulo.className = "titulo_graficos"
+                localGrafico.appendChild(titulo)
+                if (ataqueErrado != 0 || ataqueAcertado != 0) {
+                    const canva = document.createElement('canvas')
+                    canva.id = 'ataqueChartTime'
+                    localGrafico.appendChild(canva)
+                    const ctx = document.getElementById("ataqueChartTime")
+                    const data = {
+                        labels: [
+                            'Acertado',
+                            'Errado'
+                        ],
+                        datasets: [{
+                            label: 'saques',
+                            data: [ataqueAcertado, ataqueErrado],
                             backgroundColor: [
                                 'rgb(54, 162, 235)',
                                 'rgb(255, 99, 132)'
@@ -233,9 +280,9 @@ export class Graficos {
                 localGrafico.appendChild(titulo)
                 if (pontoAdversario != 0 || pontoDesteTime != 0) {
                     const canva = document.createElement('canvas')
-                    canva.id = 'bloqueioChart'
+                    canva.id = 'bloqueioChartTime'
                     localGrafico.appendChild(canva)
-                    const ctx = document.getElementById("bloqueioChart")
+                    const ctx = document.getElementById("bloqueioChartTime")
                     const data = {
                         labels: [
                             'Ponto para este time',
@@ -288,9 +335,9 @@ export class Graficos {
                 localGrafico.appendChild(titulo)
                 if (ponta != 0 || centro != 0 || oposto != 0 || pipe != 0 || errou != 0) {
                     const canva = document.createElement('canvas')
-                    canva.id = 'levantamentoChart'
+                    canva.id = 'levantamentoChartTime'
                     localGrafico.appendChild(canva)
-                    const ctx = document.getElementById("levantamentoChart")
+                    const ctx = document.getElementById("levantamentoChartTime")
                     const data = {
                         labels: [
                             'Ponta',
@@ -338,9 +385,9 @@ export class Graficos {
                 localGrafico.appendChild(titulo)
                 if (passeA != 0 || passeB != 0 || passeC != 0 || passeD != 0) {
                     const canva = document.createElement('canvas')
-                    canva.id = 'passeChart'
+                    canva.id = 'passeChartJogador'
                     localGrafico.appendChild(canva)
-                    const ctx = document.getElementById("passeChart")
+                    const ctx = document.getElementById("passeChartJogador")
                     const data = {
                         labels: [
                             'Passe A',
@@ -397,9 +444,9 @@ export class Graficos {
                 localGrafico.appendChild(titulo)
                 if (saqueAce.por_baixo != 0 || saqueAce.viagem_fundo_do_mar != 0 || saqueAce.flutuante != 0 || saqueDentro.por_baixo != 0 || saqueDentro.flutuante != 0 || saqueDentro.viagem_fundo_do_mar != 0 || saqueFora.por_baixo != 0 || saqueFora.flutuante != 0 || saqueFora.viagem_fundo_do_mar != 0) {
                     const canva = document.createElement('canvas')
-                    canva.id = 'tipoSaqueChart'
+                    canva.id = 'tipoSaqueChartJogador'
                     localGrafico.appendChild(canva)
-                    const ctx = document.getElementById("tipoSaqueChart")
+                    const ctx = document.getElementById("tipoSaqueChartJogador")
                     const data = {
                         labels: [
                             'Por Baixo',
@@ -475,9 +522,9 @@ export class Graficos {
                 let totalSaquesDentro = saqueAce.flutuante + saqueAce.por_baixo + saqueAce.viagem_fundo_do_mar + saqueDentro.flutuante + saqueDentro.por_baixo + saqueDentro.viagem_fundo_do_mar;
                 if (totalSaquesDentro != 0 || totalSaquesForas != 0) {
                     const canva = document.createElement('canvas')
-                    canva.id = 'saqueChart'
+                    canva.id = 'saqueChartJogador'
                     localGrafico.appendChild(canva)
-                    const ctx = document.getElementById("saqueChart")
+                    const ctx = document.getElementById("saqueChartJogador")
                     const data = {
                         labels: [
                             'Dentro',
@@ -486,6 +533,48 @@ export class Graficos {
                         datasets: [{
                             label: 'saques',
                             data: [totalSaquesDentro, totalSaquesForas],
+                            backgroundColor: [
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 99, 132)'
+                            ],
+                            hoverOffset: 4
+                        }]
+                    };
+                    const config = {
+                        type: 'pie',
+                        data: data,
+                    };
+                    new Chart(ctx, config);
+                }
+                else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>"
+            }
+        });
+    }
+    // gráfico para os bloqueios do jogador feito em todos os jogos
+    async AtaqueJogador(idJogador, nomeJogador, localGrafico) {
+        const q = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            if (doc.id === idJogador) {
+                let ataqueAcertado = doc.data().ataque.acertado
+                let ataqueErrado = doc.data().ataque.errado
+                const titulo = document.createElement("h2")
+                titulo.innerHTML = "Ataques"
+                titulo.className = "titulo_graficos"
+                localGrafico.appendChild(titulo)
+                if (ataqueErrado != 0 || ataqueAcertado != 0) {
+                    const canva = document.createElement('canvas')
+                    canva.id = 'ataqueChartJogador'
+                    localGrafico.appendChild(canva)
+                    const ctx = document.getElementById("ataqueChartJogador")
+                    const data = {
+                        labels: [
+                            'Acertado',
+                            'errado'
+                        ],
+                        datasets: [{
+                            label: 'saques',
+                            data: [ataqueAcertado, ataqueErrado],
                             backgroundColor: [
                                 'rgb(54, 162, 235)',
                                 'rgb(255, 99, 132)'
@@ -517,9 +606,9 @@ export class Graficos {
                 localGrafico.appendChild(titulo)
                 if (pontoAdversario != 0 || pontoDesteJogador != 0) {
                     const canva = document.createElement('canvas')
-                    canva.id = 'bloqueioChart'
+                    canva.id = 'bloqueioChartJogador'
                     localGrafico.appendChild(canva)
-                    const ctx = document.getElementById("bloqueioChart")
+                    const ctx = document.getElementById("bloqueioChartJogador")
                     const data = {
                         labels: [
                             'Ponto para este Jogador',
@@ -562,9 +651,9 @@ export class Graficos {
                 localGrafico.appendChild(titulo)
                 if (ponta != 0 || centro != 0 || oposto != 0 || pipe != 0 || errou != 0) {
                     const canva = document.createElement('canvas')
-                    canva.id = 'levantamentoChart'
+                    canva.id = 'levantamentoChartJogador'
                     localGrafico.appendChild(canva)
-                    const ctx = document.getElementById("levantamentoChart")
+                    const ctx = document.getElementById("levantamentoChartJogador")
                     const data = {
                         labels: [
                             'Ponta',

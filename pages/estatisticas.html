@@ -21,11 +21,7 @@
                 </li>
                 <li class="nav-item"><a href="./times.html" class="nav-link">Times</a>
                 </li>
-                <li class="nav-item"><a href="./estatisticas_jogador.html" class="nav-link">Visualizar
-                        Estatíticas Jogador</a>
-                </li>
-                <li class="nav-item"><a href="./estatisticas_time.html" class="nav-link">Visualizar
-                        Estatíticas Time</a>
+                <li class="nav-item"><a href="./estatisticas.html" class="nav-link">Visualizar Estatíticas</a>
                 </li>
                 <li class="nav-item"><a href="./inserir_informacoes.html" class="nav-link">Inserir Informações</a>
                 </li>
@@ -33,18 +29,35 @@
         </nav>
     </header>
     <main>
-        <section class="times">
+        <section class="escolher_time">
             <label class="form-label" for="time">Time</label>
             <select class="form-control" name="time" id="time"></select>
+            <button class="btn btn-primary" id="exibir_graficos_time">Exibir Gráficos</button>
         </section>
-        <section id="graficos">
-            <button class="btn btn-primary" id="exibir_graficos">Exibir Gráficos</button>
-            <section id="grafico_saque_time"></section>
-            <section id="grafico_passe_time"></section>
-            <section id="grafico_bloqueio_time"></section>
-            <section id="grafico_levantamento_time"></section>
+        <section id="graficos_time">
+            <div class="graficos">
+                <section id="grafico_saque_time"></section>
+                <section id="grafico_passe_time"></section>
+                <section id="grafico_ataque_time"></section>
+                <section id="grafico_bloqueio_time"></section>
+                <section id="grafico_levantamento_time"></section>
+            </div>
+        </section>
+        <section id="escolher_jogador">
+            <label class="form-label" for="jogador">Jogador</label>
+            <select class="form-control" name="jogador" id="jogador"></select>
+            <button class="btn btn-primary" id="exibir_graficos_jogador">Exibir Gráficos</button>
+        </section>
+        <section id="graficos_jogador">
+            <div class="graficos">
+                <section id="grafico_saque_jogador"></section>
+                <section id="grafico_passe_jogador"></section>
+                <section id="grafico_ataque_jogador"></section>
+                <section id="grafico_bloqueio_jogador"></section>
+                <section id="grafico_levantamento_jogador"></section>
+            </div>
         </section>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../js/estatisticas_time.js" type="module"></script>
+    <script src="../js/estatisticas.js" type="module"></script>
 </body>

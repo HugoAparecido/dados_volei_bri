@@ -100,6 +100,20 @@ export class Time {
             localSelect.innerHTML += `<option value="${doc.id}">${doc.data().nome}</option>`;
         });
     }
+    // Retorna jogadores no time
+    async JogadoresNoTime(idTime, nomeTime, mostrarJogador) {
+        mostrarJogador.innerHTML = "";
+        const q = query(collection(db, "time"), where("nome", "==", nomeTime));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            if (doc.id === idTime) {
+                let jogadores = Object.entries(doc.data().jogadores);
+                jogadores.forEach((jogador) => {
+                    mostrarJogador.innerHTML += `<option value="${jogador[0]}">${jogador[1].numero}: ${jogador[1].nome} (${jogador[1].posicao})</option>`;
+                })
+            }
+        })
+    }
     // Função para a exibição das inserções
     async AtivarInsercoes(nomeTime, idTime, localInsercoes, informacoes, form) {
         localStorage.setItem("timeAtualID", idTime);

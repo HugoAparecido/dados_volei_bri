@@ -1,7 +1,14 @@
-#graficos,
-#graficos>section {
+.graficos {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    flex-direction: row;
+}
+
+canvas {
+    width: 300px;
+}
+
+#escolher_jogador {
+    display: none;
 }
