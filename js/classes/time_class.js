@@ -178,20 +178,12 @@ export class Time {
             nome: nomeJogador,
             numero_camisa: camisa,
             posicao: posicao_j,
-            saque_fora: {
-                por_baixo: 0,
-                viagem_fundo_do_mar: 0,
+            saque: {
                 flutuante: 0,
-            },
-            saque_dentro: {
-                por_baixo: 0,
-                viagem_fundo_do_mar: 0,
-                flutuante: 0,
-                ace: {
-                    por_baixo: 0,
-                    viagem_fundo_do_mar: 0,
-                    flutuante: 0,
-                }
+                ace: 0,
+                viagem: 0,
+                fora: 0,
+                por_cima: 0
             }, passe: {
                 passe_A: 0,
                 passe_B: 0,
@@ -270,31 +262,23 @@ export class Time {
         }
     }
     // Atualização dos saques no Time
-    async AtualizarSaqueJogador(idTime, ace, dentro, fora, idJogador) {
+    async AtualizarSaqueJogador(idTime, saques, idJogador) {
         try {
             let inserirNovamenteID = "";
             let local = [
-                `jogadores.${idJogador}.saque_dentro.ace.por_baixo`,
-                `jogadores.${idJogador}.saque_dentro.ace.flutuante`,
-                `jogadores.${idJogador}.saque_dentro.ace.viagem_fundo_do_mar`,
-                `jogadores.${idJogador}.saque_dentro.por_baixo`,
-                `jogadores.${idJogador}.saque_dentro.flutuante`,
-                `jogadores.${idJogador}.saque_dentro.viagem_fundo_do_mar`,
-                `jogadores.${idJogador}.saque_fora.por_baixo`,
-                `jogadores.${idJogador}.saque_fora.flutuante`,
-                `jogadores.${idJogador}.saque_fora.viagem_fundo_do_mar`,
+                `jogadores.${idJogador}.saque.flutuante`,
+                `jogadores.${idJogador}.saque.ace`,
+                `jogadores.${idJogador}.saque.viagem`,
+                `jogadores.${idJogador}.saque.por_cima`,
+                `jogadores.${idJogador}.saque.fora`,
             ];
             const timeDocRef = doc(db, "time", idTime)
             await updateDoc(timeDocRef, {
-                [local[0]]: increment(ace[0]),
-                [local[1]]: increment(ace[1]),
-                [local[2]]: increment(ace[2]),
-                [local[3]]: increment(dentro[0]),
-                [local[4]]: increment(dentro[1]),
-                [local[5]]: increment(dentro[2]),
-                [local[6]]: increment(fora[0]),
-                [local[7]]: increment(fora[1]),
-                [local[8]]: increment(fora[2])
+                [local[0]]: increment(saques[0]),
+                [local[1]]: increment(saques[1]),
+                [local[2]]: increment(saques[2]),
+                [local[3]]: increment(saques[3]),
+                [local[4]]: increment(saques[4])
             });
             inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador);
             if (inserirNovamenteID != "") {

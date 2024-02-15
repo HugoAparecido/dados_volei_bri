@@ -6,6 +6,19 @@
     --laranja-claro: #F25C05;
     --branco: #fff;
     --cinza: #F2F2F2;
+    --cor-de-fundo-insercoes: #7AC1FF;
+}
+
+h1 {
+    color: var(--cinza);
+}
+
+body {
+    background-color: var(--preto);
+}
+
+main {
+    margin-bottom: 20px;
 }
 
 .insercoes {
@@ -15,6 +28,9 @@
 .time {
     display: flex;
     justify-content: space-around;
+    background-color: var(--laranja-claro);
+    margin-top: 10px;
+    border-radius: 10px;
 }
 
 #timeSelecionado {
@@ -30,6 +46,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    border-radius: 5px;
+    background-color: var(--cor-de-fundo-insercoes);
+    padding: 5px;
 }
 
 .saques_span {
@@ -62,6 +81,20 @@
 .saques td>div {
     display: flex;
     padding: 5px 10px;
+}
+
+.jogadores>form button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+select {
+    background-color: var(--laranja);
+    color: var(--cinza);
+    height: 30px;
+    font-size: 20px;
+    border: 2px solid var(--laranja-escuro);
+    border-radius: 10px;
 }
 
 #jogadores_no_time,

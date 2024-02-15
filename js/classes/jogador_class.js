@@ -13,20 +13,12 @@ export class Jogador {
             sexo: sexoConst,
             altura: alturaConst,
             peso: pesoConst,
-            saque_fora: {
-                por_baixo: 0,
-                viagem_fundo_do_mar: 0,
+            saque: {
                 flutuante: 0,
-            },
-            saque_dentro: {
-                por_baixo: 0,
-                viagem_fundo_do_mar: 0,
-                flutuante: 0,
-                ace: {
-                    por_baixo: 0,
-                    viagem_fundo_do_mar: 0,
-                    flutuante: 0,
-                }
+                ace: 0,
+                viagem: 0,
+                fora: 0,
+                por_cima: 0
             }, passe: {
                 passe_A: 0,
                 passe_B: 0,
@@ -436,19 +428,15 @@ export class Jogador {
         }
     }
     // Atualização dos saques no banco de somente um jogador
-    async AtualizarSaqueJogador(id, ace, dentro, fora) {
+    async AtualizarSaqueJogador(id, saques) {
         try {
             const timeDocRef = doc(db, "jogador", id)
             await updateDoc(timeDocRef, {
-                "saque_dentro.ace.por_baixo": increment(ace[0]),
-                "saque_dentro.ace.flutuante": increment(ace[1]),
-                "saque_dentro.ace.viagem_fundo_do_mar": increment(ace[2]),
-                "saque_dentro.por_baixo": increment(dentro[0]),
-                "saque_dentro.flutuante": increment(dentro[1]),
-                "saque_dentro.viagem_fundo_do_mar": increment(dentro[2]),
-                "saque_fora.por_baixo": increment(fora[0]),
-                "saque_fora.flutuante": increment(fora[1]),
-                "saque_fora.viagem_fundo_do_mar": increment(fora[2])
+                "saque.flutuante": increment(saques[0]),
+                "saque.ace": increment(saques[1]),
+                "saque.viagem": increment(saques[2]),
+                "saque.por_cima": increment(saques[3]),
+                "saque.fora": increment(saques[4])
             });
         }
         catch (e) {
