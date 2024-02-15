@@ -3,9 +3,8 @@ import { db } from "../acesso_banco.js";
 // importando as funções necessárias
 import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 export class Graficos {
-    // Gráfico para os passes do time
     // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
-    async PasseTime(idTime, nomeTime, localGrafico) {
+    async InserirGraficos(idTime, nomeTime, localGraficoPasse/*, localGraficoTipoSaque, localGraficoSaqueAcerto, localGraficoAtaque, localGraficoBloqueio, localGraficoLevantamento*/) {
         // colocando as condições para a porcura no banco
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         // tipo um select, onde o q é a condição, o await é para a função esperar o getDocs executar para continuar, pois este é uma promise
@@ -28,72 +27,78 @@ export class Graficos {
                     passeC += jogador[1].passe.passe_C;
                     passeD += jogador[1].passe.passe_D;
                 })
-                // criando um h2
-                const titulo = document.createElement("h2");
-                // colocando o texto no h2
-                titulo.innerHTML = "Passes";
-                // colocando a classe
-                titulo.className = "titulo_graficos";
-                // colocando a tag no html, estando dentro do local do local a vir o gráfico
-                localGrafico.appendChild(titulo);
-                // verificando se há passes para mostrar
-                if (passeA != 0 || passeB != 0 || passeC != 0 || passeD != 0) {
-                    // criando um canva
-                    const canva = document.createElement('canvas');
-                    // adicionando o id
-                    canva.id = 'passeChart';
-                    // colocando ele no html no local especificado
-                    localGrafico.appendChild(canva);
-                    // pegando o id do gráfico
-                    const ctx = document.getElementById("passeChart");
-                    // informações a mostrar
-                    const data = {
-                        // escrita legenda
-                        labels: [
-                            'Passe A',
-                            'Passe B',
-                            'Passe C',
-                            'Passe D'
-                        ],
-                        datasets: [{
-                            // nome dos valores
-                            label: 'Passes',
-                            // quantidade dos passes
-                            data: [passeA, passeB, passeC, passeD],
-                            // cores a mostrar respectivamente
-                            backgroundColor: [
-                                'rgb(0, 37, 228)',
-                                'rgb(2, 183, 86)',
-                                'rgb(230, 197, 1)',
-                                'rgb(242, 92, 5)'
-                            ],
-                            hoverOffset: 4
-                        }]
-                    };
-                    // configurando o gráfico
-                    const config = {
-                        // tipo pizza ou setores
-                        type: 'pie',
-                        // os valores citados acima
-                        data: data,
-                    };
-                    new Chart(ctx, config);
-                }
-                // se não hover passse para apresentar, haverá uma mensagem no formato parágrafo
-                else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>";
+                // Chamando a função para criar o gráfico
+                this.GraficoPasses(passeA, passeB, passeC, passeD, localGraficoPasse);
             }
         });
     }
-    // Gráfico para os tipos de saque feitos pelo time
+    // Gráfico para os passes do time
+    GraficoPasses(passeA, passeB, passeC, passeD, localGrafico) {
+        // criando um h2
+        const titulo = document.createElement("h2");
+        // colocando o texto no h2
+        titulo.innerHTML = "Passes";
+        // colocando a classe
+        titulo.className = "titulo_graficos";
+        // colocando a tag no html, estando dentro do local do local a vir o gráfico
+        localGrafico.appendChild(titulo);
+        // verificando se há passes para mostrar
+        if (passeA != 0 || passeB != 0 || passeC != 0 || passeD != 0) {
+            // criando um canva
+            const canva = document.createElement('canvas');
+            // adicionando o id
+            canva.id = 'passeChart';
+            // colocando ele no html no local especificado
+            localGrafico.appendChild(canva);
+            // pegando o id do gráfico
+            const ctx = document.getElementById("passeChart");
+            // informações a mostrar
+            const data = {
+                // escrita legenda
+                labels: [
+                    'Passe A',
+                    'Passe B',
+                    'Passe C',
+                    'Passe D'
+                ],
+                datasets: [{
+                    // nome dos valores
+                    label: 'Passes',
+                    // quantidade dos passes
+                    data: [passeA, passeB, passeC, passeD],
+                    // cores a mostrar respectivamente
+                    backgroundColor: [
+                        'rgb(0, 37, 228)',
+                        'rgb(2, 183, 86)',
+                        'rgb(230, 197, 1)',
+                        'rgb(242, 92, 5)'
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+            // configurando o gráfico
+            const config = {
+                // tipo pizza ou setores
+                type: 'pie',
+                // os valores citados acima
+                data: data,
+            };
+            new Chart(ctx, config);
+        }
+        // se não hover passse para apresentar, haverá uma mensagem no formato parágrafo
+        else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>";
+
+    }
+    // Gráfico para os tipos de saque feitos pelo time 
     // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
     async SaqueTimeTipo(idTime, nomeTime, localGrafico) {
-        // colocando as condições para a porcura no banco
+        // colocando as condições para a procura no banco
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         // tipo um select, onde o q é a condição, o await é para a função esperar o getDocs executar para continuar, pois este é um promise
         const querySnapshot = await getDocs(q);
         // para cada documento que encontrar, o forEach é para ler arrays, é tipo um for
         querySnapshot.forEach((doc) => {
-            // verifica se é o jogador certo pelo id
+            // verifica se é o time certo pelo id
             if (doc.id === idTime) {
                 // transforma o obejeto jogadores em entradas, transforma em array
                 let jogadores = Object.entries(doc.data().jogadores);

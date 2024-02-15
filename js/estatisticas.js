@@ -1,7 +1,6 @@
 // importações necessárias
 import { Graficos } from "./classes/graficos_class.js";
 import { Time } from "./classes/time_class.js";
-import { Jogador } from "./classes/jogador_class.js";
 // Elementos html
 // Locais de modificação
 const locais = {
@@ -31,7 +30,7 @@ time.PopularSelect(locais.timeSelecionado());
 let grafico = new Graficos;
 botoes.mostrarGraficosTime().addEventListener('click', () => {
     locais.localGraficoBloqueioTime().innerHTML = locais.localGraficoLevantamentoTime().innerHTML = locais.localGraficoPasseTime().innerHTML = locais.localGraficoSaqueTime().innerHTML = locais.localGraficoAtaqueTime().innerHTML = "";
-    grafico.PasseTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoPasseTime());
+    grafico.InserirGraficos(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoPasseTime());
     grafico.SaqueTimeTipo(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoSaqueTime());
     grafico.SaqueTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoSaqueTime());
     grafico.AtaqueTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoAtaqueTime());
