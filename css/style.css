@@ -22,8 +22,11 @@ header {
     text-align: center;
 }
 
+#logo{
+     float: left; width: 3.5%; height: 6%; border-radius: 60%; margin: 4px; 
+}
 header>h1 {
-    margin: 10px 0;
+    margin: 15px 0; float: left;
 }
 
 nav {
@@ -32,7 +35,9 @@ nav {
     align-items: center;
     flex-direction: column;
     background-color: var(--laranja);
-    height: 50px;
+    height: 60px;
+    width: 85%;
+    float: right;
 }
 
 nav>ul {
