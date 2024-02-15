@@ -1,33 +1,54 @@
+// importando a constante do banco do arquivo
 import { db } from "../acesso_banco.js";
+// importando as funções necessárias
 import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 export class Graficos {
     // Gráfico para os passes do time
+    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
     async PasseTime(idTime, nomeTime, localGrafico) {
+        // colocando as condições para a porcura no banco
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
+        // tipo um select, onde o q é a condição, o await é para a função esperar o getDocs executar para continuar, pois este é um promise
         const querySnapshot = await getDocs(q);
+        // para cada documento que encontrar, o forEach é para ler arrays, é tipo um for
         querySnapshot.forEach((doc) => {
+            // verifica se é o jogador certo pelo id
             if (doc.id === idTime) {
-                let jogadores = Object.entries(doc.data().jogadores)
-                let passeA = 0
-                let passeB = 0
-                let passeC = 0
-                let passeD = 0
+                // transforma o obejeto jogadores em entradas, transforma em array
+                let jogadores = Object.entries(doc.data().jogadores);
+                // inicializando os passes em zero
+                let passeA = 0;
+                let passeB = 0;
+                let passeC = 0;
+                let passeD = 0;
+                // para cada jogador ele incrementará nas variáveis acima o respectivo valor
                 jogadores.forEach((jogador) => {
-                    passeA += jogador[1].passe.passe_A
-                    passeB += jogador[1].passe.passe_B
-                    passeC += jogador[1].passe.passe_C
-                    passeD += jogador[1].passe.passe_D
+                    passeA += jogador[1].passe.passe_A;
+                    passeB += jogador[1].passe.passe_B;
+                    passeC += jogador[1].passe.passe_C;
+                    passeD += jogador[1].passe.passe_D;
                 })
-                const titulo = document.createElement("h2")
-                titulo.innerHTML = "Passes"
-                titulo.className = "titulo_graficos"
-                localGrafico.appendChild(titulo)
+                // criando um h2
+                const titulo = document.createElement("h2");
+                // colocando o texto no h2
+                titulo.innerHTML = "Passes";
+                // colocando a classe
+                titulo.className = "titulo_graficos";
+                // colocando a tag no html, estando dentro do local do local a vir o gráfico
+                localGrafico.appendChild(titulo);
+                // verificando se há passes para mostrar
                 if (passeA != 0 || passeB != 0 || passeC != 0 || passeD != 0) {
-                    const canva = document.createElement('canvas')
-                    canva.id = 'passeChart'
-                    localGrafico.appendChild(canva)
-                    const ctx = document.getElementById("passeChart")
+                    // criando um canva
+                    const canva = document.createElement('canvas');
+                    // adicionando o id
+                    canva.id = 'passeChart';
+                    // colocando ele no html no local especificado
+                    localGrafico.appendChild(canva);
+                    // pegando o id do gráfico
+                    const ctx = document.getElementById("passeChart");
+                    // informações a mostrar
                     const data = {
+                        // escrita legenda
                         labels: [
                             'Passe A',
                             'Passe B',
@@ -35,8 +56,11 @@ export class Graficos {
                             'Passe D'
                         ],
                         datasets: [{
+                            // nome dos valores
                             label: 'Passes',
+                            // quantidade dos passes
                             data: [passeA, passeB, passeC, passeD],
+                            // cores a mostrar respectivamente
                             backgroundColor: [
                                 'rgb(0, 37, 228)',
                                 'rgb(2, 183, 86)',
@@ -46,55 +70,59 @@ export class Graficos {
                             hoverOffset: 4
                         }]
                     };
+                    // configurando o gráfico
                     const config = {
+                        // tipo pizza ou setores
                         type: 'pie',
+                        // os valores citados acima
                         data: data,
                     };
                     new Chart(ctx, config);
                 }
-                else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>"
+                // se não hover passse para apresentar, haverá uma mensagem no formato parágrafo
+                else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>";
             }
         });
     }
     // Gráfico para os tipos de saque feitos pelo time
     async SaqueTimeTipo(idTime, nomeTime, localGrafico) {
+        // colocando as condições para a porcura no banco
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
+        // tipo um select, onde o q é a condição, o await é para a função esperar o getDocs executar para continuar, pois este é um promise
         const querySnapshot = await getDocs(q);
+        // para cada documento que encontrar, o forEach é para ler arrays, é tipo um for
         querySnapshot.forEach((doc) => {
+            // verifica se é o jogador certo pelo id
             if (doc.id === idTime) {
-                let jogadores = Object.entries(doc.data().jogadores)
-                let saqueAce = {
-                    por_baixo: 0,
-                    viagem_fundo_do_mar: 0,
-                    flutuante: 0
-                }
-                let saqueDentro = {
-                    por_baixo: 0,
-                    viagem_fundo_do_mar: 0,
-                    flutuante: 0
-                }
-                let saqueFora = {
-                    por_baixo: 0,
-                    viagem_fundo_do_mar: 0,
-                    flutuante: 0
-                }
+                // transforma o obejeto jogadores em entradas, transforma em array
+                let jogadores = Object.entries(doc.data().jogadores);
+                // inicializando os saques em zero
+                let saque = {
+                    ace: 0,
+                    flutuante: 0,
+                    viagem: 0,
+                    por_cima: 0,
+                    fora: 0
+                };
+                // para cada jogador ele incrementará nas variáveis acima o respectivo valor
                 jogadores.forEach((jogador) => {
-                    saqueAce.flutuante += jogador[1].saque_dentro.ace.flutuante
-                    saqueAce.por_baixo += jogador[1].saque_dentro.ace.por_baixo
-                    saqueAce.viagem_fundo_do_mar += jogador[1].saque_dentro.ace.viagem_fundo_do_mar
-                    saqueDentro.flutuante += jogador[1].saque_dentro.flutuante
-                    saqueDentro.por_baixo += jogador[1].saque_dentro.por_baixo
-                    saqueDentro.viagem_fundo_do_mar += jogador[1].saque_dentro.viagem_fundo_do_mar
-                    saqueFora.flutuante += jogador[1].saque_fora.flutuante
-                    saqueFora.por_baixo += jogador[1].saque_fora.por_baixo
-                    saqueFora.viagem_fundo_do_mar += jogador[1].saque_fora.viagem_fundo_do_mar
-                })
-                const titulo = document.createElement("h2")
-                titulo.innerHTML = "Tipos de saque"
-                titulo.className = "titulo_graficos"
-                localGrafico.appendChild(titulo)
+                    saque.flutuante += jogador[1].saque.flutuante;
+                    saque.por_cima += jogador[1].saque.por_cima;
+                    saque.viagem += jogador[1].saque.viagem;
+                    saque.fora += jogador[1].saque.fora;
+                    saque.ace += jogador[1].saque.ace;
+                });
+                // criando um h2
+                const titulo = document.createElement("h2");
+                // colocando o texto no h2
+                titulo.innerHTML = "Tipos de saque";
+                // colocando a classe
+                titulo.className = "titulo_graficos";
+                // colocando a tag no html, estando dentro do local do local a vir o gráfico
+                localGrafico.appendChild(titulo);
                 if (saqueAce.por_baixo != 0 || saqueAce.viagem_fundo_do_mar != 0 || saqueAce.flutuante != 0 || saqueDentro.por_baixo != 0 || saqueDentro.flutuante != 0 || saqueDentro.viagem_fundo_do_mar != 0 || saqueFora.por_baixo != 0 || saqueFora.flutuante != 0 || saqueFora.viagem_fundo_do_mar != 0) {
                     const canva = document.createElement('canvas')
+                    // adicionando o id
                     canva.id = 'tipoSaqueChartTime'
                     localGrafico.appendChild(canva)
                     const ctx = document.getElementById("tipoSaqueChartTime")
@@ -183,7 +211,8 @@ export class Graficos {
                 const titulo = document.createElement("h2")
                 titulo.innerHTML = "Saques Dentro e Fora"
                 titulo.className = "titulo_graficos"
-                localGrafico.appendChild(titulo)
+                // colocando a tag no html, estando dentro do local do local a vir o gráfico
+                localGrafico.appendChild(titulo);
                 if (totalSaquesDentro != 0 || totalSaquesForas != 0) {
                     const canva = document.createElement('canvas')
                     canva.id = 'saqueChartTime'
@@ -230,7 +259,8 @@ export class Graficos {
                 const titulo = document.createElement("h2")
                 titulo.innerHTML = "Ataques"
                 titulo.className = "titulo_graficos"
-                localGrafico.appendChild(titulo)
+                // colocando a tag no html, estando dentro do local do local a vir o gráfico
+                localGrafico.appendChild(titulo);
                 if (ataqueErrado != 0 || ataqueAcertado != 0) {
                     const canva = document.createElement('canvas')
                     canva.id = 'ataqueChartTime'
@@ -277,7 +307,8 @@ export class Graficos {
                 const titulo = document.createElement("h2")
                 titulo.innerHTML = "Bloqueios"
                 titulo.className = "titulo_graficos"
-                localGrafico.appendChild(titulo)
+                // colocando a tag no html, estando dentro do local do local a vir o gráfico
+                localGrafico.appendChild(titulo);
                 if (pontoAdversario != 0 || pontoDesteTime != 0) {
                     const canva = document.createElement('canvas')
                     canva.id = 'bloqueioChartTime'
@@ -382,7 +413,8 @@ export class Graficos {
                 const titulo = document.createElement("h2")
                 titulo.innerHTML = "Passes"
                 titulo.className = "titulo_graficos"
-                localGrafico.appendChild(titulo)
+                // colocando a tag no html, estando dentro do local do local a vir o gráfico
+                localGrafico.appendChild(titulo);
                 if (passeA != 0 || passeB != 0 || passeC != 0 || passeD != 0) {
                     const canva = document.createElement('canvas')
                     canva.id = 'passeChartJogador'
@@ -441,7 +473,8 @@ export class Graficos {
                 const titulo = document.createElement("h2")
                 titulo.innerHTML = "Tipos de saque"
                 titulo.className = "titulo_graficos"
-                localGrafico.appendChild(titulo)
+                // colocando a tag no html, estando dentro do local do local a vir o gráfico
+                localGrafico.appendChild(titulo);
                 if (saqueAce.por_baixo != 0 || saqueAce.viagem_fundo_do_mar != 0 || saqueAce.flutuante != 0 || saqueDentro.por_baixo != 0 || saqueDentro.flutuante != 0 || saqueDentro.viagem_fundo_do_mar != 0 || saqueFora.por_baixo != 0 || saqueFora.flutuante != 0 || saqueFora.viagem_fundo_do_mar != 0) {
                     const canva = document.createElement('canvas')
                     canva.id = 'tipoSaqueChartJogador'
@@ -523,7 +556,8 @@ export class Graficos {
                 if (totalSaquesDentro != 0 || totalSaquesForas != 0) {
                     const canva = document.createElement('canvas')
                     canva.id = 'saqueChartJogador'
-                    localGrafico.appendChild(canva)
+                    // colocando a tag no html, estando dentro do local do local a vir o gráfico
+                    localGrafico.appendChild(canva);
                     const ctx = document.getElementById("saqueChartJogador")
                     const data = {
                         labels: [
@@ -565,7 +599,8 @@ export class Graficos {
                 if (ataqueErrado != 0 || ataqueAcertado != 0) {
                     const canva = document.createElement('canvas')
                     canva.id = 'ataqueChartJogador'
-                    localGrafico.appendChild(canva)
+                    // colocando a tag no html, estando dentro do local do local a vir o gráfico
+                    localGrafico.appendChild(canva);
                     const ctx = document.getElementById("ataqueChartJogador")
                     const data = {
                         labels: [
@@ -607,7 +642,8 @@ export class Graficos {
                 if (pontoAdversario != 0 || pontoDesteJogador != 0) {
                     const canva = document.createElement('canvas')
                     canva.id = 'bloqueioChartJogador'
-                    localGrafico.appendChild(canva)
+                    // colocando a tag no html, estando dentro do local do local a vir o gráfico
+                    localGrafico.appendChild(canva);
                     const ctx = document.getElementById("bloqueioChartJogador")
                     const data = {
                         labels: [
@@ -652,7 +688,8 @@ export class Graficos {
                 if (ponta != 0 || centro != 0 || oposto != 0 || pipe != 0 || errou != 0) {
                     const canva = document.createElement('canvas')
                     canva.id = 'levantamentoChartJogador'
-                    localGrafico.appendChild(canva)
+                    // colocando a tag no html, estando dentro do local do local a vir o gráfico
+                    localGrafico.appendChild(canva);
                     const ctx = document.getElementById("levantamentoChartJogador")
                     const data = {
                         labels: [
