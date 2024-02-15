@@ -1,3 +1,13 @@
+:root {
+    --preto: #000;
+    --laranja: #F24405;
+    --marrom: #261515;
+    --laranja-escuro: #590902;
+    --laranja-claro: #F25C05;
+    --branco: #fff;
+    --cinza: #F2F2F2;
+}
+
 .insercoes {
     display: none;
 }
@@ -19,18 +29,29 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
 }
 
-.passes>span,
+.saques_span {
+    cursor: pointer;
+    padding: 2px 5px;
+    background-color: var(--laranja);
+    color: var(--cinza);
+    border-radius: 10px;
+    margin: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .saques td>div>span,
 .ataques>span,
 .bloqueios>span,
 .levantamentos>span {
     cursor: pointer;
     padding: 2px 5px;
-    background-color: var(--cor-botao-background);
-    color: var(--cor-botao-escrita);
+    background-color: var(--laranja);
+    color: var(--cinza);
     border-radius: 10px;
     margin: 2px;
     display: flex;
@@ -68,8 +89,14 @@
 }
 
 input[type=number] {
-    max-width: 50px;
+    max-width: 30px;
     height: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
 }
 
 span {
@@ -81,5 +108,4 @@ span {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 20px;
 }

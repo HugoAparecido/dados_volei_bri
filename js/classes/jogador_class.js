@@ -190,15 +190,15 @@ export class Jogador {
                     // Criação da div Passes do jogador
                     let divPasses = document.createElement("div");
                     divPasses.className = "passes";
-                    divPasses.innerHTML += `<strong><span>Passe: </span></strong>`;
+                    divPasses.innerHTML += `<span><strong>Passe: </strong></span>`;
                     divPasses.appendChild(this.CriarInputsPasses(doc.id, "A"));
                     divPasses.appendChild(this.CriarInputsPasses(doc.id, "B"));
                     divPasses.appendChild(this.CriarInputsPasses(doc.id, "C"));
                     divPasses.appendChild(this.CriarInputsPasses(doc.id, "D"));
-                    divJogador.appendChild(divPasses)
+                    divJogador.appendChild(divPasses);
                     // Criação da div Saques
                     let divSaques = document.createElement("div");
-                    divSaques.className = "saques"
+                    divSaques.className = "saques";
                     divSaques.innerHTML = "<strong><span>Saque: </span></strong>";
                     let divTabelaSaques = document.createElement("table");
                     let bodyTable = document.createElement("tbody");
@@ -274,14 +274,17 @@ export class Jogador {
     // Função para a criação do input para o passe
     CriarInputsPasses(idJogador, tipoPasse) {
         let elemento = document.createElement("div");
+        elemento.className = "linha_unica";
         // span decremento
         let spanDecremento = document.createElement("span");
         spanDecremento.id = `${idJogador}_diminuir_passe_${tipoPasse}`;
         spanDecremento.innerHTML = `-${tipoPasse}`;
+        spanDecremento.className = "saques_span";
         // span incremento
         let spanIncremento = document.createElement("span");
         spanIncremento.id = `${idJogador}_aumentar_passe_${tipoPasse}`;
         spanIncremento.innerHTML = `+${tipoPasse}`;
+        spanIncremento.className = "saques_span";
         // input
         let input = document.createElement("input");
         input.type = "number";
