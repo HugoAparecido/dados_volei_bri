@@ -1,18 +1,16 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 main {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: initial;
-    justify-content: space-around;
+    align-items: center;
+    justify-content: center;
     text-align: center;
 }
 
 .times {
+    margin-top: 10px;
+    width: 100%;
+    max-width: 1200px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;

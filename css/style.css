@@ -1,7 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 * {
     margin: 0;
     box-sizing: border-box;
     padding: 0;
+    font-family: "Roboto", sans-serif;
+}
+
+:root {
+    --preto: #000;
+    --laranja: #F24405;
+    --marrom: #261515;
+    --laranja-escuro: #590902;
+    --laranja-claro: #F25C05;
+    --branco: #fff;
+    --cinza: #F2F2F2;
+}
+
+header {
+    width: 100%;
+    text-align: center;
+}
+
+header>h1 {
+    margin: 10px 0;
 }
 
 nav {
@@ -9,37 +31,68 @@ nav {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-color: var(--laranja);
+    height: 50px;
 }
 
 nav>ul {
     width: 100%;
     max-width: 1200px;
     align-self: center;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
-button.fab {
+nav>ul>li>a {
+    color: var(--cinza);
+    text-decoration: none;
+}
+
+nav>ul>li>a:hover {
+    text-decoration: underline;
+}
+
+button.botao_deslogar {
+    background-color: var(--laranja-claro);
+    color: var(--laranja-escuro);
     width: 54px;
     height: 54px;
     border-radius: 50px;
     border: none;
     font-size: 24px;
-    box-shadow: 2px 2px 2px gray;
-}
-
-button.fab.fixed {
+    box-shadow: 2px 2px 2px var(--laranja-claro);
     position: fixed;
-}
-
-button.fab.bottom {
-    bottom: 32px;
-}
-
-button.fab.right {
     right: 32px;
+    top: 32px;
+    cursor: pointer;
 }
 
-button.fab.top {
-    top: 32px;
+
+button.botao_deslogar:hover {
+    background-color: var(--laranja-escuro);
+    color: var(--cinza);
+    box-shadow: 2px 2px 2px var(--laranja-escuro);
+}
+
+button {
+    cursor: pointer;
+    height: 35px;
+    font-size: 20px;
+    color: var(--cinza);
+    background-color: var(--laranja);
+    border-radius: 5px;
+    border: 1px solid var(--laranja-escuro);
+    padding: 5px;
+}
+
+button>a {
+    color: var(--cinza);
+}
+
+button:hover {
+    background-color: var(--laranja-claro);
 }
 
 button[disabled] {
