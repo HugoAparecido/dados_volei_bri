@@ -191,10 +191,10 @@ export class Jogador {
                     let divPasses = document.createElement("div");
                     divPasses.className = "passes";
                     divPasses.innerHTML += `<strong><span>Passe: </span></strong>`;
-                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "A");
-                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "B");
-                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "C");
-                    divPasses.innerHTML += this.CriarInputsPasses(doc.id, "D");
+                    divPasses.appendChild(this.CriarInputsPasses(doc.id, "A"));
+                    divPasses.appendChild(this.CriarInputsPasses(doc.id, "B"));
+                    divPasses.appendChild(this.CriarInputsPasses(doc.id, "C"));
+                    divPasses.appendChild(this.CriarInputsPasses(doc.id, "D"));
                     divJogador.appendChild(divPasses)
                     // Criação da div Saques
                     let divSaques = document.createElement("div");
@@ -273,9 +273,27 @@ export class Jogador {
     }
     // Função para a criação do input para o passe
     CriarInputsPasses(idJogador, tipoPasse) {
-        let elemento = `<span id="${idJogador}_diminuir_passe_${tipoPasse}">-${tipoPasse}</span>
-        <input class="form-control input_number" type="number" min="0" name="${idJogador}_passe_${tipoPasse}" id="${idJogador}_passe_${tipoPasse}" readonly>
-        <span id="${idJogador}_aumentar_passe_${tipoPasse}">${tipoPasse}+</span>`;
+        let elemento = document.createElement("div");
+        // span decremento
+        let spanDecremento = document.createElement("span");
+        spanDecremento.id = `${idJogador}_diminuir_passe_${tipoPasse}`;
+        spanDecremento.innerHTML = `-${tipoPasse}`;
+        // span incremento
+        let spanIncremento = document.createElement("span");
+        spanIncremento.id = `${idJogador}_aumentar_passe_${tipoPasse}`;
+        spanIncremento.innerHTML = `+${tipoPasse}`;
+        // input
+        let input = document.createElement("input");
+        input.type = "number";
+        input.className = "input_number";
+        input.min = 0;
+        input.name = `${idJogador}_passe_${tipoPasse}`;
+        input.id = `${idJogador}_passe_${tipoPasse}`;
+        input.readOnly = true;
+        // colocando os elementos na div
+        elemento.appendChild(spanDecremento);
+        elemento.appendChild(input);
+        elemento.appendChild(spanIncremento);
         return elemento;
     }
     // Função para a criação do input Saque

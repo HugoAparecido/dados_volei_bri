@@ -1,12 +1,3 @@
-:root {
-    --cor-botao-background: #0d6efd;
-    --cor-botao-escrita: #fff;
-}
-
-button {
-    margin-top: 30px;
-}
-
 .insercoes {
     display: none;
 }
