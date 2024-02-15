@@ -8,11 +8,11 @@ export class Graficos {
     async PasseTime(idTime, nomeTime, localGrafico) {
         // colocando as condições para a porcura no banco
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
-        // tipo um select, onde o q é a condição, o await é para a função esperar o getDocs executar para continuar, pois este é um promise
+        // tipo um select, onde o q é a condição, o await é para a função esperar o getDocs executar para continuar, pois este é uma promise
         const querySnapshot = await getDocs(q);
-        // para cada documento que encontrar, o forEach é para ler arrays, é tipo um for
+        // para cada documento que encontrar, o forEach é para ler arrays, é tipo um for para array
         querySnapshot.forEach((doc) => {
-            // verifica se é o jogador certo pelo id
+            // verifica se é o time certo pelo id
             if (doc.id === idTime) {
                 // transforma o obejeto jogadores em entradas, transforma em array
                 let jogadores = Object.entries(doc.data().jogadores);
@@ -85,6 +85,7 @@ export class Graficos {
         });
     }
     // Gráfico para os tipos de saque feitos pelo time
+    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
     async SaqueTimeTipo(idTime, nomeTime, localGrafico) {
         // colocando as condições para a porcura no banco
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
@@ -115,56 +116,46 @@ export class Graficos {
                 // criando um h2
                 const titulo = document.createElement("h2");
                 // colocando o texto no h2
-                titulo.innerHTML = "Tipos de saque";
+                titulo.innerHTML = "Tipos de saque acertados";
                 // colocando a classe
                 titulo.className = "titulo_graficos";
                 // colocando a tag no html, estando dentro do local do local a vir o gráfico
                 localGrafico.appendChild(titulo);
-                if (saqueAce.por_baixo != 0 || saqueAce.viagem_fundo_do_mar != 0 || saqueAce.flutuante != 0 || saqueDentro.por_baixo != 0 || saqueDentro.flutuante != 0 || saqueDentro.viagem_fundo_do_mar != 0 || saqueFora.por_baixo != 0 || saqueFora.flutuante != 0 || saqueFora.viagem_fundo_do_mar != 0) {
+                if (saque.por_cima != 0 || saque.ace != 0 || saque.flutuante != 0 || saque.viagem != 0 || saque.fora != 0) {
                     const canva = document.createElement('canvas')
                     // adicionando o id
                     canva.id = 'tipoSaqueChartTime'
                     localGrafico.appendChild(canva)
                     const ctx = document.getElementById("tipoSaqueChartTime")
+                    // informações a mostrar
                     const data = {
+                        // escrita legenda
                         labels: [
-                            'Por Baixo',
                             'Flutuante',
-                            'Viagem'
+                            'Por Cima',
+                            'Viagem',
+                            'Ace'
                         ],
                         datasets: [{
-                            label: 'saques ace',
-                            data: [saqueAce.por_baixo, saqueAce.flutuante, saqueAce.viagem_fundo_do_mar],
-                            fill: true,
-                            backgroundColor: 'rgba(0, 37, 228, 0.2)',
-                            borderColor: 'rgb(0, 37, 228)',
-                            pointBackgroundColor: 'rgb(0, 37, 228)',
-                            pointBorderColor: '#fff',
-                            pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: 'rgb(0, 37, 228)'
-                        }, {
-                            label: 'saques dentro nao ace',
-                            data: [saqueDentro.por_baixo, saqueDentro.flutuante, saqueDentro.viagem_fundo_do_mar],
-                            fill: true,
-                            backgroundColor: 'rgba(2, 183, 86, 0.2)',
-                            borderColor: 'rgb(2, 183, 86)',
-                            pointBackgroundColor: 'rgb(2, 183, 86)',
-                            pointBorderColor: '#fff',
-                            pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: 'rgb(2, 183, 86)'
-                        }, {
-                            label: 'saques fora',
-                            data: [saqueFora.por_baixo, saqueFora.flutuante, saqueFora.viagem_fundo_do_mar],
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            borderColor: 'rgb(255, 99, 132)',
-                            pointBackgroundColor: 'rgb(255, 99, 132)',
-                            pointBorderColor: '#fff',
-                            pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: 'rgb(255, 99, 132)'
+                            // nome dos valores
+                            label: 'Saques',
+                            // quantidade dos passes
+                            data: [saque.flutuante, saque.por_cima, saque.viagem, saque.ace],
+                            // cores a mostrar respectivamente
+                            backgroundColor: [
+                                'rgb(0, 37, 228)',
+                                'rgb(2, 183, 86)',
+                                'rgb(230, 197, 1)',
+                                'rgb(242, 92, 5)'
+                            ],
+                            hoverOffset: 4
                         }]
                     };
+                    // configurando o gráfico
                     const config = {
-                        type: 'radar',
+                        // tipo pizza ou setores
+                        type: 'pie',
+                        // os valores citados acima
                         data: data,
                     };
                     new Chart(ctx, config);
@@ -174,6 +165,7 @@ export class Graficos {
         });
     }
     // Gráfico de relação acerto e erro dos saque do time
+    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
     async SaqueTime(idTime, nomeTime, localGrafico) {
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         const querySnapshot = await getDocs(q);
@@ -244,6 +236,7 @@ export class Graficos {
         });
     }
     // Gráfico de acerto e erro de bloqueio do time
+    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
     async AtaqueTime(idTime, nomeTime, localGrafico) {
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         const querySnapshot = await getDocs(q);
@@ -292,6 +285,7 @@ export class Graficos {
         });
     }
     // Gráfico de acerto e erro de bloqueio do time
+    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
     async BloqueioTime(idTime, nomeTime, localGrafico) {
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         const querySnapshot = await getDocs(q);
@@ -340,6 +334,7 @@ export class Graficos {
         });
     }
     // Gráfico de levantamento efetuados no time
+    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
     async LevantamentoTime(idTime, nomeTime, localGrafico) {
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         const querySnapshot = await getDocs(q);
@@ -401,6 +396,7 @@ export class Graficos {
         });
     }
     // gráfico para os passe do jogador feito em todos os jogos
+    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
     async PasseJogador(idJogador, nomeJogador, localGrafico) {
         const q = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshot = await getDocs(q);
@@ -450,6 +446,7 @@ export class Graficos {
         });
     }
     // gráfico para os tipos de saque do jogador feito em todos os jogos
+    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
     async TipoSaqueJogador(idJogador, nomeJogador, localGrafico) {
         const q = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshot = await getDocs(q);
@@ -527,6 +524,7 @@ export class Graficos {
         });
     }
     // gráfico para os saque do jogador em relação acerto e erro feito em todos os jogos
+    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
     async SaqueJogador(idJogador, nomeJogador, localGrafico) {
         const q = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshot = await getDocs(q);
@@ -585,6 +583,7 @@ export class Graficos {
         });
     }
     // gráfico para os bloqueios do jogador feito em todos os jogos
+    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
     async AtaqueJogador(idJogador, nomeJogador, localGrafico) {
         const q = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshot = await getDocs(q);
@@ -628,6 +627,7 @@ export class Graficos {
         });
     }
     // gráfico para os bloqueios do jogador feito em todos os jogos
+    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
     async BloqueioJogador(idJogador, nomeJogador, localGrafico) {
         const q = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshot = await getDocs(q);
@@ -671,6 +671,7 @@ export class Graficos {
         });
     }
     // gráfico para os levantamentos do jogador feito em todos os jogos
+    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
     async LevantamentoJogador(idJogador, nomeJogador, localGrafico) {
         const q = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshot = await getDocs(q);
