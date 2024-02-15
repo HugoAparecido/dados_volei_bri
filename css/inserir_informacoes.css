@@ -6,11 +6,15 @@
     --laranja-claro: #F25C05;
     --branco: #fff;
     --cinza: #F2F2F2;
-    --cor-de-fundo-insercoes: #7AC1FF;
+    --cor-de-fundo-insercoes: #F49054;
 }
 
 h1 {
     color: var(--cinza);
+}
+
+h2 {
+    margin: 10px;
 }
 
 body {

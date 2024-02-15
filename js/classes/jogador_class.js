@@ -192,19 +192,12 @@ export class Jogador {
                     let divSaques = document.createElement("div");
                     divSaques.className = "saques";
                     divSaques.innerHTML = "<strong><span>Saque: </span></strong>";
-                    let divTabelaSaques = document.createElement("table");
-                    let bodyTable = document.createElement("tbody");
-                    let divAcontecimentoSaque = document.createElement('tr');
-                    divAcontecimentoSaque.className = "acontecimentos";
-                    divAcontecimentoSaque.innerHTML += "<th>Tipo</th><th>Dentro</th><th>ACE</th><th>Fora</th>";
-                    bodyTable.appendChild(divAcontecimentoSaque);
-                    bodyTable.innerHTML += this.CriarInputsSaques(doc.id, "por_baixo", "Por Baixo");
-                    bodyTable.innerHTML += this.CriarInputsSaques(doc.id, "flutuante", "Flutuante");
-                    bodyTable.innerHTML += this.CriarInputsSaques(doc.id, "viagem", "Viagem");
-                    divTabelaSaques.appendChild(bodyTable);
-                    divSaques.appendChild(divTabelaSaques);
+                    divSaques.appendChild(this.CriarInputsSaques(doc.id, "flutuante", "Flutuante"));
+                    divSaques.appendChild(this.CriarInputsSaques(doc.id, "ace", "ACE"));
+                    divSaques.appendChild(this.CriarInputsSaques(doc.id, "viagem", "Viagem"));
+                    divSaques.appendChild(this.CriarInputsSaques(doc.id, "por_cima", "Por cima"));
+                    divSaques.appendChild(this.CriarInputsSaques(doc.id, "fora", "Fora"));
                     divJogador.appendChild(divSaques);
-                    colocarJogadoresDoTime.appendChild(divJogador);
                     // Criação da div Ataques
                     let divAtaques = document.createElement("div");
                     divAtaques.className = "ataques";
@@ -225,6 +218,7 @@ export class Jogador {
                         divLevantamentos.innerHTML += this.CriarInputsLevantamentos(doc.id);
                         divJogador.appendChild(divLevantamentos);
                     }
+                    colocarJogadoresDoTime.appendChild(divJogador);
                     // Adicionando Listeners aos botoes de incremento e decremento
                     // Passes
                     this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_A`), document.getElementById(`${doc.id}_diminuir_passe_A`), document.getElementById(`${doc.id}_passe_A`));
@@ -233,17 +227,11 @@ export class Jogador {
                     this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_D`), document.getElementById(`${doc.id}_diminuir_passe_D`), document.getElementById(`${doc.id}_passe_D`));
                     // Saque
                     // saque por baixo
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_dentro_por_baixo`), document.getElementById(`${doc.id}_diminuir_saque_dentro_por_baixo`), document.getElementById(`${doc.id}_saque_dentro_por_baixo`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_ace_por_baixo`), document.getElementById(`${doc.id}_diminuir_saque_ace_por_baixo`), document.getElementById(`${doc.id}_saque_ace_por_baixo`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_fora_por_baixo`), document.getElementById(`${doc.id}_diminuir_saque_fora_por_baixo`), document.getElementById(`${doc.id}_saque_fora_por_baixo`));
-                    // Saque flutuante
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_dentro_flutuante`), document.getElementById(`${doc.id}_diminuir_saque_dentro_flutuante`), document.getElementById(`${doc.id}_saque_dentro_flutuante`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_ace_flutuante`), document.getElementById(`${doc.id}_diminuir_saque_ace_flutuante`), document.getElementById(`${doc.id}_saque_ace_flutuante`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_fora_flutuante`), document.getElementById(`${doc.id}_diminuir_saque_fora_flutuante`), document.getElementById(`${doc.id}_saque_fora_flutuante`));
-                    // Saque viagem
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_dentro_viagem`), document.getElementById(`${doc.id}_diminuir_saque_dentro_viagem`), document.getElementById(`${doc.id}_saque_dentro_viagem`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_ace_viagem`), document.getElementById(`${doc.id}_diminuir_saque_ace_viagem`), document.getElementById(`${doc.id}_saque_ace_viagem`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_fora_viagem`), document.getElementById(`${doc.id}_diminuir_saque_fora_viagem`), document.getElementById(`${doc.id}_saque_fora_viagem`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_flutuante`), document.getElementById(`${doc.id}_diminuir_saque_flutuante`), document.getElementById(`${doc.id}_saque_flutuante`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_ace`), document.getElementById(`${doc.id}_diminuir_saque_ace`), document.getElementById(`${doc.id}_saque_ace`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_viagem`), document.getElementById(`${doc.id}_diminuir_saque_viagem`), document.getElementById(`${doc.id}_saque_viagem`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_por_cima`), document.getElementById(`${doc.id}_diminuir_saque_por_cima`), document.getElementById(`${doc.id}_saque_por_cima`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_fora`), document.getElementById(`${doc.id}_diminuir_saque_fora`), document.getElementById(`${doc.id}_saque_fora`));
                     // Ataque
                     this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_ataque_acerto`), document.getElementById(`${doc.id}_diminuir_ataque_acerto`), document.getElementById(`${doc.id}_ataque_acerto`));
                     this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_ataque_erro`), document.getElementById(`${doc.id}_diminuir_ataque_erro`), document.getElementById(`${doc.id}_ataque_erro`));
@@ -292,15 +280,35 @@ export class Jogador {
         return elemento;
     }
     // Função para a criação do input Saque
-    CriarInputsSaques(idJogador, tipoSaque, nomePasse) {
-        let elemento = `<td>${nomePasse}</td>`
-        let elementoDentro = `<td class='input_saque'><div><span id="${idJogador}_diminuir_saque_dentro_${tipoSaque}">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_saque_dentro_${tipoSaque}" id="${idJogador}_saque_dentro_${tipoSaque}" readonly><span id="${idJogador}_aumentar_saque_dentro_${tipoSaque}">+</span></div></td>`;
-        let elementoACE = `<td class='input_saque'><div><span id="${idJogador}_diminuir_saque_ace_${tipoSaque}">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_saque_ace_${tipoSaque}" id="${idJogador}_saque_ace_${tipoSaque}" readonly><span id="${idJogador}_aumentar_saque_ace_${tipoSaque}">+</span></div></td>`;
-        let elementoFora = `<td class='input_saque'><div><span id="${idJogador}_diminuir_saque_fora_${tipoSaque}">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_saque_fora_${tipoSaque}" id="${idJogador}_saque_fora_${tipoSaque}" readonly><span id="${idJogador}_aumentar_saque_fora_${tipoSaque}">+</span></div></td>`;
-        elemento += elementoDentro;
-        elemento += elementoACE;
-        elemento += elementoFora;
-        return `<tr>${elemento}</tr>`;
+    CriarInputsSaques(idJogador, tipoSaque, nomeSaque) {
+        let span = document.createElement("span");
+        span.innerHTML = `${nomeSaque}: `;
+        let elemento = document.createElement("div");
+        elemento.className = "linha_unica";
+        elemento.appendChild(span);
+        // span decremento
+        let spanDecremento = document.createElement("span");
+        spanDecremento.id = `${idJogador}_diminuir_saque_${tipoSaque}`;
+        spanDecremento.innerHTML = "-";
+        spanDecremento.className = "saques_span";
+        // span incremento
+        let spanIncremento = document.createElement("span");
+        spanIncremento.id = `${idJogador}_aumentar_saque_${tipoSaque}`;
+        spanIncremento.innerHTML = '+';
+        spanIncremento.className = "saques_span";
+        // input
+        let input = document.createElement("input");
+        input.type = "number";
+        input.className = "input_number";
+        input.min = 0;
+        input.name = `${idJogador}_saque_${tipoSaque}`;
+        input.id = `${idJogador}_saque_${tipoSaque}`;
+        input.readOnly = true;
+        // colocando os elementos na div
+        elemento.appendChild(spanDecremento);
+        elemento.appendChild(input);
+        elemento.appendChild(spanIncremento);
+        return elemento;
     }
     CriarInputsAtaques(idJogador) {
         let elemento = `<strong><span>Acertado: </span></strong><span id="${idJogador}_diminuir_ataque_acerto">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_ataque_acerto" id="${idJogador}_ataque_acerto" readonly><span id="${idJogador}_aumentar_ataque_acerto">+</span>
@@ -350,23 +358,13 @@ export class Jogador {
                         document.getElementById(`${doc.id}_passe_C`).value,
                         document.getElementById(`${doc.id}_passe_D`).value
                     ];
-                    // saques ace
-                    let saquesIncrementarAce = [
-                        document.getElementById(`${doc.id}_saque_ace_por_baixo`).value,
-                        document.getElementById(`${doc.id}_saque_ace_flutuante`).value,
-                        document.getElementById(`${doc.id}_saque_ace_viagem`).value
-                    ];
-                    // saques dentro
-                    let saquesIncrementarDentro = [
-                        document.getElementById(`${doc.id}_saque_dentro_por_baixo`).value,
-                        document.getElementById(`${doc.id}_saque_dentro_flutuante`).value,
-                        document.getElementById(`${doc.id}_saque_dentro_viagem`).value
-                    ];
-                    // saques fora
-                    let saquesIncrementarFora = [
-                        document.getElementById(`${doc.id}_saque_fora_por_baixo`).value,
-                        document.getElementById(`${doc.id}_saque_fora_flutuante`).value,
-                        document.getElementById(`${doc.id}_saque_fora_viagem`).value
+                    // saques
+                    let saquesIncrementar = [
+                        document.getElementById(`${doc.id}_saque_flutuante`).value,
+                        document.getElementById(`${doc.id}_saque_ace`).value,
+                        document.getElementById(`${doc.id}_saque_viagem`).value,
+                        document.getElementById(`${doc.id}_saque_por_cima`).value,
+                        document.getElementById(`${doc.id}_saque_fora`).value
                     ];
                     // ataques
                     let ataquesIncrementar = [
@@ -383,8 +381,8 @@ export class Jogador {
                     this.AtualizarPasseJogador(doc.id, passesIncrementar.map(Number));
                     time.AtualizarPasseJogador(localStorage.getItem("timeAtualID"), passesIncrementar.map(Number), doc.id);
                     // saques
-                    this.AtualizarSaqueJogador(doc.id, saquesIncrementarAce.map(Number), saquesIncrementarDentro.map(Number), saquesIncrementarFora.map(Number));
-                    time.AtualizarSaqueJogador(localStorage.getItem("timeAtualID"), saquesIncrementarAce.map(Number), saquesIncrementarDentro.map(Number), saquesIncrementarFora.map(Number), doc.id);
+                    this.AtualizarSaqueJogador(doc.id, saquesIncrementar.map(Number));
+                    time.AtualizarSaqueJogador(localStorage.getItem("timeAtualID"), saquesIncrementar.map(Number), doc.id);
                     // ataques
                     this.AtualizarAtaqueJogador(doc.id, ataquesIncrementar.map(Number));
                     time.AtualizarAtaqueJogador(localStorage.getItem("timeAtualID"), ataquesIncrementar.map(Number), doc.id);
