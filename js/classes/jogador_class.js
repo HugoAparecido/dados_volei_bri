@@ -215,7 +215,7 @@ export class Jogador {
                     divInsercoesIndividual.className = "insercao_individual";
                     let divPasses = document.createElement("div");
                     divPasses.className = "passes";
-                    divPasses.innerHTML += `<span><strong>Passe: </strong></span>`;
+                    divPasses.innerHTML += `<span><strong>Pas: </strong></span>`;
                     divPasses.appendChild(this.CriarInputsPasses(doc.id, "A"));
                     divPasses.appendChild(this.CriarInputsPasses(doc.id, "B"));
                     divPasses.appendChild(this.CriarInputsPasses(doc.id, "C"));
@@ -224,30 +224,30 @@ export class Jogador {
                     // Criação da div Saques
                     let divSaques = document.createElement("div");
                     divSaques.className = "saques";
-                    divSaques.innerHTML = "<strong><span>Saque: </span></strong>";
+                    divSaques.innerHTML = "<strong><span>Saq: </span></strong>";
                     divSaques.appendChild(this.CriarInputsSaques(doc.id, "flutuante", "Flu"));
                     divSaques.appendChild(this.CriarInputsSaques(doc.id, "ace", "ACE"));
                     divSaques.appendChild(this.CriarInputsSaques(doc.id, "viagem", "Via"));
-                    divSaques.appendChild(this.CriarInputsSaques(doc.id, "por_cima", "Por cima"));
+                    divSaques.appendChild(this.CriarInputsSaques(doc.id, "por_cima", "Cima"));
                     divSaques.appendChild(this.CriarInputsSaques(doc.id, "fora", "Fora"));
                     divInsercoesIndividual.appendChild(divSaques);
                     // Criação da div Ataques
                     let divAtaques = document.createElement("div");
                     divAtaques.className = "ataques";
-                    divAtaques.innerHTML = "<strong><span>Ataque: </span></strong>";
+                    divAtaques.innerHTML = "<strong><span>Ataq: </span></strong>";
                     divAtaques.innerHTML += this.CriarInputsAtaques(doc.id);
                     divInsercoesIndividual.appendChild(divAtaques);
                     // Criação da div Bloqueios
                     let divBloqueios = document.createElement("div");
                     divBloqueios.className = "bloqueios";
-                    divBloqueios.innerHTML = "<strong><span>Bloqueios: </span></strong>";
+                    divBloqueios.innerHTML = "<strong><span>Bloq: </span></strong>";
                     divBloqueios.innerHTML += this.CriarInputsBloqueios(doc.id);
                     divInsercoesIndividual.appendChild(divBloqueios);
                     // Criação da div Levantamentos se for levantador
                     if (doc.data().posicao === "Levantador") {
                         let divLevantamentos = document.createElement("div");
                         divLevantamentos.className = "levantamentos";
-                        divLevantamentos.innerHTML = "<strong><span>Levantamentos: </span></strong>";
+                        divLevantamentos.innerHTML = "<strong><span>Levant: </span></strong>";
                         divLevantamentos.innerHTML += this.CriarInputsLevantamentos(doc.id);
                         divInsercoesIndividual.appendChild(divLevantamentos);
                     }
