@@ -16,7 +16,9 @@
     --branco: #fff;
     --cinza: #F2F2F2;
 }
-
+body{
+    background-color: var(--preto);
+}
 header {
     width: 100%;
     text-align: center;
@@ -40,6 +42,7 @@ main {
 header>h1 {
     margin: 15px 0;
     float: left;
+    color: var(--cinza);
 }
 
 nav {
@@ -62,6 +65,13 @@ nav>ul {
     display: flex;
     align-items: center;
     justify-content: space-around;
+}
+legend{
+    color:var(--cinza)
+}
+div{
+    color:var(--cinza)
+
 }
 
 nav>ul>li>a {
