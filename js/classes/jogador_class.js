@@ -5,7 +5,9 @@ import { Time } from "./time_class.js";
 export class Jogador {
     // Cadastrar Jogador
     async CadastrarJogador(nomeConst, sexoConst, numeroCamisa, posicaoConst, alturaConst, pesoConst) {
+        // iniciando o loading
         ShowLoading();
+        // fazendo o objeto jogador e inicializando os atributos em 0
         let atributos = {
             nome: nomeConst,
             numero_camisa: numeroCamisa,
@@ -37,6 +39,7 @@ export class Jogador {
         };
         // Se a posição for a de levantador o objeto anterior se junta com atributos de levantador
         if (posicaoConst === "Levantador") {
+            // juntando os atributos com o objeto levantamento
             atributos = {
                 ...atributos,
                 ...{
@@ -50,23 +53,35 @@ export class Jogador {
                 }
             };
         }
+        // tratando
         try {
+            // "insert" no banco
             const docRef = await addDoc(collection(db, "jogador"), atributos);
+            // alertando que deu certo
             alert("Jogador cadastrado com sucesso com o ID: " + docRef.id);
+            // desativando o loading
             HideLoading();
+            // recarregando a página para zerar os input
             window.location.reload();
-
+            //capturando caso der erro
         } catch (e) {
+            // exibição do erro
             alert("Erro ao adicionar o documento: " + e);
+            // desativando o loading
             HideLoading();
         }
     }
     // Mostragem Geral em Tabela dos jogadores
     async MostrarTodosJogadores(mostrarJogador) {
+        // zerando o html do mostrar jogador
         mostrarJogador().innerHTML = ""
+        // tipo um ordenado todos os jogadores pelo nome
         const q = query(collection(db, "jogador"), orderBy("nome"));
+        // "SELECT" com ordenação citada acima
         const querySnapshot = await getDocs(q);
+        // percorrendo o array, for para arrays
         querySnapshot.forEach((doc) => {
+            // Fazendo uma linha na tabela
             mostrarJogador().innerHTML += `<tr>
             <td>${doc.id}</td>
             <td>${doc.data().nome}</td>
@@ -78,29 +93,45 @@ export class Jogador {
     }
     // Colocar Todos os jogadores em um select
     async MostrarTodosJogadoresSelect(mostrarJogador) {
+        // ativando o loading
         ShowLoading();
+        // tipo um ordenando todos os jogadores pelo nome
         const q = query(collection(db, "jogador"), orderBy("nome"));
+        // "select" com ordenação citada acima 
         const querySnapshot = await getDocs(q);
+        // for para arrays
         querySnapshot.forEach((doc) => {
+            // adicinando option no select citado
             mostrarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa}: ${doc.data().nome} (${doc.data().posicao})</option>`;
         });
+        // encerrando o loading
         HideLoading();
     }
     // Colocar os jogadores que não pertencem a um time, além de colocar somente se o sexo do jogador for igual ao do Time, caso seja misto, aparecerão todos os jogadores
     async PopularNovosJogadores(adicionarJogador) {
+        // zerando o html do local
         adicionarJogador.innerHTML = '';
+        // pegando o valor do sexo armazenado no armazenamento local do navegador e verificando se não é misto
         if (localStorage.getItem("sexo") != "Mis") {
+            // "WHERE" para pegar todos os jogadores com o mesmo sexo do time e ordena-os pelo nome
             const q = query(collection(db, "jogador"), where("sexo", "==", localStorage.getItem("sexo")), orderBy("nome"));
+            // "SELECT" que retorna o array com os valores
             const querySnapshot = await getDocs(q);
+            // percorrendo o array
             querySnapshot.forEach((doc) => {
+                // se o jogador não estiver no time, ele será adicionado ao select
                 if (!localStorage.getItem("jogadores").includes(doc.id)) {
                     adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`;
                 }
             })
         } else {
+            // pega todos os jogadores e ordena-os pelo nome
             const q = query(collection(db, "jogador"), orderBy("nome"));
+            // "SELECT" que retorna o array com os valores
             const querySnapshot = await getDocs(q);
+            // percorrendo o array
             querySnapshot.forEach((doc) => {
+                // se o jogador não estiver no time, ele será adicionado ao select
                 if (!localStorage.getItem("jogadores").includes(doc.id)) {
                     adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`;
                 }
