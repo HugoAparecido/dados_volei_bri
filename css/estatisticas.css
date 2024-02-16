@@ -8,12 +8,47 @@
     --cinza: #F2F2F2;
 }
 
+main {
+    float: left;
+    width: 100%;
+    background-color: var(--preto);
+}
+
+select {
+    background-color: var(--laranja);
+    color: var(--cinza);
+    height: 30px;
+    font-size: 20px;
+    border: 2px solid var(--laranja-escuro);
+    border-radius: 10px;
+    margin: 5px;
+}
+
+label {
+    font-size: 23px;
+    color: var(--cinza);
+}
+
+.titulo_graficos {
+    color: var(--cinza);
+}
+
+.escolher_time,
+#escolher_jogador {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .graficos {
+    margin: 10px;
     display: flex;
     align-items: center;
     justify-content: space-around;
     flex-direction: row;
     flex-wrap: wrap;
+    color: var(--cinza);
 }
 
 .graficos>section {
@@ -23,13 +58,9 @@
 
 canvas {
     width: 300px;
+    padding: 5px;
 }
 
 #escolher_jogador {
     display: none;
-}
-
-main {
-    float: left;
-    width: 100%;
 }

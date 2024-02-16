@@ -43,7 +43,7 @@ botoes.mostrarGraficosTime().addEventListener('click', () => {
     // populadno o select com os jogadores do time
     time.JogadoresNoTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.jogadorSelecionado());
     // aparecendo o local para selecionar o jogador
-    locais.localGraficosJogadorAtivar().style.display = "block";
+    locais.localGraficosJogadorAtivar().style.display = "flex";
     // resetando o html dos locais dos gráficos
     locais.localGraficoBloqueioJogador().innerHTML = locais.localGraficoLevantamentoJogador().innerHTML = locais.localGraficoPasseJogador().innerHTML = locais.localGraficoSaqueJogador().innerHTML = locais.localGraficoAtaqueJogador().innerHTML = "";
 });
