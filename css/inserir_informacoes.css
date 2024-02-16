@@ -126,6 +126,7 @@ select {
 }
 
 .insercao_individual {
+    width: 100%;
     display: flex;
     overflow-x: auto;
     flex-direction: row;
