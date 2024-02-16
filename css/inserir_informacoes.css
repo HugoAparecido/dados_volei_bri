@@ -129,6 +129,7 @@ select {
     width: 100%;
     display: flex;
     overflow-x: auto;
+    justify-content: center;
     flex-direction: row;
     flex-wrap: nowrap;
 }

@@ -225,30 +225,36 @@ export class Jogador {
                     let divSaques = document.createElement("div");
                     divSaques.className = "saques";
                     divSaques.innerHTML = "<strong><span>Saq: </span></strong>";
-                    divSaques.appendChild(this.CriarInputsSaques(doc.id, "flutuante", "Flu"));
-                    divSaques.appendChild(this.CriarInputsSaques(doc.id, "ace", "ACE"));
-                    divSaques.appendChild(this.CriarInputsSaques(doc.id, "viagem", "Via"));
-                    divSaques.appendChild(this.CriarInputsSaques(doc.id, "por_cima", "Cima"));
-                    divSaques.appendChild(this.CriarInputsSaques(doc.id, "fora", "Fora"));
+                    divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_flutuante", "Flu"));
+                    divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_ace", "ACE"));
+                    divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_viagem", "Via"));
+                    divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_por_cima", "Cima"));
+                    divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_fora", "Fora"));
                     divInsercoesIndividual.appendChild(divSaques);
                     // Criação da div Ataques
                     let divAtaques = document.createElement("div");
                     divAtaques.className = "ataques";
                     divAtaques.innerHTML = "<strong><span>Ataq: </span></strong>";
-                    divAtaques.innerHTML += this.CriarInputsAtaques(doc.id);
+                    divAtaques.appendChild(this.CriarInputsAtributos(doc.id, "ataque_acerto", "Dentro"));
+                    divAtaques.appendChild(this.CriarInputsAtributos(doc.id, "ataque_erro", "Fora"));
                     divInsercoesIndividual.appendChild(divAtaques);
                     // Criação da div Bloqueios
                     let divBloqueios = document.createElement("div");
                     divBloqueios.className = "bloqueios";
                     divBloqueios.innerHTML = "<strong><span>Bloq: </span></strong>";
-                    divBloqueios.innerHTML += this.CriarInputsBloqueios(doc.id);
+                    divBloqueios.appendChild(this.CriarInputsAtributos(doc.id, "bloqueio_ponto_este", "Convertido"));
+                    divBloqueios.appendChild(this.CriarInputsAtributos(doc.id, "bloqueio_ponto_adversario", "Errado"));
                     divInsercoesIndividual.appendChild(divBloqueios);
                     // Criação da div Levantamentos se for levantador
                     if (doc.data().posicao === "Levantador") {
                         let divLevantamentos = document.createElement("div");
                         divLevantamentos.className = "levantamentos";
                         divLevantamentos.innerHTML = "<strong><span>Levant: </span></strong>";
-                        divLevantamentos.innerHTML += this.CriarInputsLevantamentos(doc.id);
+                        divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_ponta", "Ponta"));
+                        divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_pipe", "Pipe"));
+                        divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_centro", "Centro"));
+                        divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_oposto", "Oposto"));
+                        divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_errou", "Errou"));
                         divInsercoesIndividual.appendChild(divLevantamentos);
                     }
                     divJogador.appendChild(divInsercoesIndividual)
@@ -288,7 +294,6 @@ export class Jogador {
     // Função para a criação do input para o passe
     CriarInputsPasses(idJogador, tipoPasse) {
         let elemento = document.createElement("div");
-        elemento.className = "linha_unica";
         // span decremento
         let spanDecremento = document.createElement("span");
         spanDecremento.id = `${idJogador}_diminuir_passe_${tipoPasse}`;
@@ -308,26 +313,25 @@ export class Jogador {
         input.id = `${idJogador}_passe_${tipoPasse}`;
         input.readOnly = true;
         // colocando os elementos na div
-        elemento.appendChild(spanDecremento);
-        elemento.appendChild(input);
         elemento.appendChild(spanIncremento);
+        elemento.appendChild(input);
+        elemento.appendChild(spanDecremento);
         return elemento;
     }
     // Função para a criação do input Saque
-    CriarInputsSaques(idJogador, tipoSaque, nomeSaque) {
+    CriarInputsAtributos(idJogador, tipo, nomeAtributo) {
         let span = document.createElement("span");
-        span.innerHTML = `${nomeSaque}: `;
-        let elemento = document.createElement("div");
-        elemento.className = "linha_unica";
+        span.innerHTML = `${nomeAtributo}: `;
+        let elemento = document.createElement("div");;
         elemento.appendChild(span);
         // span decremento
         let spanDecremento = document.createElement("span");
-        spanDecremento.id = `${idJogador}_diminuir_saque_${tipoSaque}`;
+        spanDecremento.id = `${idJogador}_diminuir_${tipo}`;
         spanDecremento.innerHTML = "-";
         spanDecremento.className = "saques_span";
         // span incremento
         let spanIncremento = document.createElement("span");
-        spanIncremento.id = `${idJogador}_aumentar_saque_${tipoSaque}`;
+        spanIncremento.id = `${idJogador}_aumentar_${tipo}`;
         spanIncremento.innerHTML = '+';
         spanIncremento.className = "saques_span";
         // input
@@ -335,31 +339,13 @@ export class Jogador {
         input.type = "number";
         input.className = "input_number";
         input.min = 0;
-        input.name = `${idJogador}_saque_${tipoSaque}`;
-        input.id = `${idJogador}_saque_${tipoSaque}`;
+        input.name = `${idJogador}_${tipo}`;
+        input.id = `${idJogador}_${tipo}`;
         input.readOnly = true;
         // colocando os elementos na div
-        elemento.appendChild(spanDecremento);
-        elemento.appendChild(input);
         elemento.appendChild(spanIncremento);
-        return elemento;
-    }
-    CriarInputsAtaques(idJogador) {
-        let elemento = `<strong><span>Dentro: </span></strong><span id="${idJogador}_diminuir_ataque_acerto">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_ataque_acerto" id="${idJogador}_ataque_acerto" readonly><span id="${idJogador}_aumentar_ataque_acerto">+</span>
-        <strong><span>Fora: </span></strong><span id="${idJogador}_diminuir_ataque_erro">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_ataque_erro" id="${idJogador}_ataque_erro" readonly><span id="${idJogador}_aumentar_ataque_erro">+</span>`;
-        return elemento;
-    }
-    CriarInputsBloqueios(idJogador) {
-        let elemento = `<strong><span>Convertido: </span></strong><span id="${idJogador}_diminuir_bloqueio_ponto_este">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_bloqueio_ponto_este" id="${idJogador}_bloqueio_ponto_este" readonly><span id="${idJogador}_aumentar_bloqueio_ponto_este">+</span>
-        <strong><span>Errado: </span></strong><span id="${idJogador}_diminuir_bloqueio_ponto_adversario">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_bloqueio_ponto_adversario" id="${idJogador}_bloqueio_ponto_adversario" readonly><span id="${idJogador}_aumentar_bloqueio_ponto_adversario">+</span>`;
-        return elemento;
-    }
-    CriarInputsLevantamentos(idJogador) {
-        let elemento = `<strong><span>Ponta: </span></strong><span id="${idJogador}_diminuir_levantamento_ponta">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_ponta" id="${idJogador}_levantamento_ponta" readonly><span id="${idJogador}_aumentar_levantamento_ponta">+</span>
-        <strong><span>Centro: </span></strong><span id="${idJogador}_diminuir_levantamento_centro">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_centro" id="${idJogador}_levantamento_centro" readonly><span id="${idJogador}_aumentar_levantamento_centro">+</span>
-        <strong><span>Oposto: </span></strong><span id="${idJogador}_diminuir_levantamento_oposto">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_oposto" id="${idJogador}_levantamento_oposto" readonly><span id="${idJogador}_aumentar_levantamento_oposto">+</span>
-        <strong><span>Pipe: </span></strong><span id="${idJogador}_diminuir_levantamento_pipe">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_pipe" id="${idJogador}_levantamento_pipe" readonly><span id="${idJogador}_aumentar_levantamento_pipe">+</span>
-        <strong><span>Errou: </span></strong><span id="${idJogador}_diminuir_levantamento_errou">-</span><input class="form-control input_number" type="number" min="0" name="${idJogador}_levantamento_errou" id="${idJogador}_levantamento_errou" readonly><span id="${idJogador}_aumentar_levantamento_errou">+</span>`;
+        elemento.appendChild(input);
+        elemento.appendChild(spanDecremento);
         return elemento;
     }
     // Função para aumentar e diminuir a quantidade dos atributos
