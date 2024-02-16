@@ -4,18 +4,25 @@ import { Time } from "./classes/time_class.js";
 // Elementos html
 // Locais de modificação
 const locais = {
+    // para os gráficos do time
     localGraficoSaqueTime: () => document.getElementById("grafico_saque_time"),
+    localGraficoSaqueTimeTipo: () => document.getElementById("grafico_saque_tipo_time"),
     localGraficoPasseTime: () => document.getElementById("grafico_passe_time"),
     localGraficoAtaqueTime: () => document.getElementById("grafico_ataque_time"),
     localGraficoBloqueioTime: () => document.getElementById("grafico_bloqueio_time"),
     localGraficoLevantamentoTime: () => document.getElementById("grafico_levantamento_time"),
+    // para o select do time
     timeSelecionado: () => document.getElementById("time"),
+    // para os gráficos do jogador
     localGraficoSaqueJogador: () => document.getElementById("grafico_saque_jogador"),
+    localGraficoSaqueJogadorTipo: () => document.getElementById("grafico_saque_tipo_jogador"),
     localGraficoPasseJogador: () => document.getElementById("grafico_passe_jogador"),
     localGraficoAtaqueJogador: () => document.getElementById("grafico_ataque_jogador"),
     localGraficoBloqueioJogador: () => document.getElementById("grafico_bloqueio_jogador"),
     localGraficoLevantamentoJogador: () => document.getElementById("grafico_levantamento_jogador"),
+    // para o select do time
     jogadorSelecionado: () => document.getElementById("jogador"),
+    // local onde está o select e os gráficos do jogador
     localGraficosJogadorAtivar: () => document.getElementById("escolher_jogador")
 };
 // Botões
@@ -29,15 +36,15 @@ time.PopularSelect(locais.timeSelecionado());
 // Mostrar Gráficos
 let grafico = new Graficos;
 botoes.mostrarGraficosTime().addEventListener('click', () => {
+    // zerando o html dos locais dos gráficos
     locais.localGraficoBloqueioTime().innerHTML = locais.localGraficoLevantamentoTime().innerHTML = locais.localGraficoPasseTime().innerHTML = locais.localGraficoSaqueTime().innerHTML = locais.localGraficoAtaqueTime().innerHTML = "";
-    grafico.InserirGraficos(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoPasseTime());
-    grafico.SaqueTimeTipo(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoSaqueTime());
-    grafico.SaqueTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoSaqueTime());
-    grafico.AtaqueTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoAtaqueTime());
-    grafico.BloqueioTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoBloqueioTime());
-    grafico.LevantamentoTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoLevantamentoTime());
+    // colocando os gráficos
+    grafico.InserirGraficos(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoPasseTime(), locais.localGraficoSaqueTimeTipo(), locais.localGraficoSaqueTime(), locais.localGraficoAtaqueTime(), locais.localGraficoBloqueioTime(), locais.localGraficoLevantamentoTime());
+    // populadno o select com os jogadores do time
     time.JogadoresNoTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.jogadorSelecionado());
+    // aparecendo o local para selecionar o jogador
     locais.localGraficosJogadorAtivar().style.display = "block";
+    // resetando o html dos locais dos gráficos
     locais.localGraficoBloqueioJogador().innerHTML = locais.localGraficoLevantamentoJogador().innerHTML = locais.localGraficoPasseJogador().innerHTML = locais.localGraficoSaqueJogador().innerHTML = locais.localGraficoAtaqueJogador().innerHTML = "";
 });
 // Mostrar Gráficos
@@ -50,9 +57,17 @@ botoes.mostrarGraficosJogador().addEventListener('click', () => {
     grafico.BloqueioJogador(locais.jogadorSelecionado().value, RetirarNumeroDoJogadorEPosicaoSelect(locais.jogadorSelecionado().options[locais.jogadorSelecionado().selectedIndex].text), locais.localGraficoBloqueioJogador());
     grafico.LevantamentoJogador(locais.jogadorSelecionado().value, RetirarNumeroDoJogadorEPosicaoSelect(locais.jogadorSelecionado().options[locais.jogadorSelecionado().selectedIndex].text), locais.localGraficoLevantamentoJogador());
 })
-// Função para pegar o texto do select
+// Função para pegar somente o nome do jogador no texto do select
 function RetirarNumeroDoJogadorEPosicaoSelect(texto) {
+    // texto = "numero: nome sobrenome (posicao)""
+    // divide a string em um array, onde a posição 0 é tudo  que está antes do (, e a 1 depois
+    // partes[0] = "numero: nome sobrenome"; partes[1] = "posicao)"
     let partes = texto.split("(");
+    // divide a parte antes do ( em um outro array
+    // partes[0]= "numero:""; partes[1]="nome"; partes[2]="sobrenome"
     partes = partes[0].split(" ");
+    // retonar a partir da posição 1 do array até a última, juntando elas com espaço
+    // "nome" + " " + "sobrenome"
+    // partes[1] + " " + partes[3(tamanho)-1]
     return partes.slice(1, partes.length - 1).join(" ");
 }

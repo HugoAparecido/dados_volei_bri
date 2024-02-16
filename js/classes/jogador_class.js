@@ -408,7 +408,8 @@ export class Jogador {
         catch (e) {
             alert("Falha nas inserções: " + e)
         }
-        HideLoading()
+        HideLoading();
+        window.location.reload();
     }
     // Atualização do passe de somente um jogador
     async AtualizarPasseJogador(id, aIncrementar) {

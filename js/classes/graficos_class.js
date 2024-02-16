@@ -4,7 +4,7 @@ import { db } from "../acesso_banco.js";
 import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 export class Graficos {
     // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
-    async InserirGraficos(idTime, nomeTime, localGraficoPasse/*, localGraficoTipoSaque, localGraficoSaqueAcerto, localGraficoAtaque, localGraficoBloqueio, localGraficoLevantamento*/) {
+    async InserirGraficos(idTime, nomeTime, localGraficoPasse, localGraficoTipoSaque, localGraficoSaqueAcerto, localGraficoAtaque, localGraficoBloqueio, localGraficoLevantamento) {
         // colocando as condições para a porcura no banco
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         // tipo um select, onde o q é a condição, o await é para a função esperar o getDocs executar para continuar, pois este é uma promise
@@ -20,15 +20,53 @@ export class Graficos {
                 let passeB = 0;
                 let passeC = 0;
                 let passeD = 0;
+                // inicializando os tipos dos saques em zero
+                let saque = {
+                    ace: 0,
+                    flutuante: 0,
+                    viagem: 0,
+                    por_cima: 0,
+                    fora: 0
+                };
+                // inicializando os acertos e erros dos ataques em zero
+                let ataqueAcertado = 0
+                let ataqueErrado = 0
+                // inicializando os acertos e erros dos bloqueios em zero
+                let pontoDesteTime = 0
+                let pontoAdversario = 0
                 // para cada jogador ele incrementará nas variáveis acima o respectivo valor
                 jogadores.forEach((jogador) => {
+                    // passes
                     passeA += jogador[1].passe.passe_A;
                     passeB += jogador[1].passe.passe_B;
                     passeC += jogador[1].passe.passe_C;
                     passeD += jogador[1].passe.passe_D;
+                    // saques tipo
+                    saque.flutuante += jogador[1].saque.flutuante;
+                    saque.por_cima += jogador[1].saque.por_cima;
+                    saque.viagem += jogador[1].saque.viagem;
+                    saque.fora += jogador[1].saque.fora;
+                    saque.ace += jogador[1].saque.ace;
+                    // ataque
+                    ataqueAcertado += jogador[1].ataque.acertado
+                    ataqueErrado += jogador[1].ataque.errado
+                    // bloqueio
+                    pontoDesteTime += jogador[1].bloqueio.ponto_bloqueando
+                    pontoAdversario += jogador[1].bloqueio.ponto_adversario
                 })
-                // Chamando a função para criar o gráfico
+                // saque acerto
+                let acertoSaque = saque.ace + saque.flutuante + saque.por_cima + saque.viagem;
+                let erroSaque = saque.fora;
+                // Chamando a função para criar o gráfico passe
                 this.GraficoPasses(passeA, passeB, passeC, passeD, localGraficoPasse);
+                // Chamando a função para criar o gráfico tipo do saque acertado
+                this.GraficoTipoSaque(saque, localGraficoTipoSaque);
+                // Chamando a função para criar o gráfico de acerto e erro do saque
+                this.GraficoAcertoSaque(acertoSaque, erroSaque, localGraficoSaqueAcerto);
+                // Chamando a função para criar o gráfico de acerto e erro do ataque
+                this.GraficoAtaque(ataqueAcertado, ataqueErrado, localGraficoAtaque);
+                // Chamando a função para criar o gráfico de acerto e erro do bloqueio
+                this.GraficoBloqueio(pontoDesteTime, pontoAdversario, localGraficoBloqueio);
             }
         });
     }
@@ -90,253 +128,170 @@ export class Graficos {
 
     }
     // Gráfico para os tipos de saque feitos pelo time 
-    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
-    async SaqueTimeTipo(idTime, nomeTime, localGrafico) {
-        // colocando as condições para a procura no banco
-        const q = query(collection(db, "time"), where("nome", "==", nomeTime));
-        // tipo um select, onde o q é a condição, o await é para a função esperar o getDocs executar para continuar, pois este é um promise
-        const querySnapshot = await getDocs(q);
-        // para cada documento que encontrar, o forEach é para ler arrays, é tipo um for
-        querySnapshot.forEach((doc) => {
-            // verifica se é o time certo pelo id
-            if (doc.id === idTime) {
-                // transforma o obejeto jogadores em entradas, transforma em array
-                let jogadores = Object.entries(doc.data().jogadores);
-                // inicializando os saques em zero
-                let saque = {
-                    ace: 0,
-                    flutuante: 0,
-                    viagem: 0,
-                    por_cima: 0,
-                    fora: 0
-                };
-                // para cada jogador ele incrementará nas variáveis acima o respectivo valor
-                jogadores.forEach((jogador) => {
-                    saque.flutuante += jogador[1].saque.flutuante;
-                    saque.por_cima += jogador[1].saque.por_cima;
-                    saque.viagem += jogador[1].saque.viagem;
-                    saque.fora += jogador[1].saque.fora;
-                    saque.ace += jogador[1].saque.ace;
-                });
-                // criando um h2
-                const titulo = document.createElement("h2");
-                // colocando o texto no h2
-                titulo.innerHTML = "Tipos de saque acertados";
-                // colocando a classe
-                titulo.className = "titulo_graficos";
-                // colocando a tag no html, estando dentro do local do local a vir o gráfico
-                localGrafico.appendChild(titulo);
-                if (saque.por_cima != 0 || saque.ace != 0 || saque.flutuante != 0 || saque.viagem != 0 || saque.fora != 0) {
-                    const canva = document.createElement('canvas')
-                    // adicionando o id
-                    canva.id = 'tipoSaqueChartTime'
-                    localGrafico.appendChild(canva)
-                    const ctx = document.getElementById("tipoSaqueChartTime")
-                    // informações a mostrar
-                    const data = {
-                        // escrita legenda
-                        labels: [
-                            'Flutuante',
-                            'Por Cima',
-                            'Viagem',
-                            'Ace'
-                        ],
-                        datasets: [{
-                            // nome dos valores
-                            label: 'Saques',
-                            // quantidade dos passes
-                            data: [saque.flutuante, saque.por_cima, saque.viagem, saque.ace],
-                            // cores a mostrar respectivamente
-                            backgroundColor: [
-                                'rgb(0, 37, 228)',
-                                'rgb(2, 183, 86)',
-                                'rgb(230, 197, 1)',
-                                'rgb(242, 92, 5)'
-                            ],
-                            hoverOffset: 4
-                        }]
-                    };
-                    // configurando o gráfico
-                    const config = {
-                        // tipo pizza ou setores
-                        type: 'pie',
-                        // os valores citados acima
-                        data: data,
-                    };
-                    new Chart(ctx, config);
-                }
-                else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>"
-            }
-        });
+    GraficoTipoSaque(saque, localGrafico) {
+        // criando um h2
+        const titulo = document.createElement("h2");
+        // colocando o texto no h2
+        titulo.innerHTML = "Tipos de saque acertados";
+        // colocando a classe
+        titulo.className = "titulo_graficos";
+        // colocando a tag no html, estando dentro do local do local a vir o gráfico
+        localGrafico.appendChild(titulo);
+        // verificando se há saques para mostrar
+        if (saque.por_cima != 0 || saque.ace != 0 || saque.flutuante != 0 || saque.viagem != 0 || saque.fora != 0) {
+            const canva = document.createElement('canvas');
+            // adicionando o id
+            canva.id = 'tipoSaqueChartTime';
+            // colocando ele no html no local especificado
+            localGrafico.appendChild(canva);
+            const ctx = document.getElementById("tipoSaqueChartTime");
+            // informações a mostrar
+            const data = {
+                // escrita legenda
+                labels: [
+                    'Flutuante',
+                    'Por Cima',
+                    'Viagem',
+                    'Ace'
+                ],
+                datasets: [{
+                    // nome dos valores
+                    label: 'Saques',
+                    // quantidade dos passes
+                    data: [saque.flutuante, saque.por_cima, saque.viagem, saque.ace],
+                    // cores a mostrar respectivamente
+                    backgroundColor: [
+                        'rgb(230, 197, 1)',
+                        'rgb(242, 92, 5)',
+                        'rgb(0, 37, 228)',
+                        'rgb(2, 183, 86)'
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+            // configurando o gráfico
+            const config = {
+                // tipo pizza ou setores
+                type: 'pie',
+                // os valores citados acima
+                data: data,
+            };
+            new Chart(ctx, config);
+        }
+        else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>"
     }
     // Gráfico de relação acerto e erro dos saque do time
     // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
-    async SaqueTime(idTime, nomeTime, localGrafico) {
-        const q = query(collection(db, "time"), where("nome", "==", nomeTime));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            if (doc.id === idTime) {
-                let jogadores = Object.entries(doc.data().jogadores)
-                let saqueAce = {
-                    por_baixo: 0,
-                    viagem_fundo_do_mar: 0,
-                    flutuante: 0
-                }
-                let saqueDentro = {
-                    por_baixo: 0,
-                    viagem_fundo_do_mar: 0,
-                    flutuante: 0
-                }
-                let saqueFora = {
-                    por_baixo: 0,
-                    viagem_fundo_do_mar: 0,
-                    flutuante: 0
-                }
-                jogadores.forEach((jogador) => {
-                    saqueAce.flutuante += jogador[1].saque_dentro.ace.flutuante
-                    saqueAce.por_baixo += jogador[1].saque_dentro.ace.por_baixo
-                    saqueAce.viagem_fundo_do_mar += jogador[1].saque_dentro.ace.viagem_fundo_do_mar
-                    saqueDentro.flutuante += jogador[1].saque_dentro.flutuante
-                    saqueDentro.por_baixo += jogador[1].saque_dentro.por_baixo
-                    saqueDentro.viagem_fundo_do_mar += jogador[1].saque_dentro.viagem_fundo_do_mar
-                    saqueFora.flutuante += jogador[1].saque_fora.flutuante
-                    saqueFora.por_baixo += jogador[1].saque_fora.por_baixo
-                    saqueFora.viagem_fundo_do_mar += jogador[1].saque_fora.viagem_fundo_do_mar
-                })
-                let totalSaquesForas = saqueFora.flutuante + saqueFora.por_baixo + saqueFora.viagem_fundo_do_mar
-                let totalSaquesDentro = saqueAce.flutuante + saqueAce.por_baixo + saqueAce.viagem_fundo_do_mar + saqueDentro.flutuante + saqueDentro.por_baixo + saqueDentro.viagem_fundo_do_mar;
-                const titulo = document.createElement("h2")
-                titulo.innerHTML = "Saques Dentro e Fora"
-                titulo.className = "titulo_graficos"
-                // colocando a tag no html, estando dentro do local do local a vir o gráfico
-                localGrafico.appendChild(titulo);
-                if (totalSaquesDentro != 0 || totalSaquesForas != 0) {
-                    const canva = document.createElement('canvas')
-                    canva.id = 'saqueChartTime'
-                    localGrafico.appendChild(canva)
-                    const ctx = document.getElementById("saqueChartTime")
-                    const data = {
-                        labels: [
-                            'Dentro',
-                            'Fora'
-                        ],
-                        datasets: [{
-                            label: 'saques',
-                            data: [totalSaquesDentro, totalSaquesForas],
-                            backgroundColor: [
-                                'rgb(54, 162, 235)',
-                                'rgb(255, 99, 132)'
-                            ],
-                            hoverOffset: 4
-                        }]
-                    };
-                    const config = {
-                        type: 'pie',
-                        data: data,
-                    };
-                    new Chart(ctx, config);
-                }
-                else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>"
-            }
-        });
+    GraficoAcertoSaque(acerto, erro, localGrafico) {
+        // criando um h2
+        const titulo = document.createElement("h2");
+        // colocando o texto no h2
+        titulo.innerHTML = "Saques Dentro e Fora";
+        // colocando a classe
+        titulo.className = "titulo_graficos";
+        // colocando a tag no html, estando dentro do local do local a vir o gráfico
+        localGrafico.appendChild(titulo);
+        // verificando se há saques para mostrar
+        if (acerto != 0 || erro != 0) {
+            const canva = document.createElement('canvas');
+            // adicionando o id
+            canva.id = 'saqueChartTime';
+            // colocando ele no html no local especificado
+            localGrafico.appendChild(canva)
+            const ctx = document.getElementById("saqueChartTime")
+            const data = {
+                labels: [
+                    'Dentro',
+                    'Fora'
+                ],
+                datasets: [{
+                    label: 'saques',
+                    data: [acerto, erro],
+                    backgroundColor: [
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 99, 132)'
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+            const config = {
+                type: 'pie',
+                data: data,
+            };
+            new Chart(ctx, config);
+        }
+        else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>"
+    }
+    // Gráfico de acerto e erro de ataque do time
+    GraficoAtaque(ataqueAcertado, ataqueErrado, localGrafico) {
+        const titulo = document.createElement("h2")
+        titulo.innerHTML = "Ataques"
+        titulo.className = "titulo_graficos"
+        // colocando a tag no html, estando dentro do local do local a vir o gráfico
+        localGrafico.appendChild(titulo);
+        if (ataqueErrado != 0 || ataqueAcertado != 0) {
+            const canva = document.createElement('canvas')
+            canva.id = 'ataqueChartTime'
+            localGrafico.appendChild(canva)
+            const ctx = document.getElementById("ataqueChartTime")
+            const data = {
+                labels: [
+                    'Acertado',
+                    'Errado'
+                ],
+                datasets: [{
+                    label: 'saques',
+                    data: [ataqueAcertado, ataqueErrado],
+                    backgroundColor: [
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 99, 132)'
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+            const config = {
+                type: 'pie',
+                data: data,
+            };
+            new Chart(ctx, config);
+        }
+        else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>"
     }
     // Gráfico de acerto e erro de bloqueio do time
     // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
-    async AtaqueTime(idTime, nomeTime, localGrafico) {
-        const q = query(collection(db, "time"), where("nome", "==", nomeTime));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            if (doc.id === idTime) {
-                let jogadores = Object.entries(doc.data().jogadores)
-                let ataqueAcertado = 0
-                let ataqueErrado = 0
-                jogadores.forEach((jogador) => {
-                    ataqueAcertado += jogador[1].ataque.acertado
-                    ataqueErrado += jogador[1].ataque.errado
-                })
-                const titulo = document.createElement("h2")
-                titulo.innerHTML = "Ataques"
-                titulo.className = "titulo_graficos"
-                // colocando a tag no html, estando dentro do local do local a vir o gráfico
-                localGrafico.appendChild(titulo);
-                if (ataqueErrado != 0 || ataqueAcertado != 0) {
-                    const canva = document.createElement('canvas')
-                    canva.id = 'ataqueChartTime'
-                    localGrafico.appendChild(canva)
-                    const ctx = document.getElementById("ataqueChartTime")
-                    const data = {
-                        labels: [
-                            'Acertado',
-                            'Errado'
-                        ],
-                        datasets: [{
-                            label: 'saques',
-                            data: [ataqueAcertado, ataqueErrado],
-                            backgroundColor: [
-                                'rgb(54, 162, 235)',
-                                'rgb(255, 99, 132)'
-                            ],
-                            hoverOffset: 4
-                        }]
-                    };
-                    const config = {
-                        type: 'pie',
-                        data: data,
-                    };
-                    new Chart(ctx, config);
-                }
-                else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>"
-            }
-        });
-    }
-    // Gráfico de acerto e erro de bloqueio do time
-    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
-    async BloqueioTime(idTime, nomeTime, localGrafico) {
-        const q = query(collection(db, "time"), where("nome", "==", nomeTime));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            if (doc.id === idTime) {
-                let jogadores = Object.entries(doc.data().jogadores)
-                let pontoDesteTime = 0
-                let pontoAdversario = 0
-                jogadores.forEach((jogador) => {
-                    pontoDesteTime += jogador[1].bloqueio.ponto_bloqueando
-                    pontoAdversario += jogador[1].bloqueio.ponto_adversario
-                })
-                const titulo = document.createElement("h2")
-                titulo.innerHTML = "Bloqueios"
-                titulo.className = "titulo_graficos"
-                // colocando a tag no html, estando dentro do local do local a vir o gráfico
-                localGrafico.appendChild(titulo);
-                if (pontoAdversario != 0 || pontoDesteTime != 0) {
-                    const canva = document.createElement('canvas')
-                    canva.id = 'bloqueioChartTime'
-                    localGrafico.appendChild(canva)
-                    const ctx = document.getElementById("bloqueioChartTime")
-                    const data = {
-                        labels: [
-                            'Ponto para este time',
-                            'Ponto para o adversário'
-                        ],
-                        datasets: [{
-                            label: 'saques',
-                            data: [pontoDesteTime, pontoAdversario],
-                            backgroundColor: [
-                                'rgb(54, 162, 235)',
-                                'rgb(255, 99, 132)'
-                            ],
-                            hoverOffset: 4
-                        }]
-                    };
-                    const config = {
-                        type: 'pie',
-                        data: data,
-                    };
-                    new Chart(ctx, config);
-                }
-                else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>"
-            }
-        });
+    GraficoBloqueio(pontoDesteTime, pontoAdversario, localGrafico) {
+        const titulo = document.createElement("h2")
+        titulo.innerHTML = "Bloqueios"
+        titulo.className = "titulo_graficos"
+        // colocando a tag no html, estando dentro do local do local a vir o gráfico
+        localGrafico.appendChild(titulo);
+        if (pontoAdversario != 0 || pontoDesteTime != 0) {
+            const canva = document.createElement('canvas')
+            canva.id = 'bloqueioChartTime'
+            localGrafico.appendChild(canva)
+            const ctx = document.getElementById("bloqueioChartTime")
+            const data = {
+                labels: [
+                    'Ponto para este time',
+                    'Ponto para o adversário'
+                ],
+                datasets: [{
+                    label: 'saques',
+                    data: [pontoDesteTime, pontoAdversario],
+                    backgroundColor: [
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 99, 132)'
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+            const config = {
+                type: 'pie',
+                data: data,
+            };
+            new Chart(ctx, config);
+        }
+        else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>"
     }
     // Gráfico de levantamento efetuados no time
     // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
