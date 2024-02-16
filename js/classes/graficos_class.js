@@ -190,6 +190,7 @@ export class Graficos {
                 // os valores citados acima
                 data: data,
             };
+            // função de criação do gráfico (local, confuguração)
             new Chart(ctx, config);
         }
         // se não hover passe para apresentar, haverá uma mensagem no formato parágrafo
@@ -246,6 +247,7 @@ export class Graficos {
                 // os valores citados acima
                 data: data,
             };
+            // função de criação do gráfico (local, confuguração)
             new Chart(ctx, config);
         }
         // se não hover saque para apresentar, haverá uma mensagem no formato parágrafo
@@ -290,10 +292,14 @@ export class Graficos {
                     hoverOffset: 4
                 }]
             };
+            // configurando o gráfico
             const config = {
+                // tipo pizza ou setores
                 type: 'pie',
+                // os valores citados acima
                 data: data,
             };
+            // função de criação do gráfico (local, confuguração)
             new Chart(ctx, config);
         }
         // se não hover saque para apresentar, haverá uma mensagem no formato parágrafo
@@ -336,9 +342,12 @@ export class Graficos {
             };
             // configurando o gráfico
             const config = {
+                // tipo pizza ou setores
                 type: 'pie',
+                // os valores citados acima
                 data: data,
             };
+            // função de criação do gráfico (local, confuguração)
             new Chart(ctx, config);
         }
         // se não hover ataque para apresentar, haverá uma mensagem no formato parágrafo
@@ -381,9 +390,12 @@ export class Graficos {
             };
             // configurando o gráfico
             const config = {
+                // tipo pizza ou setores
                 type: 'pie',
+                // os valores citados acima
                 data: data,
             };
+            // função de criação do gráfico (local, confuguração)
             new Chart(ctx, config);
         }
         // se não hover bloqueio para apresentar, haverá uma mensagem no formato parágrafo
@@ -431,10 +443,13 @@ export class Graficos {
             }
             // configurando o gráfico
             const config = {
+                // tipo área polar
                 type: 'polarArea',
+                // os valores citados acima
                 data: data,
                 options: {}
             };
+            // função de criação do gráfico (local, confuguração)
             new Chart(ctx, config);
         }
         // se não hover levantamento para apresentar, haverá uma mensagem no formato parágrafo
