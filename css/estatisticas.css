@@ -7,11 +7,18 @@
     --branco: #fff;
     --cinza: #F2F2F2;
 }
+
 .graficos {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.graficos>section {
+    width: 350px;
+    text-align: center;
 }
 
 canvas {
@@ -21,6 +28,8 @@ canvas {
 #escolher_jogador {
     display: none;
 }
-main{
-    float: left; width: 100%;
+
+main {
+    float: left;
+    width: 100%;
 }
