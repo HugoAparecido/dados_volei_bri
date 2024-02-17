@@ -237,8 +237,10 @@ export class Time {
     async AtualizarPasseJogador(idTime, aIncrementar, idJogador) {
         try {
             let inserirNovamenteID = "";
+            // definindo o caminho no banco
             let local = [`jogadores.${idJogador}.passe.passe_A`, `jogadores.${idJogador}.passe.passe_B`, `jogadores.${idJogador}.passe.passe_C`, `jogadores.${idJogador}.passe.passe_D`];
             const timeDocRef = doc(db, "time", idTime);
+            // atualizando os caminhos incrementado os valores com os que eles já tem
             await updateDoc(timeDocRef, {
                 [local[0]]: increment(aIncrementar[0]),
                 [local[1]]: increment(aIncrementar[1]),
@@ -264,6 +266,7 @@ export class Time {
     async AtualizarSaqueJogador(idTime, saques, idJogador) {
         try {
             let inserirNovamenteID = "";
+            // definindo o caminho no banco
             let local = [
                 `jogadores.${idJogador}.saque.flutuante`,
                 `jogadores.${idJogador}.saque.ace`,
@@ -303,11 +306,13 @@ export class Time {
     async AtualizarAtaqueJogador(idTime, aIncrementar, idJogador) {
         try {
             let inserirNovamenteID = "";
+            // definindo o caminho no banco
             let local = [
                 `jogadores.${idJogador}.ataque.acertado`,
                 `jogadores.${idJogador}.ataque.errado`
             ]
             const timeDocRef = doc(db, "time", idTime);
+            // atualizando os caminhos incrementado os valores com os que eles já tem
             await updateDoc(timeDocRef, {
                 [local[0]]: increment(aIncrementar[0]),
                 [local[1]]: increment(aIncrementar[1]),
@@ -329,11 +334,13 @@ export class Time {
     async AtualizarBloqueioJogador(idTime, acerto, idJogador) {
         try {
             let inserirNovamenteID = "";
+            // definindo o caminho no banco
             let local = [
                 `jogadores.${idJogador}.bloqueio.ponto_bloqueando`,
                 `jogadores.${idJogador}.bloqueio.ponto_adversario`
             ]
             const timeDocRef = doc(db, "time", idTime);
+            // atualizando os caminhos incrementado os valores com os que eles já tem
             await updateDoc(timeDocRef, {
                 [local[0]]: increment(acerto[0]),
                 [local[1]]: increment(acerto[1]),
@@ -355,6 +362,7 @@ export class Time {
     async AtualizarLevantamento(idTime, levantamento, idJogador) {
         try {
             let inserirNovamenteID = "";
+            // definindo o caminho no banco
             let local = [
                 `jogadores.${idJogador}.levantou_para.centro`,
                 `jogadores.${idJogador}.levantou_para.errou`,
@@ -363,6 +371,7 @@ export class Time {
                 `jogadores.${idJogador}.levantou_para.ponta`
             ]
             const timeDocRef = doc(db, "time", idTime);
+            // atualizando os caminhos incrementado os valores com os que eles já tem
             await updateDoc(timeDocRef, {
                 [local[0]]: increment(levantamento[0]),
                 [local[1]]: increment(levantamento[1]),
@@ -370,7 +379,8 @@ export class Time {
                 [local[3]]: increment(levantamento[3]),
                 [local[4]]: increment(levantamento[4])
             });
-            inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador);
+            // se o time for misto, os dados também serão inseridos no time anterior de seu respectivo
+            inserirNovamenteID = await this.VerificarSeEhMisto(idJogador);
             if (inserirNovamenteID != "") {
                 const timeDocRef = doc(db, "time", inserirNovamenteID)
                 await updateDoc(timeDocRef, {
@@ -388,7 +398,9 @@ export class Time {
     }
     // Verificação caso o time seja misto para enviar os dados o ultimo time que o jogador jogou correspondente a seu sexo
     async VerificarSeEhMisto(idJogador) {
+        // inicializando ava riável com ""
         let idTimeAnterior = ""
+        // Se o time for misto, ele retornará o id do time que tem o mesmo sexo que o jogador, e que este participou
         if (localStorage.getItem("sexo") === "Mis") {
             idTimeAnterior = await this.ResultadoQueryUltimoTimeDesteJogador(idJogador)
         }
@@ -396,15 +408,13 @@ export class Time {
     }
     // Retorno do último time que o jogador jogou
     async ResultadoQueryUltimoTimeDesteJogador(idJogador) {
-        let idTime
+        let idTime = ""
         const q = query(collection(db, "time"), orderBy("data_criacao"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if (doc.data().sexo != "Mis") {
-                console.log(doc.data().nome)
                 Object.entries(doc.data().jogadores).forEach((jogador) => {
-                    if (idJogador === jogador[0]) {
-                        console.log(jogador[0])
+                    if (idJogador == jogador[0]) {
                         idTime = doc.id
                     }
                 })

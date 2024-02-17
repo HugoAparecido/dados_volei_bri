@@ -444,10 +444,9 @@ export class Graficos {
             // configurando o gráfico
             const config = {
                 // tipo área polar
-                type: 'polarArea',
+                type: 'pie',
                 // os valores citados acima
-                data: data,
-                options: {}
+                data: data
             };
             // função de criação do gráfico (local, confuguração)
             new Chart(ctx, config);
