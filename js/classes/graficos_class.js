@@ -64,11 +64,11 @@ export class Graficos {
                     pontoDesteTime += jogador[1].bloqueio.ponto_bloqueando
                     pontoAdversario += jogador[1].bloqueio.ponto_adversario
                     if (jogador[1].posicao === "Levantador") {
-                        ponta += jogador[1].levantou_para.ponta
-                        centro += jogador[1].levantou_para.centro
-                        oposto += jogador[1].levantou_para.oposto
-                        pipe += jogador[1].levantou_para.pipe
-                        errou += jogador[1].levantou_para.errou
+                        levantamento.ponta += jogador[1].levantou_para.ponta
+                        levantamento.centro += jogador[1].levantou_para.centro
+                        levantamento.oposto += jogador[1].levantou_para.oposto
+                        levantamento.pipe += jogador[1].levantou_para.pipe
+                        levantamento.errou += jogador[1].levantou_para.errou
                     }
                 })
                 // saque acerto
@@ -127,7 +127,7 @@ export class Graficos {
                         pipe: doc.data().levantou_para.pipe,
                         errou: doc.data().levantou_para.errou
                     }
-                    this.GraficoLevantamento(levantamento, localGraficoLevantamento, "criar_grafico_levantamento_jogador");
+                    this.GraficoLevantamento(levantamentos, localGraficoLevantamento, "criar_grafico_levantamento_jogador");
                     // colocando um display no local do gráfico
                     localGraficoLevantamento.style.display = "block";
                 }

@@ -37,7 +37,7 @@ time.PopularSelect(locais.timeSelecionado());
 let grafico = new Graficos;
 botoes.mostrarGraficosTime().addEventListener('click', () => {
     // zerando o html dos locais dos gráficos
-    locais.localGraficoBloqueioTime().innerHTML = locais.localGraficoLevantamentoTime().innerHTML = locais.localGraficoPasseTime().innerHTML = locais.localGraficoSaqueTime().innerHTML = locais.localGraficoAtaqueTime().innerHTML = "";
+    locais.localGraficoBloqueioTime().innerHTML = locais.localGraficoLevantamentoTime().innerHTML = locais.localGraficoPasseTime().innerHTML = locais.localGraficoSaqueTime().innerHTML = locais.localGraficoAtaqueTime().innerHTML = locais.localGraficoSaqueTimeTipo().innerHTML = "";
     // colocando os gráficos
     grafico.InserirGraficosTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoPasseTime(), locais.localGraficoSaqueTimeTipo(), locais.localGraficoSaqueTime(), locais.localGraficoAtaqueTime(), locais.localGraficoBloqueioTime(), locais.localGraficoLevantamentoTime());
     // populadno o select com os jogadores do time
@@ -50,7 +50,7 @@ botoes.mostrarGraficosTime().addEventListener('click', () => {
 // Mostrar Gráficos
 botoes.mostrarGraficosJogador().addEventListener('click', () => {
     // zerando o html dos locais dos gráficos
-    locais.localGraficoBloqueioJogador().innerHTML = locais.localGraficoLevantamentoJogador().innerHTML = locais.localGraficoPasseJogador().innerHTML = locais.localGraficoSaqueJogador().innerHTML = locais.localGraficoAtaqueJogador().innerHTML = "";
+    locais.localGraficoBloqueioJogador().innerHTML = locais.localGraficoLevantamentoJogador().innerHTML = locais.localGraficoPasseJogador().innerHTML = locais.localGraficoSaqueJogador().innerHTML = locais.localGraficoAtaqueJogador().innerHTML = locais.localGraficoSaqueJogadorTipo().innerHTML = "";
     // colocando os gráficos
     grafico.InserirGraficosJogador(locais.jogadorSelecionado().value, RetirarNumeroDoJogadorEPosicaoSelect(locais.jogadorSelecionado().options[locais.jogadorSelecionado().selectedIndex].text), locais.localGraficoPasseJogador(), locais.localGraficoSaqueJogadorTipo(), locais.localGraficoSaqueJogador(), locais.localGraficoAtaqueJogador(), locais.localGraficoBloqueioJogador(), locais.localGraficoLevantamentoJogador());
 })
