@@ -14,12 +14,12 @@ export class Time {
                 jogadores: {}
             });
             alert("Time cadastrado com sucesso com o ID: " + docRef.id);
+            window.location.href = "./times.html";
         } catch (e) {
             alert("Erro ao adicionar o documento: " + e);
         }
         finally {
             HideLoading();
-            window.location.reload();
         }
     }
     // Mostrar times em uma tabela
@@ -168,7 +168,6 @@ export class Time {
         const querySnapshotJogador = await getDocs(qJogador);
         querySnapshotJogador.forEach((doc) => {
             if (doc.id === idJogador) {
-                console.log(doc.data().posicao);
                 camisa = doc.data().numero_camisa;
                 posicao_j = doc.data().posicao;
             }
