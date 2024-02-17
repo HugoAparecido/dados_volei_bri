@@ -14,11 +14,12 @@ h1 {
 }
 
 h2 {
-    margin: 10px;
+    margin: 1px;
     color: var(--cinza)
 }
 
 h3 {
+    font-size: 15px;
     color: var(--cinza);
 }
 
@@ -39,7 +40,7 @@ main {
     display: flex;
     justify-content: space-around;
     background-color: var(--laranja-claro);
-    margin-top: 10px;
+    margin-top: 1px;
     border-radius: 10px;
 }
 
@@ -58,22 +59,23 @@ main {
     justify-content: center;
     border-radius: 5px;
     background-color: var(--cor-de-fundo-insercoes);
-    padding: 5px;
+    padding: 1px;
     text-wrap: nowrap;
-    margin: 5px;
+    margin: 1px;
 }
 
 .saques_span {
     cursor: pointer;
-    padding: 2px 5px;
+    padding: 1px 1px;
     background-color: var(--laranja);
     color: var(--cinza);
     border-radius: 10px;
-    margin: 2px;
+    margin: 1px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: nowrap;
+    font-size: 15px;
 }
 
 .saques td>div>span,
@@ -81,11 +83,11 @@ main {
 .bloqueios>span,
 .levantamentos>span {
     cursor: pointer;
-    padding: 2px 5px;
+    padding: 1px 1px;
     background-color: var(--laranja);
     color: var(--cinza);
     border-radius: 10px;
-    margin: 2px;
+    margin: 1px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,7 +103,7 @@ select {
     color: var(--cinza);
     height: 30px;
     font-size: 20px;
-    border: 2px solid var(--laranja-escuro);
+    border: 1px solid var(--laranja-escuro);
     border-radius: 10px;
 }
 
@@ -114,16 +116,16 @@ select {
 
 #jogadores_no_time>div {
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 1px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
     border: 1px solid var(--cinza);
-    padding: 10px;
+    padding: 1px;
     border-radius: 10px;
-    margin: 5px;
+    margin: 1px;
 }
 
 .insercao_individual {
@@ -136,7 +138,7 @@ select {
 }
 
 #jogadores_no_time>div>div {
-    margin-top: 5px;
+    margin-top: 1px;
 }
 
 #novo_jogador {
@@ -148,8 +150,8 @@ select {
 }
 
 input[type=number] {
-    max-width: 30px;
-    height: 30px;
+    max-width: 15px;
+    height: 15px;
     border-radius: 10px;
     text-align: center;
 }
@@ -159,8 +161,9 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 span {
-    padding-right: 10px;
-    padding-left: 10px;
+    font-size: 15px;
+    padding-right: 1px;
+    padding-left: 1px;
 }
 
 .linha_unica {

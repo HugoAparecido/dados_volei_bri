@@ -30,6 +30,25 @@
         <button type="button" class="botao_deslogar" id="logout">Sair</button>
     </header>
     <main>
+        <div class="insercoes" id="insercoes">
+            <section class="time">
+                <h2 id="time_exportado">
+                    </h1>
+                    <h2 id="sexo_time"></h2>
+            </section>
+            <section class="jogadores">
+                <form action="">
+                    <div id="jogadores_no_time"></div>
+                    <div id="adicionar_jogador">
+                        <label class="form-label" for="novo_jogador">Novo Jogador</label>
+                        <select class="form-select" name="novo_jogador" id="novo_jogador"></select>
+                        <button id="adicionar_jogador_button" type="button">Adicionar Jogador</button>
+                    </div>
+                    <button id="salvar_informacoes" type="button">Enviar Dados</button>
+                </form>
+                <button type="button"><a href="./cadastar_jogador.html">Cadastrar Jogador</a></button>
+            </section>
+        </div>
         <div class="times">
             <section>
                 <h2>Masculino</h2>
@@ -48,25 +67,6 @@
                 <div id="times_misto"></div>
                 <button class="btn btn-primary"><a href="cadastrar_time.html?sexo=Mis" class="nav-link">Cadastrar
                         Time</a></button>
-            </section>
-        </div>
-        <div class="insercoes" id="insercoes">
-            <section class="time">
-                <h2 id="time_exportado">
-                    </h1>
-                    <h2 id="sexo_time"></h2>
-            </section>
-            <section class="jogadores">
-                <form action="">
-                    <div id="jogadores_no_time"></div>
-                    <div id="adicionar_jogador">
-                        <label class="form-label" for="novo_jogador">Novo Jogador</label>
-                        <select class="form-select" name="novo_jogador" id="novo_jogador"></select>
-                        <button id="adicionar_jogador_button" type="button">Adicionar Jogador</button>
-                    </div>
-                    <button id="salvar_informacoes" type="button">Enviar Dados</button>
-                </form>
-                <button type="button"><a href="./cadastar_jogador.html">Cadastrar Jogador</a></button>
             </section>
         </div>
     </main>
