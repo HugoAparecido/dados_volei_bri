@@ -23,7 +23,6 @@ export class Auth {
             // se ele não estiver logado, ele se redirecionará para o login
             if (!user) {
                 window.location.href = "./login.html";
-                alert("É necessário logar-se primeiro")
             }
         });
     }
