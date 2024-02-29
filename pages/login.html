@@ -21,30 +21,30 @@
                 </li>
                 <li class="nav-item"><a href="./times.html" class="nav-link">Times</a>
                 </li>
-                <li class="nav-item"><a href="./estatisticas_time.html" class="nav-link">Visualizar Estatíticas</a>
+                <li class="nav-item"><a href="./estatisticas.html" class="nav-link">Visualizar Estatíticas</a>
                 </li>
             </ul>
         </nav>
     </header>
     <main>
-        <form action="">
+        <form action="" class="container">
             <fieldset>
                 <legend>Login</legend>
-                <div class="form-field">
-                    <div><label class="form-label" for="email">Email</label></div>
+                <div class="mb-3 container">
+                    <label class="form-label" for="email">Email</label>
                     <input class="form-control" type="email" name="email" id="email" placeholder="seu@email.com">
                     <div class="error" id="email-required-error">Email é obrigatório</div>
                     <div class="error" id="email-invalid-error">Email é inválido</div>
                 </div>
-                <div class="form-field">
+                <div class="mb-3 container">
                     <div><label class="form-label" for="password">Senha</label></div>
                     <input class="form-control" type="password" name="password" id="password" placeholder="Senha">
                     <div class="error" id="password-required-error">Senha é obrigatória</div>
                 </div>
-                <div><button type="button" class="clear" id="recover-password-button" disabled="true">Recuperar
+                <div><button type="button" class="clear mb-3" id="recover-password-button" disabled="true">Recuperar
                         senha</button>
                 </div>
-                <div><button type="button" class="solid" id="login-button" disabled="true">Entrar</button>
+                <div><button type="button" class=" mb-3" id="login-button" disabled="true">Entrar</button>
                 </div>
             </fieldset>
         </form>

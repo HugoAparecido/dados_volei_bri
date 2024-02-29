@@ -121,28 +121,31 @@ button>a {
 }
 
 button:hover {
-    background-color: var(--laranja-claro);
+    background-color: var(--laranja-escuro);
+    color: var(--laranja);
 }
 
 button[disabled] {
     opacity: 0.7;
+    background-color: var(--laranja-claro);
+    color: var(--cinza);
 }
 
 .clear {
     background: transparent;
     border: none;
-    color: gray;
+    color: var(--laranja-claro);
 }
 
 .solid {
-    background: white;
+    background: var(--laranja);
     border: none;
     color: rgb(45, 211, 111);
 }
 
 .outline {
     background: transparent;
-    color: gray;
+    color: var(--marrom);
     border: 1px solid white;
 }
 
