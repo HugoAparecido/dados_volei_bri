@@ -16,6 +16,9 @@
     --branco: #fff;
     --cinza: #F2F2F2;
 }
+body{
+    background-color: var(--preto);
+}
 #logo{
     width: 100px; height: 100px; border-radius: 120px; margin: 10px;
 }
@@ -31,10 +34,28 @@ main{
 li{
     margin-left: 20px;
 }
-/*}
-body{
-    background-color: var(--preto);
+button.botao_deslogar {
+    background-color: var(--laranja-claro);
+    color: var(--laranja-escuro);
+    width: 54px;
+    height: 54px;
+    border-radius: 50px;
+    border: none;
+    font-size: 24px;
+    box-shadow: 2px 2px 2px var(--laranja-claro);
+    position: fixed;
+    right: 32px;
+    top: 32px;
+    cursor: pointer;
 }
+
+
+button.botao_deslogar:hover {
+    background-color: var(--laranja-escuro);
+    color: var(--cinza);
+    box-shadow: 2px 2px 2px var(--laranja-escuro);
+}
+/*}
 header {
     width: 100%;
     text-align: center;
@@ -91,38 +112,8 @@ nav>ul>li>a:hover {
     text-decoration: underline;
 }
 
-button.botao_deslogar {
-    background-color: var(--laranja-claro);
-    color: var(--laranja-escuro);
-    width: 54px;
-    height: 54px;
-    border-radius: 50px;
-    border: none;
-    font-size: 24px;
-    box-shadow: 2px 2px 2px var(--laranja-claro);
-    position: fixed;
-    right: 32px;
-    top: 32px;
-    cursor: pointer;
-}
 
 
-button.botao_deslogar:hover {
-    background-color: var(--laranja-escuro);
-    color: var(--cinza);
-    box-shadow: 2px 2px 2px var(--laranja-escuro);
-}
-
-button {
-    cursor: pointer;
-    height: 35px;
-    font-size: 20px;
-    color: var(--cinza);
-    background-color: var(--laranja);
-    border-radius: 5px;
-    border: 1px solid var(--laranja-escuro);
-    padding: 5px;
-}
 
 button>a {
     color: var(--cinza);
