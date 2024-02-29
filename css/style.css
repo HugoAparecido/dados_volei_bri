@@ -22,23 +22,15 @@ body{
 header {
     width: 100%;
     text-align: center;
-
+}
+#logo{
+    width: 70px; height: 70px;
 }
 
 main {
     float: left;
     width: 100%;
 }
-
-#logo {
-    float: left;
-    width: 3.5%;
-    height: 6%;
-    border-radius: 60%;
-    margin: 4px;
-
-}
-
 header>h1 {
     margin: 15px 0;
     float: left;
