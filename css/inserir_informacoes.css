@@ -44,6 +44,18 @@ main {
     border-radius: 10px;
 }
 
+.botao_time {
+    background-color: var(--laranja);
+    color: var(--branco);
+    border: 1px solid var(--marrom);
+}
+
+.botao_time:hover {
+    background-color: var(--laranja-escuro);
+    color: var(--laranja);
+    border: 2px solid var(--laranja-claro);
+}
+
 #timeSelecionado {
     display: none;
 }
@@ -64,7 +76,19 @@ main {
     margin: 1px;
 }
 
-.saques_span {
+.passes>div,
+.ataques>div,
+.saques>div,
+.bloqueios>div,
+.levantamentos>div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.atributos_span {
+    width: 30px;
     cursor: pointer;
     padding: 1px 1px;
     background-color: var(--laranja);
@@ -78,33 +102,9 @@ main {
     font-size: 15px;
 }
 
-.saques td>div>span,
-.ataques>span,
-.bloqueios>span,
-.levantamentos>span {
-    cursor: pointer;
-    padding: 1px 1px;
-    background-color: var(--laranja);
-    color: var(--cinza);
-    border-radius: 10px;
-    margin: 1px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .jogadores>form button {
     margin-top: 10px;
     margin-bottom: 10px;
-}
-
-select {
-    background-color: var(--laranja);
-    color: var(--cinza);
-    height: 30px;
-    font-size: 20px;
-    border: 1px solid var(--laranja-escuro);
-    border-radius: 10px;
 }
 
 #jogadores_no_time,
@@ -143,6 +143,12 @@ select {
 
 #novo_jogador {
     width: auto;
+    background-color: var(--laranja);
+    color: var(--cinza);
+    height: 50px;
+    font-size: 20px;
+    border: 1px solid var(--laranja-escuro);
+    border-radius: 10px;
 }
 
 .form-label {

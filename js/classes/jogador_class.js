@@ -298,12 +298,12 @@ export class Jogador {
         let spanDecremento = document.createElement("span");
         spanDecremento.id = `${idJogador}_diminuir_passe_${tipoPasse}`;
         spanDecremento.innerHTML = `-${tipoPasse}`;
-        spanDecremento.className = "saques_span";
+        spanDecremento.className = "atributos_span";
         // span incremento
         let spanIncremento = document.createElement("span");
         spanIncremento.id = `${idJogador}_aumentar_passe_${tipoPasse}`;
         spanIncremento.innerHTML = `+${tipoPasse}`;
-        spanIncremento.className = "saques_span";
+        spanIncremento.className = "atributos_span";
         // input
         let input = document.createElement("input");
         input.type = "number";
@@ -328,12 +328,12 @@ export class Jogador {
         let spanDecremento = document.createElement("span");
         spanDecremento.id = `${idJogador}_diminuir_${tipo}`;
         spanDecremento.innerHTML = "-";
-        spanDecremento.className = "saques_span";
+        spanDecremento.className = "atributos_span";
         // span incremento
         let spanIncremento = document.createElement("span");
         spanIncremento.id = `${idJogador}_aumentar_${tipo}`;
         spanIncremento.innerHTML = '+';
-        spanIncremento.className = "saques_span";
+        spanIncremento.className = "atributos_span";
         // input
         let input = document.createElement("input");
         input.type = "number";

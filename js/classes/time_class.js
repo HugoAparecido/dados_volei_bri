@@ -61,7 +61,7 @@ export class Time {
                 link.innerHTML = `${doc.data().nome}`;
                 link.className = 'nav-link';
                 botaoTime.appendChild(link);
-                botaoTime.className = 'btn btn-primary';
+                botaoTime.className = 'btn botao_time';
                 mostrarTimeMasculino().appendChild(botaoTime);
             }
             // Feminino
@@ -74,7 +74,7 @@ export class Time {
                 link.innerHTML = `${doc.data().nome}`;
                 link.className = 'nav-link';
                 botaoTime.appendChild(link);
-                botaoTime.className = 'btn btn-primary';
+                botaoTime.className = 'btn botao_time';
                 mostrarTimeFeminino().appendChild(botaoTime);
             }
             // Misto
@@ -87,7 +87,7 @@ export class Time {
                 link.innerHTML = `${doc.data().nome}`;
                 link.className = 'nav-link';
                 botaoTime.appendChild(link);
-                botaoTime.className = 'btn btn-primary';
+                botaoTime.className = 'btn botao_time';
                 mostrarTimeMisto().appendChild(botaoTime);
             }
         });
