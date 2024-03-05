@@ -25,6 +25,7 @@ main>section {
 
 button {
     margin-top: 30px;
+    background-color: var(--laranja);
 }
 
 .linha_unica {
