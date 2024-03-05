@@ -207,6 +207,8 @@ export class Jogador {
                 if (id.includes(doc.id)) {
                     // Criação da div Jogador
                     let divJogador = document.createElement("div");
+                    divJogador.className = "itemArrastavel";
+                    divJogador.draggable = true;
                     let h3InformacoesJogador = document.createElement("h3");
                     h3InformacoesJogador.innerHTML = `${doc.data().posicao}: ${doc.data().numero_camisa} ${doc.data().nome}`;
                     divJogador.appendChild(h3InformacoesJogador);

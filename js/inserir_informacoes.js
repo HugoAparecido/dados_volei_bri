@@ -25,11 +25,11 @@ let jogador = new Jogador;
 let validation = new Validation
 // eventos
 // Verificando se há um time selecionado
-validation.VerificarTimeSelecionadoExixtente()
+validation.VerificarTimeSelecionadoExistente()
 // Cadastrar jogador ao time
-buttons.salvarOutroJogador().addEventListener('click', () => {
-    time.InserirJogador(RetirarNumeroDoJogadorSelect(form.novoJogadorSelecionar().options[form.novoJogadorSelecionar().selectedIndex].text), form.novoJogadorSelecionar().value);
-})
+buttons.salvarOutroJogador().addEventListener('click', () =>
+    time.InserirJogador(RetirarNumeroDoJogadorSelect(form.novoJogadorSelecionar().options[form.novoJogadorSelecionar().selectedIndex].text), form.novoJogadorSelecionar().value)
+)
 buttons.salvarInformacoes().addEventListener("click", () => jogador.AtualizarInformacoesDeTodosJogadores());
 // Função para pegar o texto do select
 function RetirarNumeroDoJogadorSelect(texto) {

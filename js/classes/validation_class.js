@@ -99,7 +99,7 @@ export class Validation {
             }
         });
     }
-    VerificarTimeSelecionadoExixtente() {
+    VerificarTimeSelecionadoExistente() {
         if (localStorage.getItem("timeAtualID") === null) {
             window.location.href = "./times.html";
         }
