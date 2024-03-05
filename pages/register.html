@@ -12,20 +12,26 @@
 </head>
 
 <body class="text-center">
-    <header>
-        <a> <img id="logo" src="../img/logo-volei.ico" alt="logo"></a>
-        <h1>Registrar</h1>
-        <nav class="bg-body-tertiary">
-            <ul class="nav nav-pills nav-fill">
-                <li class="nav-item"><a href="../index.html" class="nav-link">Página Inicial</a>
-                </li>
-                <li class="nav-item"><a href="./times.html" class="nav-link">Times</a>
-                </li>
-                <li class="nav-item"><a href="./estatisticas_time.html" class="nav-link">Visualizar Estatíticas</a>
-                </li>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" id="nav">
+        <div class="container-fluid" id="nav">
+            <a class="navbar-brand" href="#">
+                <img src="../img/raposa2.png" alt="Logo" id="logo">
+              </a>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown"  >
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../index.html">Página Principal</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../pages/times.html">Times</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../pages/estatisticas.html">Visualizar estatísticas</a>
+              </li>
             </ul>
-        </nav>
-    </header>
+          </div>
+        </div>
+      </nav>
     <main>
         <form action="">
             <div class="form-field">
@@ -46,8 +52,8 @@
                     placeholder="Confrimar senha">
                 <div class="error" id="password_doesnt_match_error">Senha e confirmar senha devem ser iguais</div>
             </div>
-            <div><button type="button" class="solid" disabled="true" id="register_button">Registrar</button></div>
-            <div><button type="button" class="clear"><a href="./login.html">Login</a></button></div>
+            <div><button type="button" class="btn" disabled="true" id="register_button" style="background-color: #F24405 ;">Registrar</button></div>
+            <div><button type="button" class="clear"><a href="./login.html" style="color:  white;">Login</a></button></div>
         </form>
     </main>
     <script type="module" src="../js/register.js"></script>
