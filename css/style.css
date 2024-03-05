@@ -68,27 +68,28 @@ button.botao_deslogar:hover {
     color: var(--cinza);
     box-shadow: 2px 2px 2px var(--laranja-escuro);
 }
-<<<<<<< HEAD
 
-=======
-button{
+button {
     background-color: var(--laranja);
     color: var(--cinza);
 }
+
 button[disabled] {
     opacity: 0.7;
     background-color: var(--laranja-claro);
     color: var(--cinza);
 }
-legend{
-    color:var(--cinza);
+
+legend {
+    color: var(--cinza);
     margin-top: 20px;
     margin-bottom: 20px;
 }
-div{
-    color:var(--cinza)
 
+div {
+    color: var(--cinza)
 }
+
 .clear {
     background: transparent;
     border: none;
@@ -125,12 +126,13 @@ div{
 .loading span {
     font-size: 24PX;
 }
-form{
+
+form {
     width: 80%;
     margin-left: 10%;
     margin-top: 2%;
 }
->>>>>>> 21ba342e8db314ab4d7a9edac58d3d3ba8e10f61
+
 /*}
 header {
     width: 100%;
