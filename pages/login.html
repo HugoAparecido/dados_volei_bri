@@ -2,65 +2,67 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="shortcut icon" href="../img/logo-volei.ico" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="shortcut icon" href="../img/logo-volei.ico" type="image/x-icon">
 </head>
 
 <body class="text-center">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" id="nav">
-        <div class="container-fluid" id="nav">
-            <a class="navbar-brand" href="#">
-                <img src="../img/raposa2.png" alt="Logo" id="logo">
-              </a>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown"  >
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="../index.html">Página Principal</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="../pages/times.html">Times</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="../pages/estatisticas.html">Visualizar estatísticas</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="../pages/register.html">Registrar</a>
-              </li>
-            </ul>
-          </div>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" id="nav">
+    <div class="container-fluid" id="nav_container">
+      <a class="navbar-brand" href="#">
+        <img src="../img/raposa2.png" alt="Logo" id="logo">
+      </a>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../index.html">Página Principal</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../pages/times.html">Times</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../pages/estatisticas.html">Visualizar estatísticas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../pages/register.html">Registrar</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <main>
+    <form action="" class="container">
+      <fieldset>
+        <legend>Login</legend>
+        <div class="mb-3 container">
+          <label class="form-label" for="email">Email</label>
+          <input class="form-control" type="email" name="email" id="email" placeholder="seu@email.com">
+          <div class="error" id="email-required-error">Email é obrigatório</div>
+          <div class="error" id="email-invalid-error">Email é inválido</div>
         </div>
-      </nav>
-    <main>
-        <form action="" class="container">
-            <fieldset>
-                <legend>Login</legend>
-                <div class="mb-3 container">
-                    <label class="form-label" for="email">Email</label>
-                    <input class="form-control" type="email" name="email" id="email" placeholder="seu@email.com">
-                    <div class="error" id="email-required-error">Email é obrigatório</div>
-                    <div class="error" id="email-invalid-error">Email é inválido</div>
-                </div>
-                <div class="mb-3 container">
-                    <div><label class="form-label" for="password">Senha</label></div>
-                    <input class="form-control" type="password" name="password" id="password" placeholder="Senha">
-                    <div class="error" id="password-required-error">Senha é obrigatória</div>
-                </div>
-                <div>
-                    <button type="button" class="btn" id="recover-password-button" disabled="true" style="background-color: #F24405;">Recuperar
-                        senha</button>
-                </div>
-                <div>
-                    <button type="button" class=" btn" id="login-button" disabled="true" style="background-color: #F24405; margin-top: 15px;">Entrar</button>
-                </div>
-            </fieldset>
-        </form>
-    </main>
-    <script src="../js/login.js" type="module"></script>
+        <div class="mb-3 container">
+          <div><label class="form-label" for="password">Senha</label></div>
+          <input class="form-control" type="password" name="password" id="password" placeholder="Senha">
+          <div class="error" id="password-required-error">Senha é obrigatória</div>
+        </div>
+        <div>
+          <button type="button" class="btn" id="recover-password-button" disabled="true"
+            style="background-color: #F24405;">Recuperar
+            senha</button>
+        </div>
+        <div>
+          <button type="button" class=" btn" id="login-button" disabled="true"
+            style="background-color: #F24405; margin-top: 15px;">Entrar</button>
+        </div>
+      </fieldset>
+    </form>
+  </main>
+  <script src="../js/login.js" type="module"></script>
 </body>
 
 </html>

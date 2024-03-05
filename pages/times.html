@@ -2,87 +2,95 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <title>Vôlei BRI</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/times.css">
-    <link rel="stylesheet" href="../css/inserir_informacoes.css">
-    <link rel="shortcut icon" href="../img/logo-volei.ico" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <title>Vôlei BRI</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/times.css">
+  <link rel="stylesheet" href="../css/inserir_informacoes.css">
+  <link rel="shortcut icon" href="../img/logo-volei.ico" type="image/x-icon">
 </head>
 
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-    <!--Barra de Navegação-->
-    
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" id="nav">
-            <div class="container-fluid" id="nav">
-                <a class="navbar-brand" href="#">
-                    <img src="../img/raposa2.png" alt="Logo" id="logo">
-                  </a>
-              <div class="collapse navbar-collapse" id="navbarNavDropdown"  >
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../index.html">Página Principal</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../pages/times.html">Times</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../pages/estatisticas.html">Estatísticas</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../pages/login.html">Login</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-        <button type="button" class="botao_deslogar" id="logout">Sair</button>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+  <!--Barra de Navegação-->
 
-    <main>
-        <div class="insercoes" id="insercoes">
-            <section class="time">
-                <h2 id="time_exportado">
-                    </h1>
-                    <h2 id="sexo_time"></h2>
-            </section>
-            <section class="jogadores">
-                <form action="">
-                    <div id="jogadores_no_time"></div>
-                    <div id="adicionar_jogador">
-                        <label class="form-label" for="novo_jogador">Novo Jogador</label>
-                        <select class="form-select" name="novo_jogador" id="novo_jogador"></select>
-                        <button id="adicionar_jogador_button" type="button">Adicionar Jogador</button>
-                    </div>
-                    <button id="salvar_informacoes" type="button">Enviar Dados</button>
-                </form>
-                <button type="button"><a href="./cadastar_jogador.html">Cadastrar Jogador</a></button>
-            </section>
-        </div>
-        <div class="times">
-            <section>
-                <h2>Masculino</h2>
-                <div id="times_masculinos"></div>
-                <button class="btn" style="background-color: #F24405;"><a href="cadastrar_time.html?sexo=M" class = "nav-link" >Cadastrar
-                        Time</a></button>
-            </section>
-            <section>
-                <h2>Feminino</h2>
-                <div id="times_femininos"></div>
-                <button class="btn" style="background-color: #F24405;"><a href="cadastrar_time.html?sexo=F" class="nav-link">Cadastrar
-                        Time</a></button>
-            </section>
-            <section>
-                <h2>Misto</h2>
-                <div id="times_misto"></div>
-                <button class="btn " style="background-color: #F24405;"><a href="cadastrar_time.html?sexo=Mis" class="nav-link">Cadastrar
-                        Time</a></button>
-            </section>
-        </div>
-    </main>
-    <script src="../js/times.js" type="module"></script>
-    <script src="../js/inserir_informacoes.js" type="module"></script>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" id="nav">
+    <div class="container-fluid" id="nav_container">
+      <a class="navbar-brand" href="#">
+        <img src="../img/raposa2.png" alt="Logo" id="logo">
+      </a>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../index.html">Página Principal</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../pages/times.html">Times</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../pages/estatisticas.html">Estatísticas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../pages/login.html">Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="botao_deslogar" id="logout">Sair</button>
+
+  <main>
+    <div class="insercoes" id="insercoes">
+      <section class="time">
+        <h2 id="time_exportado">
+          </h1>
+          <h2 id="sexo_time"></h2>
+      </section>
+      <section class="jogadores">
+        <form action="">
+          <div id="jogadores_no_time"></div>
+          <div id="adicionar_jogador">
+            <label class="form-label" for="novo_jogador">Novo Jogador</label>
+            <select class="form-select" name="novo_jogador" id="novo_jogador"></select>
+            <button id="adicionar_jogador_button" type="button">Adicionar Jogador</button>
+          </div>
+          <button id="salvar_informacoes" type="button">Enviar Dados</button>
+        </form>
+        <button type="button"><a href="./cadastar_jogador.html">Cadastrar Jogador</a></button>
+      </section>
+    </div>
+    <div class="times">
+      <section>
+        <h2>Masculino</h2>
+        <div id="times_masculinos"></div>
+        <button class="btn" style="background-color: #F24405;"><a href="cadastrar_time.html?sexo=M"
+            class="nav-link">Cadastrar
+            Time</a></button>
+      </section>
+      <section>
+        <h2>Feminino</h2>
+        <div id="times_femininos"></div>
+        <button class="btn" style="background-color: #F24405;"><a href="cadastrar_time.html?sexo=F"
+            class="nav-link">Cadastrar
+            Time</a></button>
+      </section>
+      <section>
+        <h2>Misto</h2>
+        <div id="times_misto"></div>
+        <button class="btn " style="background-color: #F24405;"><a href="cadastrar_time.html?sexo=Mis"
+            class="nav-link">Cadastrar
+            Time</a></button>
+      </section>
+    </div>
+  </main>
+  <script src="../js/times.js" type="module"></script>
+  <script src="../js/inserir_informacoes.js" type="module"></script>
 </body>

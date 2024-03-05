@@ -2,61 +2,62 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="shortcut icon" href="../img/logo-volei.ico" type="image/x-icon">
-    <title>Registrar Usuário</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="shortcut icon" href="../img/logo-volei.ico" type="image/x-icon">
+  <title>Registrar Usuário</title>
 </head>
 
 <body class="text-center">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" id="nav">
-        <div class="container-fluid" id="nav">
-            <a class="navbar-brand" href="#">
-                <img src="../img/raposa2.png" alt="Logo" id="logo">
-              </a>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown"  >
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="../index.html">Página Principal</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="../pages/times.html">Times</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="../pages/estatisticas.html">Visualizar estatísticas</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    <main>
-        <form action="">
-            <div class="form-field">
-                <div><label class="form-label" for="email">Email</label></div>
-                <input class="form-control" type="email" name="email" id="email" placeholder="seu@email.com">
-                <div class="error" id="email_required_error">Email é obrigatório</div>
-                <div class="error" id="email_invalid_error">Email é inválido</div>
-            </div>
-            <div class="form-field">
-                <div><label class="form-label" for="password">Senha</label></div>
-                <input class="form-control" type="password" name="password" id="password" placeholder="Senha">
-                <div class="error" id="password_required_error">Senha é obrigatória</div>
-                <div class="error" id="password_min_length_error">A senha deve ter pelo menos 6 caracteres</div>
-            </div>
-            <div class="form-field">
-                <div><label class="form-label" for="confirmPassword">Confirmar senha</label></div>
-                <input class="form-control" type="password" name="confirmPassword" id="confirmPassword"
-                    placeholder="Confrimar senha">
-                <div class="error" id="password_doesnt_match_error">Senha e confirmar senha devem ser iguais</div>
-            </div>
-            <div><button type="button" class="btn" disabled="true" id="register_button" style="background-color: #F24405 ;">Registrar</button></div>
-            <div><button type="button" class="clear"><a href="./login.html" style="color:  white;">Login</a></button></div>
-        </form>
-    </main>
-    <script type="module" src="../js/register.js"></script>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" id="nav">
+    <div class="container-fluid" id="nav_container">
+      <a class="navbar-brand" href="#">
+        <img src="../img/raposa2.png" alt="Logo" id="logo">
+      </a>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../index.html">Página Principal</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../pages/times.html">Times</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../pages/estatisticas.html">Visualizar estatísticas</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <main>
+    <form action="">
+      <div class="form-field">
+        <div><label class="form-label" for="email">Email</label></div>
+        <input class="form-control" type="email" name="email" id="email" placeholder="seu@email.com">
+        <div class="error" id="email_required_error">Email é obrigatório</div>
+        <div class="error" id="email_invalid_error">Email é inválido</div>
+      </div>
+      <div class="form-field">
+        <div><label class="form-label" for="password">Senha</label></div>
+        <input class="form-control" type="password" name="password" id="password" placeholder="Senha">
+        <div class="error" id="password_required_error">Senha é obrigatória</div>
+        <div class="error" id="password_min_length_error">A senha deve ter pelo menos 6 caracteres</div>
+      </div>
+      <div class="form-field">
+        <div><label class="form-label" for="confirmPassword">Confirmar senha</label></div>
+        <input class="form-control" type="password" name="confirmPassword" id="confirmPassword"
+          placeholder="Confrimar senha">
+        <div class="error" id="password_doesnt_match_error">Senha e confirmar senha devem ser iguais</div>
+      </div>
+      <div><button type="button" class="btn" disabled="true" id="register_button"
+          style="background-color: #F24405 ;">Registrar</button></div>
+      <div><button type="button" class="clear"><a href="./login.html" style="color:  white;">Login</a></button></div>
+    </form>
+  </main>
+  <script type="module" src="../js/register.js"></script>
 </body>
 
 </html>
