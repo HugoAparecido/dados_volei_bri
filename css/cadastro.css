@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 :root {
     --preto: #000;
     --laranja: #F24405;
@@ -12,6 +13,7 @@
     --branco: #fff;
     --cinza: #F2F2F2;
 }
+
 main {
     width: 100%;
     display: flex;
@@ -21,6 +23,13 @@ main {
 
 main>section {
     width: 100%;
+}
+
+.tabela {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 button {
@@ -39,12 +48,24 @@ label {
     padding-right: 10px;
     white-space: nowrap;
 }
-th{
+
+table {
+    border-collapse: separate;
+    border-spacing: 15px;
+}
+
+th {
     color: var(--cinza);
 }
-legend{
-    color:var(--cinza)
+
+td {
+    margin: 5px 10px;
 }
-label{
-    color:var(--cinza)
+
+legend {
+    color: var(--cinza)
+}
+
+label {
+    color: var(--cinza)
 }

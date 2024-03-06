@@ -133,6 +133,13 @@ form {
     margin-top: 2%;
 }
 
+@media only screen and (max-width: 600px) {
+    button.botao_deslogar {
+        left: 15px;
+        top: 100px;
+    }
+}
+
 /*
 @media only screen and (max-width: 600px) {
     #logo {
