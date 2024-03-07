@@ -24,25 +24,16 @@ export class Time {
     }
     // Mostrar times em uma tabela
     async MostrarTodosTimes(mostrarTime) {
-        ShowLoading();
-        try {
-            mostrarTime().innerHTML = "";
-            const querySnapshot = await getDocs(collection(db, "time"));
-            querySnapshot.forEach((doc) => {
-                mostrarTime().innerHTML += `<tr>
+        mostrarTime().innerHTML = "";
+        const querySnapshot = await getDocs(collection(db, "time"));
+        querySnapshot.forEach((doc) => {
+            mostrarTime().innerHTML += `<tr>
             <td>${doc.id}</td>
             <td>${doc.data().nome}</td>
             <td>${doc.data().sexo}</td>
             <td>${doc.data().jogadores}</td>
             </tr>`;
-            });
-        }
-        catch (e) {
-            alert("Erro: " + e);
-        }
-        finally {
-            HideLoading();
-        }
+        });
     }
     // Ordenar os times em três colunas (Masculino, Feminino e Misto), sendo botões para exibir as insercoes
     async OrdenarTimesPorSexo(mostrarTimeMasculino, mostrarTimeFeminino, mostrarTimeMisto, localInsercoes, informacoes, form) {
