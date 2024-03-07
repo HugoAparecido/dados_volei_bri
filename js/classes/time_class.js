@@ -24,71 +24,80 @@ export class Time {
     }
     // Mostrar times em uma tabela
     async MostrarTodosTimes(mostrarTime) {
-        mostrarTime().innerHTML = "";
-        const querySnapshot = await getDocs(collection(db, "time"));
-        querySnapshot.forEach((doc) => {
-            mostrarTime().innerHTML += `<tr>
+        ShowLoading();
+        try {
+            mostrarTime().innerHTML = "";
+            const querySnapshot = await getDocs(collection(db, "time"));
+            querySnapshot.forEach((doc) => {
+                mostrarTime().innerHTML += `<tr>
             <td>${doc.id}</td>
             <td>${doc.data().nome}</td>
             <td>${doc.data().sexo}</td>
             <td>${doc.data().jogadores}</td>
             </tr>`;
-        });
-    }
-    // Ordenar os times em três colunas (Masculino, Feminino e Misto), sendo botões para exibir as insercoes
-    async OrdenarTimesPorSexo(mostrarTimeMasculino, mostrarTimeFeminino, mostrarTimeMisto, localInsercoes, informacoes, form) {
-        ShowLoading();
-        try {
-            // Pegando times do mais velho ao mais recente
-            const q = query(collection(db, "time"), orderBy("data_criacao", "desc"));
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-                // Masculino
-                if (doc.data().sexo == 'M') {
-                    let botaoTime = document.createElement('button');
-                    botaoTime.id = `${doc.id}`;
-                    botaoTime.onclick = () => this.AtivarInsercoes(doc.data().nome, doc.id, localInsercoes, informacoes, form);
-                    let link = document.createElement('a');
-                    link.target = 'time_selecionado';
-                    link.innerHTML = `${doc.data().nome}`;
-                    link.className = 'nav-link';
-                    botaoTime.appendChild(link);
-                    botaoTime.className = 'btn botao_time';
-                    mostrarTimeMasculino().appendChild(botaoTime);
-                }
-                // Feminino
-                else if (doc.data().sexo == 'F') {
-                    let botaoTime = document.createElement('button');
-                    botaoTime.id = `${doc.id}`;
-                    botaoTime.onclick = () => this.AtivarInsercoes(doc.data().nome, doc.id, localInsercoes, informacoes, form);
-                    let link = document.createElement('a');
-                    link.target = 'time_selecionado';
-                    link.innerHTML = `${doc.data().nome}`;
-                    link.className = 'nav-link';
-                    botaoTime.appendChild(link);
-                    botaoTime.className = 'btn botao_time';
-                    mostrarTimeFeminino().appendChild(botaoTime);
-                }
-                // Misto
-                else {
-                    let botaoTime = document.createElement('button');
-                    botaoTime.id = `${doc.id}`;
-                    botaoTime.onclick = () => this.AtivarInsercoes(doc.data().nome, doc.id, localInsercoes, informacoes, form);
-                    let link = document.createElement('a');
-                    link.target = 'time_selecionado';
-                    link.innerHTML = `${doc.data().nome}`;
-                    link.className = 'nav-link';
-                    botaoTime.appendChild(link);
-                    botaoTime.className = 'btn botao_time';
-                    mostrarTimeMisto().appendChild(botaoTime);
-                }
             });
-        } catch (e) {
-            alert(e)
+        }
+        catch (e) {
+            alert("Erro: " + e);
         }
         finally {
             HideLoading();
         }
+    }
+    // Ordenar os times em três colunas (Masculino, Feminino e Misto), sendo botões para exibir as insercoes
+    async OrdenarTimesPorSexo(mostrarTimeMasculino, mostrarTimeFeminino, mostrarTimeMisto, localInsercoes, informacoes, form) {
+        // ShowLoading();
+        // try {
+        // Pegando times do mais velho ao mais recente
+        const q = query(collection(db, "time"), orderBy("data_criacao", "desc"));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            // Masculino
+            if (doc.data().sexo == 'M') {
+                let botaoTime = document.createElement('button');
+                botaoTime.id = `${doc.id}`;
+                botaoTime.onclick = () => this.AtivarInsercoes(doc.data().nome, doc.id, localInsercoes, informacoes, form);
+                let link = document.createElement('a');
+                link.target = 'time_selecionado';
+                link.innerHTML = `${doc.data().nome}`;
+                link.className = 'nav-link';
+                botaoTime.appendChild(link);
+                botaoTime.className = 'btn botao_time';
+                mostrarTimeMasculino().appendChild(botaoTime);
+            }
+            // Feminino
+            else if (doc.data().sexo == 'F') {
+                let botaoTime = document.createElement('button');
+                botaoTime.id = `${doc.id}`;
+                botaoTime.onclick = () => this.AtivarInsercoes(doc.data().nome, doc.id, localInsercoes, informacoes, form);
+                let link = document.createElement('a');
+                link.target = 'time_selecionado';
+                link.innerHTML = `${doc.data().nome}`;
+                link.className = 'nav-link';
+                botaoTime.appendChild(link);
+                botaoTime.className = 'btn botao_time';
+                mostrarTimeFeminino().appendChild(botaoTime);
+            }
+            // Misto
+            else {
+                let botaoTime = document.createElement('button');
+                botaoTime.id = `${doc.id}`;
+                botaoTime.onclick = () => this.AtivarInsercoes(doc.data().nome, doc.id, localInsercoes, informacoes, form);
+                let link = document.createElement('a');
+                link.target = 'time_selecionado';
+                link.innerHTML = `${doc.data().nome}`;
+                link.className = 'nav-link';
+                botaoTime.appendChild(link);
+                botaoTime.className = 'btn botao_time';
+                mostrarTimeMisto().appendChild(botaoTime);
+            }
+        });
+        // } catch (e) {
+        //     alert(e)
+        // }
+        // finally {
+        HideLoading();
+        // }
     }
     // Popular tag select com todos os times
     async PopularSelect(localSelect) {
