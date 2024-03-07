@@ -19,7 +19,8 @@ export class Jogador {
                 passe_B: 0,
                 passe_C: 0,
                 passe_D: 0
-            }
+            },
+            defesa: 0
         };
         if (posicaoConst !== "Líbero") {
             atributos = {
@@ -57,6 +58,7 @@ export class Jogador {
                     }
                 }
             };
+            delete atributos.passe;
         }
         // tratando
         try {
@@ -144,7 +146,7 @@ export class Jogador {
         }
     }
     // Puxar informações do jogador e inseri-las no form para um possível Update
-    async PopularFormCadastro(idJogador, nomeJogador, numeroCamisa, posicao, sexo, altura, peso, dadosLevantador) {
+    async PopularFormCadastro(idJogador, nomeJogador, numeroCamisa, posicao, sexo, altura, peso, dadosLevantador, dadosLibero) {
         const qJogador = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         const querySnapshotJogador = await getDocs(qJogador);
         querySnapshotJogador.forEach((doc) => {
@@ -157,11 +159,14 @@ export class Jogador {
                 if (doc.data().posicao === "Levantador") {
                     dadosLevantador = true;
                 }
+                if (doc.data().posicao === "Líbero") {
+                    dadosLibero = true;
+                }
             }
         })
     }
     // Update do Jogador
-    async AtualizarJogador(idJogador, nomeJogador, novoNome, numeroCamisa, posicao, sexo, altura, peso, dadosLevantador) {
+    async AtualizarJogador(idJogador, nomeJogador, novoNome, numeroCamisa, posicao, sexo, altura, peso, dadosLevantador, dadosLibero) {
         ShowLoading();
         try {
             if (nomeJogador != "") {
@@ -174,7 +179,7 @@ export class Jogador {
                     "altura": altura,
                     "peso": peso
                 });
-                if (dadosLevantador && posicao === "Levantador") {
+                if (!dadosLevantador && posicao === "Levantador") {
                     await updateDoc(timeDocRef, {
                         "levantou_para": {
                             ponta: 0,
@@ -182,6 +187,25 @@ export class Jogador {
                             oposto: 0,
                             pipe: 0,
                             errou: 0
+                        }
+                    });
+                }
+                if (dadosLibero && posicao != "Líbero") {
+                    await updateDoc(timeDocRef, {
+                        "saque": {
+                            flutuante: 0,
+                            ace: 0,
+                            viagem: 0,
+                            fora: 0,
+                            por_cima: 0
+                        },
+                        "ataque": {
+                            acertado: 0,
+                            errado: 0,
+                        },
+                        "bloqueio": {
+                            ponto_adversario: 0,
+                            ponto_bloqueando: 0,
                         }
                     });
                 }
@@ -227,6 +251,7 @@ export class Jogador {
                     divPasses.appendChild(this.CriarInputsPasses(doc.id, "B"));
                     divPasses.appendChild(this.CriarInputsPasses(doc.id, "C"));
                     divPasses.appendChild(this.CriarInputsPasses(doc.id, "D"));
+                    divPasses.appendChild(this.CriarInputsPasses(doc.id, "DEF"));
                     divInsercoesIndividual.appendChild(divPasses);
                     if (doc.data().posicao !== "Líbero") {
                         // Criação da div Saques
@@ -274,6 +299,7 @@ export class Jogador {
                     this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_B`), document.getElementById(`${doc.id}_diminuir_passe_B`), document.getElementById(`${doc.id}_passe_B`));
                     this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_C`), document.getElementById(`${doc.id}_diminuir_passe_C`), document.getElementById(`${doc.id}_passe_C`));
                     this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_D`), document.getElementById(`${doc.id}_diminuir_passe_D`), document.getElementById(`${doc.id}_passe_D`));
+                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_DEF`), document.getElementById(`${doc.id}_diminuir_passe_DEF`), document.getElementById(`${doc.id}_passe_DEF`));
                     if (doc.data().posicao !== "Líbero") {
                         // Saque
                         // saque por baixo
@@ -387,50 +413,58 @@ export class Jogador {
                         document.getElementById(`${doc.id}_passe_A`).value,
                         document.getElementById(`${doc.id}_passe_B`).value,
                         document.getElementById(`${doc.id}_passe_C`).value,
-                        document.getElementById(`${doc.id}_passe_D`).value
+                        document.getElementById(`${doc.id}_passe_D`).value,
+                        document.getElementById(`${doc.id}_passe_DEF`).value
                     ];
-                    // saques
-                    let saquesIncrementar = [
-                        document.getElementById(`${doc.id}_saque_flutuante`).value,
-                        document.getElementById(`${doc.id}_saque_ace`).value,
-                        document.getElementById(`${doc.id}_saque_viagem`).value,
-                        document.getElementById(`${doc.id}_saque_por_cima`).value,
-                        document.getElementById(`${doc.id}_saque_fora`).value
-                    ];
-                    // ataques
-                    let ataquesIncrementar = [
-                        document.getElementById(`${doc.id}_ataque_acerto`).value,
-                        document.getElementById(`${doc.id}_ataque_erro`).value
-                    ]
-                    // bloqueio
-                    let bloqueiosIncrementar = [
-                        document.getElementById(`${doc.id}_bloqueio_ponto_este`).value,
-                        document.getElementById(`${doc.id}_bloqueio_ponto_adversario`).value
-                    ]
+                    let saquesIncrementar = [];
+                    let ataquesIncrementar = [];
+                    let bloqueiosIncrementar = [];
+                    if (doc.data().posicao !== "Líbero") {
+                        // saques
+                        saquesIncrementar = [
+                            document.getElementById(`${doc.id}_saque_flutuante`).value,
+                            document.getElementById(`${doc.id}_saque_ace`).value,
+                            document.getElementById(`${doc.id}_saque_viagem`).value,
+                            document.getElementById(`${doc.id}_saque_por_cima`).value,
+                            document.getElementById(`${doc.id}_saque_fora`).value
+                        ];
+                        // ataques
+                        ataquesIncrementar = [
+                            document.getElementById(`${doc.id}_ataque_acerto`).value,
+                            document.getElementById(`${doc.id}_ataque_erro`).value
+                        ]
+                        // bloqueio
+                        bloqueiosIncrementar = [
+                            document.getElementById(`${doc.id}_bloqueio_ponto_este`).value,
+                            document.getElementById(`${doc.id}_bloqueio_ponto_adversario`).value
+                        ]
+                    }
                     // Chamada das funções de atualizção no banco
                     // passes
                     this.AtualizarPasseJogador(doc.id, passesIncrementar.map(Number));
                     time.AtualizarPasseJogador(localStorage.getItem("timeAtualID"), passesIncrementar.map(Number), doc.id);
-                    // saques
-                    this.AtualizarSaqueJogador(doc.id, saquesIncrementar.map(Number));
-                    time.AtualizarSaqueJogador(localStorage.getItem("timeAtualID"), saquesIncrementar.map(Number), doc.id);
-                    // ataques
-                    this.AtualizarAtaqueJogador(doc.id, ataquesIncrementar.map(Number));
-                    time.AtualizarAtaqueJogador(localStorage.getItem("timeAtualID"), ataquesIncrementar.map(Number), doc.id);
-                    // bloqueios
-                    this.AtualizarBloqueioJogador(doc.id, bloqueiosIncrementar.map(Number));
-                    time.AtualizarBloqueioJogador(localStorage.getItem("timeAtualID"), bloqueiosIncrementar.map(Number), doc.id);
-                    // Levantamentos
-                    if (doc.data().posicao === "Levantador") {
-                        let levantamentosIncrementar = [
-                            document.getElementById(`${doc.id}_levantamento_centro`).value,
-                            document.getElementById(`${doc.id}_levantamento_errou`).value,
-                            document.getElementById(`${doc.id}_levantamento_oposto`).value,
-                            document.getElementById(`${doc.id}_levantamento_pipe`).value,
-                            document.getElementById(`${doc.id}_levantamento_ponta`).value
-                        ]
-                        this.AtualizarLevantamento(doc.id, levantamentosIncrementar.map(Number));
-                        time.AtualizarLevantamento(localStorage.getItem("timeAtualID"), levantamentosIncrementar.map(Number), doc.id)
+                    if (doc.data().posicao !== "Líbero") {
+                        // saques
+                        this.AtualizarSaqueJogador(doc.id, saquesIncrementar.map(Number));
+                        time.AtualizarSaqueJogador(localStorage.getItem("timeAtualID"), saquesIncrementar.map(Number), doc.id);
+                        // ataques
+                        this.AtualizarAtaqueJogador(doc.id, ataquesIncrementar.map(Number));
+                        time.AtualizarAtaqueJogador(localStorage.getItem("timeAtualID"), ataquesIncrementar.map(Number), doc.id);
+                        // bloqueios
+                        this.AtualizarBloqueioJogador(doc.id, bloqueiosIncrementar.map(Number));
+                        time.AtualizarBloqueioJogador(localStorage.getItem("timeAtualID"), bloqueiosIncrementar.map(Number), doc.id);
+                        // Levantamentos
+                        if (doc.data().posicao === "Levantador") {
+                            let levantamentosIncrementar = [
+                                document.getElementById(`${doc.id}_levantamento_centro`).value,
+                                document.getElementById(`${doc.id}_levantamento_errou`).value,
+                                document.getElementById(`${doc.id}_levantamento_oposto`).value,
+                                document.getElementById(`${doc.id}_levantamento_pipe`).value,
+                                document.getElementById(`${doc.id}_levantamento_ponta`).value
+                            ]
+                            this.AtualizarLevantamento(doc.id, levantamentosIncrementar.map(Number));
+                            time.AtualizarLevantamento(localStorage.getItem("timeAtualID"), levantamentosIncrementar.map(Number), doc.id)
+                        }
                     }
                 }
             });
@@ -450,7 +484,8 @@ export class Jogador {
                 "passe.passe_A": increment(aIncrementar[0]),
                 "passe.passe_B": increment(aIncrementar[1]),
                 "passe.passe_C": increment(aIncrementar[2]),
-                "passe.passe_D": increment(aIncrementar[3])
+                "passe.passe_D": increment(aIncrementar[3]),
+                "defesa": increment(aIncrementar[4])
             });
         }
         catch (e) {

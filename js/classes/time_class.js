@@ -188,11 +188,12 @@ export class Time {
                 passe_B: 0,
                 passe_C: 0,
                 passe_D: 0
-            }
+            },
+            defesa: 0
         };
-        if (posicaoConst !== "Líbero") {
-            atributos = {
-                ...atributos,
+        if (posicao_j !== "Líbero") {
+            novoJogador = {
+                ...novoJogador,
                 saque: {
                     flutuante: 0,
                     ace: 0,
@@ -225,6 +226,7 @@ export class Time {
                     }
                 }
             };
+            delete atributos.passe;
         }
         novoJogador = { [idJogador]: novoJogador };
         try {
@@ -250,14 +252,15 @@ export class Time {
         try {
             let inserirNovamenteID = "";
             // definindo o caminho no banco
-            let local = [`jogadores.${idJogador}.passe.passe_A`, `jogadores.${idJogador}.passe.passe_B`, `jogadores.${idJogador}.passe.passe_C`, `jogadores.${idJogador}.passe.passe_D`];
+            let local = [`jogadores.${idJogador}.passe.passe_A`, `jogadores.${idJogador}.passe.passe_B`, `jogadores.${idJogador}.passe.passe_C`, `jogadores.${idJogador}.passe.passe_D`, `jogadores.${idJogador}.defesa`];
             const timeDocRef = doc(db, "time", idTime);
             // atualizando os caminhos incrementado os valores com os que eles já tem
             await updateDoc(timeDocRef, {
                 [local[0]]: increment(aIncrementar[0]),
                 [local[1]]: increment(aIncrementar[1]),
                 [local[2]]: increment(aIncrementar[2]),
-                [local[3]]: increment(aIncrementar[3])
+                [local[3]]: increment(aIncrementar[3]),
+                [local[4]]: increment(aIncrementar[4])
             });
             inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador);
             if (inserirNovamenteID != "") {
@@ -266,7 +269,8 @@ export class Time {
                     [local[0]]: increment(aIncrementar[0]),
                     [local[1]]: increment(aIncrementar[1]),
                     [local[2]]: increment(aIncrementar[2]),
-                    [local[3]]: increment(aIncrementar[3])
+                    [local[3]]: increment(aIncrementar[3]),
+                    [local[4]]: increment(aIncrementar[4])
                 });
             }
         }
