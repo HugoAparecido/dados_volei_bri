@@ -95,7 +95,9 @@ export class Time {
         } catch (e) {
             alert(e)
         }
-        HideLoading();
+        finally {
+            HideLoading();
+        }
     }
     // Popular tag select com todos os times
     async PopularSelect(localSelect) {
