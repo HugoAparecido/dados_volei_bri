@@ -60,6 +60,10 @@ main {
     display: none;
 }
 
+.jogador_dados {
+    width: auto;
+}
+
 .passes,
 .ataques,
 .saques,
@@ -102,6 +106,13 @@ main {
     font-size: 15px;
 }
 
+.jogadores>form {
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    margin: 0;
+}
+
 .jogadores>form button {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -109,13 +120,16 @@ main {
 
 #jogadores_no_time,
 #adicionar_jogador {
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-around;
 }
 
 #jogadores_no_time>div {
-    width: 100%;
+    width: auto;
     margin-bottom: 1px;
     display: flex;
     flex-wrap: wrap;

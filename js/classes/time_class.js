@@ -183,28 +183,34 @@ export class Time {
             nome: nomeJogador,
             numero_camisa: camisa,
             posicao: posicao_j,
-            saque: {
-                flutuante: 0,
-                ace: 0,
-                viagem: 0,
-                fora: 0,
-                por_cima: 0
-            }, passe: {
+            passe: {
                 passe_A: 0,
                 passe_B: 0,
                 passe_C: 0,
                 passe_D: 0
-            },
-            ataque: {
-                acertado: 0,
-                errado: 0,
-            },
-            bloqueio: {
-                ponto_adversario: 0,
-                ponto_bloqueando: 0,
-
             }
         };
+        if (posicaoConst !== "Líbero") {
+            atributos = {
+                ...atributos,
+                saque: {
+                    flutuante: 0,
+                    ace: 0,
+                    viagem: 0,
+                    fora: 0,
+                    por_cima: 0
+                },
+                ataque: {
+                    acertado: 0,
+                    errado: 0,
+                },
+                bloqueio: {
+                    ponto_adversario: 0,
+                    ponto_bloqueando: 0,
+
+                }
+            }
+        }
         // junção de objetos caso o jogador seja levantador
         if (posicao_j === "Levantador") {
             novoJogador = {

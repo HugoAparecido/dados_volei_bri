@@ -14,29 +14,34 @@ export class Jogador {
             posicao: posicaoConst,
             sexo: sexoConst,
             altura: alturaConst,
-            peso: pesoConst,
-            saque: {
-                flutuante: 0,
-                ace: 0,
-                viagem: 0,
-                fora: 0,
-                por_cima: 0
-            }, passe: {
+            peso: pesoConst, passe: {
                 passe_A: 0,
                 passe_B: 0,
                 passe_C: 0,
                 passe_D: 0
-            },
-            ataque: {
-                acertado: 0,
-                errado: 0,
-            },
-            bloqueio: {
-                ponto_adversario: 0,
-                ponto_bloqueando: 0,
-
             }
         };
+        if (posicaoConst !== "Líbero") {
+            atributos = {
+                ...atributos,
+                saque: {
+                    flutuante: 0,
+                    ace: 0,
+                    viagem: 0,
+                    fora: 0,
+                    por_cima: 0
+                },
+                ataque: {
+                    acertado: 0,
+                    errado: 0,
+                },
+                bloqueio: {
+                    ponto_adversario: 0,
+                    ponto_bloqueando: 0,
+
+                }
+            }
+        }
         // Se a posição for a de levantador o objeto anterior se junta com atributos de levantador
         if (posicaoConst === "Levantador") {
             // juntando os atributos com o objeto levantamento
@@ -207,7 +212,7 @@ export class Jogador {
                 if (id.includes(doc.id)) {
                     // Criação da div Jogador
                     let divJogador = document.createElement("div");
-                    divJogador.className = "itemArrastavel";
+                    divJogador.className = "itemArrastavel jogador_dados";
                     divJogador.draggable = true;
                     let h3InformacoesJogador = document.createElement("h3");
                     h3InformacoesJogador.innerHTML = `${doc.data().posicao}: ${doc.data().numero_camisa} ${doc.data().nome}`;
@@ -223,41 +228,43 @@ export class Jogador {
                     divPasses.appendChild(this.CriarInputsPasses(doc.id, "C"));
                     divPasses.appendChild(this.CriarInputsPasses(doc.id, "D"));
                     divInsercoesIndividual.appendChild(divPasses);
-                    // Criação da div Saques
-                    let divSaques = document.createElement("div");
-                    divSaques.className = "saques";
-                    divSaques.innerHTML = "<strong><span>Saq: </span></strong>";
-                    divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_flutuante", "Flu"));
-                    divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_ace", "ACE"));
-                    divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_viagem", "Via"));
-                    divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_por_cima", "Cima"));
-                    divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_fora", "Fora"));
-                    divInsercoesIndividual.appendChild(divSaques);
-                    // Criação da div Ataques
-                    let divAtaques = document.createElement("div");
-                    divAtaques.className = "ataques";
-                    divAtaques.innerHTML = "<strong><span>Ataq: </span></strong>";
-                    divAtaques.appendChild(this.CriarInputsAtributos(doc.id, "ataque_acerto", "Dentro"));
-                    divAtaques.appendChild(this.CriarInputsAtributos(doc.id, "ataque_erro", "Fora"));
-                    divInsercoesIndividual.appendChild(divAtaques);
-                    // Criação da div Bloqueios
-                    let divBloqueios = document.createElement("div");
-                    divBloqueios.className = "bloqueios";
-                    divBloqueios.innerHTML = "<strong><span>Bloq: </span></strong>";
-                    divBloqueios.appendChild(this.CriarInputsAtributos(doc.id, "bloqueio_ponto_este", "Convertido"));
-                    divBloqueios.appendChild(this.CriarInputsAtributos(doc.id, "bloqueio_ponto_adversario", "Errado"));
-                    divInsercoesIndividual.appendChild(divBloqueios);
-                    // Criação da div Levantamentos se for levantador
-                    if (doc.data().posicao === "Levantador") {
-                        let divLevantamentos = document.createElement("div");
-                        divLevantamentos.className = "levantamentos";
-                        divLevantamentos.innerHTML = "<strong><span>Levant: </span></strong>";
-                        divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_ponta", "Ponta"));
-                        divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_pipe", "Pipe"));
-                        divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_centro", "Centro"));
-                        divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_oposto", "Oposto"));
-                        divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_errou", "Errou"));
-                        divInsercoesIndividual.appendChild(divLevantamentos);
+                    if (doc.data().posicao !== "Líbero") {
+                        // Criação da div Saques
+                        let divSaques = document.createElement("div");
+                        divSaques.className = "saques";
+                        divSaques.innerHTML = "<strong><span>Saq: </span></strong>";
+                        divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_flutuante", "Flu"));
+                        divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_ace", "ACE"));
+                        divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_viagem", "Via"));
+                        divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_por_cima", "Cima"));
+                        divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_fora", "Fora"));
+                        divInsercoesIndividual.appendChild(divSaques);
+                        // Criação da div Ataques
+                        let divAtaques = document.createElement("div");
+                        divAtaques.className = "ataques";
+                        divAtaques.innerHTML = "<strong><span>Ataq: </span></strong>";
+                        divAtaques.appendChild(this.CriarInputsAtributos(doc.id, "ataque_acerto", "Dentro"));
+                        divAtaques.appendChild(this.CriarInputsAtributos(doc.id, "ataque_erro", "Fora"));
+                        divInsercoesIndividual.appendChild(divAtaques);
+                        // Criação da div Bloqueios
+                        let divBloqueios = document.createElement("div");
+                        divBloqueios.className = "bloqueios";
+                        divBloqueios.innerHTML = "<strong><span>Bloq: </span></strong>";
+                        divBloqueios.appendChild(this.CriarInputsAtributos(doc.id, "bloqueio_ponto_este", "Convertido"));
+                        divBloqueios.appendChild(this.CriarInputsAtributos(doc.id, "bloqueio_ponto_adversario", "Errado"));
+                        divInsercoesIndividual.appendChild(divBloqueios);
+                        // Criação da div Levantamentos se for levantador
+                        if (doc.data().posicao === "Levantador") {
+                            let divLevantamentos = document.createElement("div");
+                            divLevantamentos.className = "levantamentos";
+                            divLevantamentos.innerHTML = "<strong><span>Levant: </span></strong>";
+                            divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_ponta", "Ponta"));
+                            divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_pipe", "Pipe"));
+                            divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_centro", "Centro"));
+                            divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_oposto", "Oposto"));
+                            divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_errou", "Errou"));
+                            divInsercoesIndividual.appendChild(divLevantamentos);
+                        }
                     }
                     divJogador.appendChild(divInsercoesIndividual)
                     colocarJogadoresDoTime.appendChild(divJogador);
@@ -267,26 +274,28 @@ export class Jogador {
                     this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_B`), document.getElementById(`${doc.id}_diminuir_passe_B`), document.getElementById(`${doc.id}_passe_B`));
                     this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_C`), document.getElementById(`${doc.id}_diminuir_passe_C`), document.getElementById(`${doc.id}_passe_C`));
                     this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_D`), document.getElementById(`${doc.id}_diminuir_passe_D`), document.getElementById(`${doc.id}_passe_D`));
-                    // Saque
-                    // saque por baixo
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_flutuante`), document.getElementById(`${doc.id}_diminuir_saque_flutuante`), document.getElementById(`${doc.id}_saque_flutuante`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_ace`), document.getElementById(`${doc.id}_diminuir_saque_ace`), document.getElementById(`${doc.id}_saque_ace`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_viagem`), document.getElementById(`${doc.id}_diminuir_saque_viagem`), document.getElementById(`${doc.id}_saque_viagem`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_por_cima`), document.getElementById(`${doc.id}_diminuir_saque_por_cima`), document.getElementById(`${doc.id}_saque_por_cima`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_fora`), document.getElementById(`${doc.id}_diminuir_saque_fora`), document.getElementById(`${doc.id}_saque_fora`));
-                    // Ataque
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_ataque_acerto`), document.getElementById(`${doc.id}_diminuir_ataque_acerto`), document.getElementById(`${doc.id}_ataque_acerto`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_ataque_erro`), document.getElementById(`${doc.id}_diminuir_ataque_erro`), document.getElementById(`${doc.id}_ataque_erro`));
-                    // Bloqueio
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_bloqueio_ponto_este`), document.getElementById(`${doc.id}_diminuir_bloqueio_ponto_este`), document.getElementById(`${doc.id}_bloqueio_ponto_este`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_bloqueio_ponto_adversario`), document.getElementById(`${doc.id}_diminuir_bloqueio_ponto_adversario`), document.getElementById(`${doc.id}_bloqueio_ponto_adversario`));
-                    // Levantamentos
-                    if (doc.data().posicao === "Levantador") {
-                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_ponta`), document.getElementById(`${doc.id}_diminuir_levantamento_ponta`), document.getElementById(`${doc.id}_levantamento_ponta`));
-                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_centro`), document.getElementById(`${doc.id}_diminuir_levantamento_centro`), document.getElementById(`${doc.id}_levantamento_centro`));
-                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_oposto`), document.getElementById(`${doc.id}_diminuir_levantamento_oposto`), document.getElementById(`${doc.id}_levantamento_oposto`));
-                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_pipe`), document.getElementById(`${doc.id}_diminuir_levantamento_pipe`), document.getElementById(`${doc.id}_levantamento_pipe`));
-                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_errou`), document.getElementById(`${doc.id}_diminuir_levantamento_errou`), document.getElementById(`${doc.id}_levantamento_errou`));
+                    if (doc.data().posicao !== "Líbero") {
+                        // Saque
+                        // saque por baixo
+                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_flutuante`), document.getElementById(`${doc.id}_diminuir_saque_flutuante`), document.getElementById(`${doc.id}_saque_flutuante`));
+                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_ace`), document.getElementById(`${doc.id}_diminuir_saque_ace`), document.getElementById(`${doc.id}_saque_ace`));
+                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_viagem`), document.getElementById(`${doc.id}_diminuir_saque_viagem`), document.getElementById(`${doc.id}_saque_viagem`));
+                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_por_cima`), document.getElementById(`${doc.id}_diminuir_saque_por_cima`), document.getElementById(`${doc.id}_saque_por_cima`));
+                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_fora`), document.getElementById(`${doc.id}_diminuir_saque_fora`), document.getElementById(`${doc.id}_saque_fora`));
+                        // Ataque
+                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_ataque_acerto`), document.getElementById(`${doc.id}_diminuir_ataque_acerto`), document.getElementById(`${doc.id}_ataque_acerto`));
+                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_ataque_erro`), document.getElementById(`${doc.id}_diminuir_ataque_erro`), document.getElementById(`${doc.id}_ataque_erro`));
+                        // Bloqueio
+                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_bloqueio_ponto_este`), document.getElementById(`${doc.id}_diminuir_bloqueio_ponto_este`), document.getElementById(`${doc.id}_bloqueio_ponto_este`));
+                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_bloqueio_ponto_adversario`), document.getElementById(`${doc.id}_diminuir_bloqueio_ponto_adversario`), document.getElementById(`${doc.id}_bloqueio_ponto_adversario`));
+                        // Levantamentos
+                        if (doc.data().posicao === "Levantador") {
+                            this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_ponta`), document.getElementById(`${doc.id}_diminuir_levantamento_ponta`), document.getElementById(`${doc.id}_levantamento_ponta`));
+                            this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_centro`), document.getElementById(`${doc.id}_diminuir_levantamento_centro`), document.getElementById(`${doc.id}_levantamento_centro`));
+                            this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_oposto`), document.getElementById(`${doc.id}_diminuir_levantamento_oposto`), document.getElementById(`${doc.id}_levantamento_oposto`));
+                            this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_pipe`), document.getElementById(`${doc.id}_diminuir_levantamento_pipe`), document.getElementById(`${doc.id}_levantamento_pipe`));
+                            this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_errou`), document.getElementById(`${doc.id}_diminuir_levantamento_errou`), document.getElementById(`${doc.id}_levantamento_errou`));
+                        }
                     }
                 }
             });
