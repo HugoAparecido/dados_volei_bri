@@ -47,24 +47,26 @@ export class Graficos {
                 // para cada jogador ele incrementará nas variáveis acima o respectivo valor
                 jogadores.forEach((jogador) => {
                     // passes
-                    if (jogador.posicao !== "Levantador") {
+                    if (jogador[1].posicao !== "Levantador") {
                         passeA += jogador[1].passe.passe_A;
                         passeB += jogador[1].passe.passe_B;
                         passeC += jogador[1].passe.passe_C;
                         passeD += jogador[1].passe.passe_D;
                     }
-                    // saques tipo
-                    saque.flutuante += jogador[1].saque.flutuante;
-                    saque.por_cima += jogador[1].saque.por_cima;
-                    saque.viagem += jogador[1].saque.viagem;
-                    saque.fora += jogador[1].saque.fora;
-                    saque.ace += jogador[1].saque.ace;
-                    // ataque
-                    ataqueAcertado += jogador[1].ataque.acertado
-                    ataqueErrado += jogador[1].ataque.errado
-                    // bloqueio
-                    pontoDesteTime += jogador[1].bloqueio.ponto_bloqueando
-                    pontoAdversario += jogador[1].bloqueio.ponto_adversario
+                    if (jogador[1].posicao !== "Líbero") {
+                        // saques tipo
+                        saque.flutuante += jogador[1].saque.flutuante;
+                        saque.por_cima += jogador[1].saque.por_cima;
+                        saque.viagem += jogador[1].saque.viagem;
+                        saque.fora += jogador[1].saque.fora;
+                        saque.ace += jogador[1].saque.ace;
+                        // ataque
+                        ataqueAcertado += jogador[1].ataque.acertado
+                        ataqueErrado += jogador[1].ataque.errado
+                        // bloqueio
+                        pontoDesteTime += jogador[1].bloqueio.ponto_bloqueando
+                        pontoAdversario += jogador[1].bloqueio.ponto_adversario
+                    }
                     if (jogador[1].posicao === "Levantador") {
                         levantamento.ponta += jogador[1].levantou_para.ponta
                         levantamento.centro += jogador[1].levantou_para.centro
