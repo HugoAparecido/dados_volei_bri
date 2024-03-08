@@ -47,10 +47,12 @@ export class Graficos {
                 // para cada jogador ele incrementará nas variáveis acima o respectivo valor
                 jogadores.forEach((jogador) => {
                     // passes
-                    passeA += jogador[1].passe.passe_A;
-                    passeB += jogador[1].passe.passe_B;
-                    passeC += jogador[1].passe.passe_C;
-                    passeD += jogador[1].passe.passe_D;
+                    if (jogador.posicao !== "Levantador") {
+                        passeA += jogador[1].passe.passe_A;
+                        passeB += jogador[1].passe.passe_B;
+                        passeC += jogador[1].passe.passe_C;
+                        passeD += jogador[1].passe.passe_D;
+                    }
                     // saques tipo
                     saque.flutuante += jogador[1].saque.flutuante;
                     saque.por_cima += jogador[1].saque.por_cima;
@@ -99,8 +101,10 @@ export class Graficos {
         querySnapshot.forEach((doc) => {
             // verifica se é o jogador certo pelo id
             if (doc.id === idJogador) {
-                // Chamando a função para criar o gráfico passe
-                this.GraficoPasses(doc.data().passe.passe_A, doc.data().passe.passe_B, doc.data().passe.passe_C, doc.data().passe.passe_D, localGraficoPasse, "criar_grafico_passe_jogador");
+                if (doc.data().posicao !== "Levantador") {
+                    // Chamando a função para criar o gráfico passe
+                    this.GraficoPasses(doc.data().passe.passe_A, doc.data().passe.passe_B, doc.data().passe.passe_C, doc.data().passe.passe_D, localGraficoPasse, "criar_grafico_passe_jogador");
+                }
                 // inicializando os tipos dos saques com os valores
                 let saque = {
                     ace: doc.data().saque.ace,

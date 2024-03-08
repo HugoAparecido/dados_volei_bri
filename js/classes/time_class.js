@@ -226,8 +226,8 @@ export class Time {
                     }
                 }
             };
+            delete novoJogador.passe;
         }
-        delete novoJogador.passe;
         novoJogador = { [idJogador]: novoJogador };
         try {
             const timeDocRef = doc(db, "time", id);
