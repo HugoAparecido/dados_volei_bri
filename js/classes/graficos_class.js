@@ -22,6 +22,7 @@ export class Graficos {
                 let passeB = 0;
                 let passeC = 0;
                 let passeD = 0;
+                let defesa = 0
                 // inicializando os tipos dos saques em zero
                 let saque = {
                     ace: 0,
@@ -52,6 +53,7 @@ export class Graficos {
                         passeB += jogador[1].passe.passe_B;
                         passeC += jogador[1].passe.passe_C;
                         passeD += jogador[1].passe.passe_D;
+                        defesa += jogador[1].defesa;
                     }
                     if (jogador[1].posicao !== "Líbero") {
                         // saques tipo
@@ -79,7 +81,7 @@ export class Graficos {
                 let acertoSaque = saque.ace + saque.flutuante + saque.por_cima + saque.viagem;
                 let erroSaque = saque.fora;
                 // Chamando a função para criar o gráfico passe
-                this.GraficoPasses(passeA, passeB, passeC, passeD, localGraficoPasse, "criar_grafico_passe_time");
+                this.GraficoPasses(passeA, passeB, passeC, passeD, defesa, localGraficoPasse, "criar_grafico_passe_time");
                 // Chamando a função para criar o gráfico tipo do saque acertado
                 this.GraficoTipoSaque(saque, localGraficoTipoSaque, "criar_grafico_tipo_saque_time");
                 // Chamando a função para criar o gráfico de acerto e erro do saque
@@ -105,24 +107,39 @@ export class Graficos {
             if (doc.id === idJogador) {
                 if (doc.data().posicao !== "Levantador") {
                     // Chamando a função para criar o gráfico passe
-                    this.GraficoPasses(doc.data().passe.passe_A, doc.data().passe.passe_B, doc.data().passe.passe_C, doc.data().passe.passe_D, localGraficoPasse, "criar_grafico_passe_jogador");
+                    this.GraficoPasses(doc.data().passe.passe_A, doc.data().passe.passe_B, doc.data().passe.passe_C, doc.data().passe.passe_D, doc.data().defesa, localGraficoPasse, "criar_grafico_passe_jogador");
+                    localGraficoPasse.style.display = "block";
+                }
+                else {
+                    localGraficoPasse.style.display = "none";
                 }
                 // inicializando os tipos dos saques com os valores
-                let saque = {
-                    ace: doc.data().saque.ace,
-                    flutuante: doc.data().saque.flutuante,
-                    viagem: doc.data().saque.viagem,
-                    por_cima: doc.data().saque.por_cima,
-                    fora: doc.data().saque.fora
-                };
-                // Chamando a função para criar o gráfico tipo do saque acertado
-                this.GraficoTipoSaque(saque, localGraficoTipoSaque, "criar_grafico_tipo_saque_jogador");
-                // Chamando a função para criar o gráfico de acerto e erro do saque
-                this.GraficoAcertoSaque(doc.data().saque.ace + doc.data().saque.flutuante + doc.data().saque.viagem + doc.data().saque.por_cima, doc.data().saque.fora, localGraficoSaqueAcerto, "criar_grafico_acerto_saque_jogador");
-                // Chamando a função para criar o gráfico de acerto e erro do ataque
-                this.GraficoAtaque(doc.data().ataque.acertado, doc.data().ataque.errado, localGraficoAtaque, "criar_grafico_ataque_jogador");
-                // Chamando a função para criar o gráfico de acerto e erro do bloqueio
-                this.GraficoBloqueio(doc.data().bloqueio.ponto_bloqueando, doc.data().bloqueio.ponto_adversario, localGraficoBloqueio, "criar_grafico_bloqueio_jogador");
+                if (doc.data().posicao !== "Líbero") {
+                    let saque = {
+                        ace: doc.data().saque.ace,
+                        flutuante: doc.data().saque.flutuante,
+                        viagem: doc.data().saque.viagem,
+                        por_cima: doc.data().saque.por_cima,
+                        fora: doc.data().saque.fora
+                    };
+                    // Chamando a função para criar o gráfico tipo do saque acertado
+                    this.GraficoTipoSaque(saque, localGraficoTipoSaque, "criar_grafico_tipo_saque_jogador");
+                    // Chamando a função para criar o gráfico de acerto e erro do saque
+                    this.GraficoAcertoSaque(doc.data().saque.ace + doc.data().saque.flutuante + doc.data().saque.viagem + doc.data().saque.por_cima, doc.data().saque.fora, localGraficoSaqueAcerto, "criar_grafico_acerto_saque_jogador");
+                    // Chamando a função para criar o gráfico de acerto e erro do ataque
+                    this.GraficoAtaque(doc.data().ataque.acertado, doc.data().ataque.errado, localGraficoAtaque, "criar_grafico_ataque_jogador");
+                    // Chamando a função para criar o gráfico de acerto e erro do bloqueio
+                    this.GraficoBloqueio(doc.data().bloqueio.ponto_bloqueando, doc.data().bloqueio.ponto_adversario, localGraficoBloqueio, "criar_grafico_bloqueio_jogador");
+                    localGraficoTipoSaque.style.display = "block";
+                    localGraficoSaqueAcerto.style.display = "block";
+                    localGraficoAtaque.style.display = "block";
+                    localGraficoBloqueio.style.display = "block";
+                } else {
+                    localGraficoTipoSaque.style.display = "none";
+                    localGraficoSaqueAcerto.style.display = "none";
+                    localGraficoAtaque.style.display = "none";
+                    localGraficoBloqueio.style.display = "none";
+                }
                 // Chamando a função para criar o gráfico de acerto e erro do levantamento, caso o jogador seja levantador
                 if (doc.data().posicao === "Levantador") {
                     // obtendo os dados do levantamento
@@ -140,13 +157,13 @@ export class Graficos {
                 // se não for levantador, tirará o display do local do gráfico
                 else {
                     // colocando um display no local do gráfico
-                    localGraficoLevantamento.style.display = "none"
+                    localGraficoLevantamento.style.display = "none";
                 }
             }
         });
     }
     // Gráfico para os passes do time
-    GraficoPasses(passeA, passeB, passeC, passeD, localGrafico, idChart) {
+    GraficoPasses(passeA, passeB, passeC, passeD, defesa, localGrafico, idChart) {
         // criando um h2
         const titulo = document.createElement("h2");
         // colocando o texto no h2
@@ -156,7 +173,7 @@ export class Graficos {
         // colocando a tag no html, estando dentro do local do local a vir o gráfico
         localGrafico.appendChild(titulo);
         // verificando se há passes para mostrar
-        if (passeA != 0 || passeB != 0 || passeC != 0 || passeD != 0) {
+        if (passeA != 0 || passeB != 0 || passeC != 0 || passeD != 0 || defesa != 0) {
             // criando um canva
             const canva = document.createElement('canvas');
             // adicionando o id
@@ -172,19 +189,21 @@ export class Graficos {
                     'Passe A',
                     'Passe B',
                     'Passe C',
-                    'Passe D'
+                    'Passe D',
+                    'Defesa'
                 ],
                 datasets: [{
                     // nome dos valores
                     label: 'Passes',
                     // quantidade dos passes
-                    data: [passeA, passeB, passeC, passeD],
+                    data: [passeA, passeB, passeC, passeD, defesa],
                     // cores a mostrar respectivamente
                     backgroundColor: [
                         'rgb(0, 37, 228)',
                         'rgb(2, 183, 86)',
                         'rgb(230, 197, 1)',
-                        'rgb(242, 92, 5)'
+                        'rgb(242, 92, 5)',
+                        'rgba(54, 162, 235)'
                     ],
                     hoverOffset: 4
                 }]

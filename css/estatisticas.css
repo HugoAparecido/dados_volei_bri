@@ -64,12 +64,15 @@ canvas {
 #escolher_jogador {
     display: none;
 }
-#exibir_graficos_time{
+
+#exibir_graficos_time,
+#exibir_graficos_jogador {
     background-color: var(--laranja);
 }
-#time{
+
+#time {
     width: 20%;
     background-color: var(--laranja);
     border: var(--laranja);
-    
+
 }
