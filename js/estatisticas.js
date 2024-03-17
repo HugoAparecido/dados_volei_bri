@@ -8,6 +8,7 @@ const locais = {
     localGraficoSaqueTime: () => document.getElementById("grafico_saque_time"),
     localGraficoSaqueTimeTipo: () => document.getElementById("grafico_saque_tipo_time"),
     localGraficoPasseTime: () => document.getElementById("grafico_passe_time"),
+    localGraficoPasseDefesaTime: () => document.getElementById("grafico_passe_defesa_time"),
     localGraficoAtaqueTime: () => document.getElementById("grafico_ataque_time"),
     localGraficoBloqueioTime: () => document.getElementById("grafico_bloqueio_time"),
     localGraficoLevantamentoTime: () => document.getElementById("grafico_levantamento_time"),
@@ -17,6 +18,7 @@ const locais = {
     localGraficoSaqueJogador: () => document.getElementById("grafico_saque_jogador"),
     localGraficoSaqueJogadorTipo: () => document.getElementById("grafico_saque_tipo_jogador"),
     localGraficoPasseJogador: () => document.getElementById("grafico_passe_jogador"),
+    localGraficoPasseDefesaJogador: () => document.getElementById("grafico_passe_defesa_jogador"),
     localGraficoAtaqueJogador: () => document.getElementById("grafico_ataque_jogador"),
     localGraficoBloqueioJogador: () => document.getElementById("grafico_bloqueio_jogador"),
     localGraficoLevantamentoJogador: () => document.getElementById("grafico_levantamento_jogador"),
@@ -37,9 +39,9 @@ time.PopularSelect(locais.timeSelecionado());
 let grafico = new Graficos;
 botoes.mostrarGraficosTime().addEventListener('click', () => {
     // zerando o html dos locais dos gráficos
-    locais.localGraficoBloqueioTime().innerHTML = locais.localGraficoLevantamentoTime().innerHTML = locais.localGraficoPasseTime().innerHTML = locais.localGraficoSaqueTime().innerHTML = locais.localGraficoAtaqueTime().innerHTML = locais.localGraficoSaqueTimeTipo().innerHTML = "";
+    locais.localGraficoBloqueioTime().innerHTML = locais.localGraficoLevantamentoTime().innerHTML = locais.localGraficoPasseTime().innerHTML = locais.localGraficoSaqueTime().innerHTML = locais.localGraficoAtaqueTime().innerHTML = locais.localGraficoSaqueTimeTipo().innerHTML = locais.localGraficoPasseDefesaTime().innerHTML = "";
     // colocando os gráficos
-    grafico.InserirGraficosTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoPasseTime(), locais.localGraficoSaqueTimeTipo(), locais.localGraficoSaqueTime(), locais.localGraficoAtaqueTime(), locais.localGraficoBloqueioTime(), locais.localGraficoLevantamentoTime());
+    grafico.InserirGraficosTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoPasseTime(), locais.localGraficoSaqueTimeTipo(), locais.localGraficoSaqueTime(), locais.localGraficoAtaqueTime(), locais.localGraficoBloqueioTime(), locais.localGraficoLevantamentoTime(), locais.localGraficoPasseDefesaTime());
     // populadno o select com os jogadores do time
     time.JogadoresNoTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.jogadorSelecionado());
     // aparecendo o local para selecionar o jogador
@@ -50,9 +52,9 @@ botoes.mostrarGraficosTime().addEventListener('click', () => {
 // Mostrar Gráficos
 botoes.mostrarGraficosJogador().addEventListener('click', () => {
     // zerando o html dos locais dos gráficos
-    locais.localGraficoBloqueioJogador().innerHTML = locais.localGraficoLevantamentoJogador().innerHTML = locais.localGraficoPasseJogador().innerHTML = locais.localGraficoSaqueJogador().innerHTML = locais.localGraficoAtaqueJogador().innerHTML = locais.localGraficoSaqueJogadorTipo().innerHTML = "";
+    locais.localGraficoBloqueioJogador().innerHTML = locais.localGraficoLevantamentoJogador().innerHTML = locais.localGraficoPasseJogador().innerHTML = locais.localGraficoSaqueJogador().innerHTML = locais.localGraficoAtaqueJogador().innerHTML = locais.localGraficoSaqueJogadorTipo().innerHTML = locais.localGraficoPasseDefesaJogador().innerHTML = "";
     // colocando os gráficos
-    grafico.InserirGraficosJogador(locais.jogadorSelecionado().value, RetirarNumeroDoJogadorEPosicaoSelect(locais.jogadorSelecionado().options[locais.jogadorSelecionado().selectedIndex].text), locais.localGraficoPasseJogador(), locais.localGraficoSaqueJogadorTipo(), locais.localGraficoSaqueJogador(), locais.localGraficoAtaqueJogador(), locais.localGraficoBloqueioJogador(), locais.localGraficoLevantamentoJogador());
+    grafico.InserirGraficosJogador(locais.jogadorSelecionado().value, RetirarNumeroDoJogadorEPosicaoSelect(locais.jogadorSelecionado().options[locais.jogadorSelecionado().selectedIndex].text), locais.localGraficoPasseJogador(), locais.localGraficoSaqueJogadorTipo(), locais.localGraficoSaqueJogador(), locais.localGraficoAtaqueJogador(), locais.localGraficoBloqueioJogador(), locais.localGraficoLevantamentoJogador(), locais.localGraficoPasseDefesaJogador());
 })
 // Função para pegar somente o nome do jogador no texto do select
 function RetirarNumeroDoJogadorEPosicaoSelect(texto) {

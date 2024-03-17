@@ -6,7 +6,7 @@ import { collection, query, where, getDocs } from "https://www.gstatic.com/fireb
 // o Chart é uma função retirada do caminho https://cdn.jsdelivr.net/npm/chart.js referenciado no estatisticas.html
 export class Graficos {
     // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
-    async InserirGraficosTime(idTime, nomeTime, localGraficoPasse, localGraficoTipoSaque, localGraficoSaqueAcerto, localGraficoAtaque, localGraficoBloqueio, localGraficoLevantamento) {
+    async InserirGraficosTime(idTime, nomeTime, localGraficoPasse, localGraficoTipoSaque, localGraficoSaqueAcerto, localGraficoAtaque, localGraficoBloqueio, localGraficoLevantamento, localGraficoPasseDefesa) {
         // colocando as condições para a porcura no banco
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         // tipo um select, onde o q é a condição, o await é para a função esperar o getDocs executar para continuar, pois este é uma promise
@@ -80,8 +80,10 @@ export class Graficos {
                 // saque acerto
                 let acertoSaque = saque.ace + saque.flutuante + saque.por_cima + saque.viagem;
                 let erroSaque = saque.fora;
+                // Chamando a função para criar o gráfico passe e defesas
+                this.GraficoPassesDefesa(passeA, passeB, passeC, passeD, defesa, localGraficoPasseDefesa, "criar_grafico_passe_defesa_time");
                 // Chamando a função para criar o gráfico passe
-                this.GraficoPasses(passeA, passeB, passeC, passeD, defesa, localGraficoPasse, "criar_grafico_passe_time");
+                this.GraficoPasses(passeA, passeB, passeC, passeD, localGraficoPasse, "criar_grafico_passe_time");
                 // Chamando a função para criar o gráfico tipo do saque acertado
                 this.GraficoTipoSaque(saque, localGraficoTipoSaque, "criar_grafico_tipo_saque_time");
                 // Chamando a função para criar o gráfico de acerto e erro do saque
@@ -96,7 +98,7 @@ export class Graficos {
         });
     }
     // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
-    async InserirGraficosJogador(idJogador, nomeJogador, localGraficoPasse, localGraficoTipoSaque, localGraficoSaqueAcerto, localGraficoAtaque, localGraficoBloqueio, localGraficoLevantamento) {
+    async InserirGraficosJogador(idJogador, nomeJogador, localGraficoPasse, localGraficoTipoSaque, localGraficoSaqueAcerto, localGraficoAtaque, localGraficoBloqueio, localGraficoLevantamento, localGraficoPasseDefesa) {
         // colocando as condições para a porcura no banco
         const q = query(collection(db, "jogador"), where("nome", "==", nomeJogador));
         // tipo um select, onde o q é a condição, o await é para a função esperar o getDocs executar para continuar, pois este é uma promise
@@ -107,8 +109,11 @@ export class Graficos {
             if (doc.id === idJogador) {
                 if (doc.data().posicao !== "Levantador") {
                     // Chamando a função para criar o gráfico passe
-                    this.GraficoPasses(doc.data().passe.passe_A, doc.data().passe.passe_B, doc.data().passe.passe_C, doc.data().passe.passe_D, doc.data().defesa, localGraficoPasse, "criar_grafico_passe_jogador");
+                    this.GraficoPasses(doc.data().passe.passe_A, doc.data().passe.passe_B, doc.data().passe.passe_C, doc.data().passe.passe_D, localGraficoPasse, "criar_grafico_passe_jogador");
                     localGraficoPasse.style.display = "block";
+                    // Chamando a função para criar o gráfico passe e defesa
+                    this.GraficoPassesDefesa(doc.data().passe.passe_A, doc.data().passe.passe_B, doc.data().passe.passe_C, doc.data().passe.passe_D, doc.data().defesa, localGraficoPasseDefesa, "criar_grafico_passe_defesa_jogador");
+                    localGraficoPasseDefesa.style.display = "block";
                 }
                 else {
                     localGraficoPasse.style.display = "none";
@@ -162,12 +167,12 @@ export class Graficos {
             }
         });
     }
-    // Gráfico para os passes do time
-    GraficoPasses(passeA, passeB, passeC, passeD, defesa, localGrafico, idChart) {
+    // Gráfico para os passes e defesas do time
+    GraficoPassesDefesa(passeA, passeB, passeC, passeD, defesa, localGrafico, idChart) {
         // criando um h2
         const titulo = document.createElement("h2");
         // colocando o texto no h2
-        titulo.innerHTML = "Passes";
+        titulo.innerHTML = "Passes e Defesa";
         // colocando a classe
         titulo.className = "titulo_graficos";
         // colocando a tag no html, estando dentro do local do local a vir o gráfico
@@ -204,6 +209,64 @@ export class Graficos {
                         'rgb(230, 197, 1)',
                         'rgb(242, 92, 5)',
                         'rgba(54, 162, 235)'
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+            // configurando o gráfico
+            const config = {
+                // tipo pizza ou setores
+                type: 'pie',
+                // os valores citados acima
+                data: data,
+            };
+            // função de criação do gráfico (local, confuguração)
+            new Chart(ctx, config);
+        }
+        // se não hover passe para apresentar, haverá uma mensagem no formato parágrafo
+        else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>";
+
+    }
+    // Gráfico para os passes do time
+    GraficoPasses(passeA, passeB, passeC, passeD, localGrafico, idChart) {
+        // criando um h2
+        const titulo = document.createElement("h2");
+        // colocando o texto no h2
+        titulo.innerHTML = "Passes";
+        // colocando a classe
+        titulo.className = "titulo_graficos";
+        // colocando a tag no html, estando dentro do local do local a vir o gráfico
+        localGrafico.appendChild(titulo);
+        // verificando se há passes para mostrar
+        if (passeA != 0 || passeB != 0 || passeC != 0 || passeD != 0) {
+            // criando um canva
+            const canva = document.createElement('canvas');
+            // adicionando o id
+            canva.id = `${idChart}`;
+            // colocando ele no html no local especificado
+            localGrafico.appendChild(canva);
+            // pegando o id do gráfico
+            const ctx = document.getElementById(`${idChart}`);
+            // informações a mostrar
+            const data = {
+                // escrita legenda
+                labels: [
+                    'Passe A',
+                    'Passe B',
+                    'Passe C',
+                    'Passe D'
+                ],
+                datasets: [{
+                    // nome dos valores
+                    label: 'Passes',
+                    // quantidade dos passes
+                    data: [passeA, passeB, passeC, passeD],
+                    // cores a mostrar respectivamente
+                    backgroundColor: [
+                        'rgb(0, 37, 228)',
+                        'rgb(2, 183, 86)',
+                        'rgb(230, 197, 1)',
+                        'rgb(242, 92, 5)',
                     ],
                     hoverOffset: 4
                 }]
