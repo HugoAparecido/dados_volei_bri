@@ -90,15 +90,7 @@ export class Jogador {
         // percorrendo o array, for para arrays
         querySnapshot.forEach((doc) => {
             // Fazendo uma linha na tabela
-            let componentes = new Componentes()
-            mostrarJogador().innerHTML += componentes.TabelaJogadores(doc.id, doc.data().nome, doc.data().numero_camisa, doc.data().posicao, doc.data().sexo)
-            /*`<tr>
-            <td>${doc.id}</td>
-            <td>${doc.data().nome}</td>
-            <td>${doc.data().numero_camisa}</td>
-            <td>${doc.data().posicao}</td>
-            <td>${doc.data().sexo}</td>
-            </tr>`*/
+            mostrarJogador().innerHTML += new Componentes().TabelaJogadores(doc.id, doc.data().nome, doc.data().numero_camisa, doc.data().posicao, doc.data().sexo)
         });
     }
     // Colocar Todos os jogadores em um select
@@ -112,7 +104,8 @@ export class Jogador {
         // for para arrays
         querySnapshot.forEach((doc) => {
             // adicinando option no select citado
-            mostrarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa}: ${doc.data().nome} (${doc.data().posicao})</option>`;
+            mostrarJogador.innerHTML += new Componentes().SelectJogadores(doc.id, doc.data().numero_camisa, doc.data().nome, doc.data().posicao)
+            // `<option value="${doc.id}">${doc.data().numero_camisa}: ${doc.data().nome} (${doc.data().posicao})</option>`;
         });
         // encerrando o loading
         HideLoading();
@@ -131,7 +124,7 @@ export class Jogador {
             querySnapshot.forEach((doc) => {
                 // se o jogador não estiver no time, ele será adicionado ao select
                 if (!localStorage.getItem("jogadores").includes(doc.id)) {
-                    adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`;
+                    adicionarJogador.innerHTML += new Componentes().SelectJogadores(doc.id, doc.data().numero_camisa, doc.data().nome, doc.data().posicao);
                 }
             })
         } else {

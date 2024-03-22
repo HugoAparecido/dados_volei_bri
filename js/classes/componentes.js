@@ -8,4 +8,7 @@ export class Componentes{
               <td>${sexo}</td>
             </tr>`
   }
+  SelectJogadores(id, numero , nome, posicao){
+    return `<option value="${id}">${numero == undefined ? " " : numero}: ${nome} (${posicao})</option>`;
+  }
 }
