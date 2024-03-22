@@ -2,6 +2,7 @@ import { db } from "../acesso_banco.js";
 import { ShowLoading, HideLoading } from "../loading.js";
 import { collection, query, where, doc, orderBy, addDoc, getDocs, increment, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { Time } from "./time_class.js";
+import { Componentes } from "./componentes.js";
 export class Jogador {
     // Cadastrar Jogador
     async CadastrarJogador(nomeConst, sexoConst, numeroCamisa, posicaoConst, alturaConst, pesoConst) {
@@ -89,13 +90,15 @@ export class Jogador {
         // percorrendo o array, for para arrays
         querySnapshot.forEach((doc) => {
             // Fazendo uma linha na tabela
-            mostrarJogador().innerHTML += `<tr>
+            let componentes = new Componentes()
+            mostrarJogador().innerHTML += componentes.TabelaJogadores(doc.id, doc.data().nome, doc.data().numero_camisa, doc.data().posicao, doc.data().sexo)
+            /*`<tr>
             <td>${doc.id}</td>
             <td>${doc.data().nome}</td>
             <td>${doc.data().numero_camisa}</td>
             <td>${doc.data().posicao}</td>
             <td>${doc.data().sexo}</td>
-            </tr>`
+            </tr>`*/
         });
     }
     // Colocar Todos os jogadores em um select
