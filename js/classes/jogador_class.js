@@ -105,7 +105,6 @@ export class Jogador {
         querySnapshot.forEach((doc) => {
             // adicinando option no select citado
             mostrarJogador.innerHTML += new Componentes().SelectJogadores(doc.id, doc.data().numero_camisa, doc.data().nome, doc.data().posicao)
-            // `<option value="${doc.id}">${doc.data().numero_camisa}: ${doc.data().nome} (${doc.data().posicao})</option>`;
         });
         // encerrando o loading
         HideLoading();
@@ -136,7 +135,7 @@ export class Jogador {
             querySnapshot.forEach((doc) => {
                 // se o jogador não estiver no time, ele será adicionado ao select
                 if (!localStorage.getItem("jogadores").includes(doc.id)) {
-                    adicionarJogador.innerHTML += `<option value="${doc.id}">${doc.data().numero_camisa} ${doc.data().nome}</option>`;
+                    adicionarJogador.innerHTML += new Componentes().SelectJogadores(doc.id, doc.data().numero_camisa, doc.data().nome, doc.data().posicao);
                 }
             })
         }
