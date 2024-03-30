@@ -28,12 +28,20 @@ let validation = new Validation
 validation.VerificarTimeSelecionadoExistente()
 // Cadastrar jogador ao time
 buttons.salvarOutroJogador().addEventListener('click', () =>
-    time.InserirJogador(RetirarNumeroDoJogadorSelect(form.novoJogadorSelecionar().options[form.novoJogadorSelecionar().selectedIndex].text), form.novoJogadorSelecionar().value)
+    time.InserirJogador(RetirarNumeroDoJogadorEPosicaoSelect(form.novoJogadorSelecionar().options[form.novoJogadorSelecionar().selectedIndex].text), form.novoJogadorSelecionar().value)
 )
 buttons.salvarInformacoes().addEventListener("click", () => jogador.AtualizarInformacoesDeTodosJogadores());
-// Função para pegar o texto do select
-function RetirarNumeroDoJogadorSelect(texto) {
+// Função para pegar somente o nome do jogador no texto do select
+function RetirarNumeroDoJogadorEPosicaoSelect(texto) {
+    // texto = "numero: nome sobrenome (posicao)""
+    // divide a string em um array, onde a posição 0 é tudo  que está antes do (, e a 1 depois
+    // partes[0] = "numero: nome sobrenome"; partes[1] = "posicao)"
     let partes = texto.split("(");
+    // divide a parte antes do ( em um outro array
+    // partes[0]= "numero:""; partes[1]="nome"; partes[2]="sobrenome"
     partes = partes[0].split(" ");
-    return partes.slice(1).join(" ");
+    // retonar a partir da posição 1 do array até a última, juntando elas com espaço
+    // "nome" + " " + "sobrenome"
+    // partes[1] + " " + partes[3(tamanho)-1]
+    return partes.slice(1, partes.length - 1).join(" ");
 }
