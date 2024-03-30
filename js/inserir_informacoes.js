@@ -33,9 +33,7 @@ buttons.salvarOutroJogador().addEventListener('click', () =>
 buttons.salvarInformacoes().addEventListener("click", () => jogador.AtualizarInformacoesDeTodosJogadores());
 // Função para pegar o texto do select
 function RetirarNumeroDoJogadorSelect(texto) {
-    if (isNaN(texto.charAt(0))) {
-        return texto
-    }
-    let partes = texto.split(" ");
+    let partes = texto.split("(");
+    partes = partes[0].split(" ");
     return partes.slice(1).join(" ");
 }
