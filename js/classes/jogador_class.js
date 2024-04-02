@@ -229,162 +229,11 @@ export class Jogador {
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
                 if (id.includes(doc.id)) {
-                    // Criação da div Jogador
-                    let divJogador = document.createElement("div");
-                    divJogador.className = "itemArrastavel jogador_dados";
-                    divJogador.draggable = true;
-                    let h3InformacoesJogador = document.createElement("h3");
-                    h3InformacoesJogador.innerHTML = `${doc.data().posicao}: ${doc.data().numero_camisa} ${doc.data().nome}`;
-                    divJogador.appendChild(h3InformacoesJogador);
-                    // Criação da div Passes do jogador
-                    let divInsercoesIndividual = document.createElement("div");
-                    divInsercoesIndividual.className = "insercao_individual";
-                    let divPasses = document.createElement("div");
-                    divPasses.className = "passes";
-                    divPasses.innerHTML += `<span><strong>Pas: </strong></span>`;
-                    divPasses.appendChild(this.CriarInputsPasses(doc.id, "A"));
-                    divPasses.appendChild(this.CriarInputsPasses(doc.id, "B"));
-                    divPasses.appendChild(this.CriarInputsPasses(doc.id, "C"));
-                    divPasses.appendChild(this.CriarInputsPasses(doc.id, "D"));
-                    divPasses.appendChild(this.CriarInputsPasses(doc.id, "DEF"));
-                    divInsercoesIndividual.appendChild(divPasses);
-                    if (doc.data().posicao !== "Líbero") {
-                        // Criação da div Saques
-                        let divSaques = document.createElement("div");
-                        divSaques.className = "saques";
-                        divSaques.innerHTML = "<strong><span>Saq: </span></strong>";
-                        divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_flutuante", "Flu"));
-                        divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_ace", "ACE"));
-                        divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_viagem", "Via"));
-                        divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_por_cima", "Cima"));
-                        divSaques.appendChild(this.CriarInputsAtributos(doc.id, "saque_fora", "Fora"));
-                        divInsercoesIndividual.appendChild(divSaques);
-                        // Criação da div Ataques
-                        let divAtaques = document.createElement("div");
-                        divAtaques.className = "ataques";
-                        divAtaques.innerHTML = "<strong><span>Ataq: </span></strong>";
-                        divAtaques.appendChild(this.CriarInputsAtributos(doc.id, "ataque_acerto", "Dentro"));
-                        divAtaques.appendChild(this.CriarInputsAtributos(doc.id, "ataque_erro", "Fora"));
-                        divInsercoesIndividual.appendChild(divAtaques);
-                        // Criação da div Bloqueios
-                        let divBloqueios = document.createElement("div");
-                        divBloqueios.className = "bloqueios";
-                        divBloqueios.innerHTML = "<strong><span>Bloq: </span></strong>";
-                        divBloqueios.appendChild(this.CriarInputsAtributos(doc.id, "bloqueio_ponto_este", "Convertido"));
-                        divBloqueios.appendChild(this.CriarInputsAtributos(doc.id, "bloqueio_ponto_adversario", "Errado"));
-                        divInsercoesIndividual.appendChild(divBloqueios);
-                        // Criação da div Levantamentos se for levantador
-                        if (doc.data().posicao === "Levantador") {
-                            let divLevantamentos = document.createElement("div");
-                            divLevantamentos.className = "levantamentos";
-                            divLevantamentos.innerHTML = "<strong><span>Levant: </span></strong>";
-                            divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_ponta", "Ponta"));
-                            divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_pipe", "Pipe"));
-                            divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_centro", "Centro"));
-                            divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_oposto", "Oposto"));
-                            divLevantamentos.appendChild(this.CriarInputsAtributos(doc.id, "levantamento_errou", "Errou"));
-                            divInsercoesIndividual.appendChild(divLevantamentos);
-                        }
-                    }
-                    divJogador.appendChild(divInsercoesIndividual)
-                    colocarJogadoresDoTime.appendChild(divJogador);
-                    // Adicionando Listeners aos botoes de incremento e decremento
-                    // Passes
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_A`), document.getElementById(`${doc.id}_diminuir_passe_A`), document.getElementById(`${doc.id}_passe_A`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_B`), document.getElementById(`${doc.id}_diminuir_passe_B`), document.getElementById(`${doc.id}_passe_B`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_C`), document.getElementById(`${doc.id}_diminuir_passe_C`), document.getElementById(`${doc.id}_passe_C`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_D`), document.getElementById(`${doc.id}_diminuir_passe_D`), document.getElementById(`${doc.id}_passe_D`));
-                    this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_passe_DEF`), document.getElementById(`${doc.id}_diminuir_passe_DEF`), document.getElementById(`${doc.id}_passe_DEF`));
-                    if (doc.data().posicao !== "Líbero") {
-                        // Saque
-                        // saque por baixo
-                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_flutuante`), document.getElementById(`${doc.id}_diminuir_saque_flutuante`), document.getElementById(`${doc.id}_saque_flutuante`));
-                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_ace`), document.getElementById(`${doc.id}_diminuir_saque_ace`), document.getElementById(`${doc.id}_saque_ace`));
-                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_viagem`), document.getElementById(`${doc.id}_diminuir_saque_viagem`), document.getElementById(`${doc.id}_saque_viagem`));
-                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_por_cima`), document.getElementById(`${doc.id}_diminuir_saque_por_cima`), document.getElementById(`${doc.id}_saque_por_cima`));
-                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_saque_fora`), document.getElementById(`${doc.id}_diminuir_saque_fora`), document.getElementById(`${doc.id}_saque_fora`));
-                        // Ataque
-                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_ataque_acerto`), document.getElementById(`${doc.id}_diminuir_ataque_acerto`), document.getElementById(`${doc.id}_ataque_acerto`));
-                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_ataque_erro`), document.getElementById(`${doc.id}_diminuir_ataque_erro`), document.getElementById(`${doc.id}_ataque_erro`));
-                        // Bloqueio
-                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_bloqueio_ponto_este`), document.getElementById(`${doc.id}_diminuir_bloqueio_ponto_este`), document.getElementById(`${doc.id}_bloqueio_ponto_este`));
-                        this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_bloqueio_ponto_adversario`), document.getElementById(`${doc.id}_diminuir_bloqueio_ponto_adversario`), document.getElementById(`${doc.id}_bloqueio_ponto_adversario`));
-                        // Levantamentos
-                        if (doc.data().posicao === "Levantador") {
-                            this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_ponta`), document.getElementById(`${doc.id}_diminuir_levantamento_ponta`), document.getElementById(`${doc.id}_levantamento_ponta`));
-                            this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_centro`), document.getElementById(`${doc.id}_diminuir_levantamento_centro`), document.getElementById(`${doc.id}_levantamento_centro`));
-                            this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_oposto`), document.getElementById(`${doc.id}_diminuir_levantamento_oposto`), document.getElementById(`${doc.id}_levantamento_oposto`));
-                            this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_pipe`), document.getElementById(`${doc.id}_diminuir_levantamento_pipe`), document.getElementById(`${doc.id}_levantamento_pipe`));
-                            this.CriarListenersIncrementoDecremento(document.getElementById(`${doc.id}_aumentar_levantamento_errou`), document.getElementById(`${doc.id}_diminuir_levantamento_errou`), document.getElementById(`${doc.id}_levantamento_errou`));
-                        }
-                    }
+                    colocarJogadoresDoTime.innerHTML += new Componentes().DivJogador(doc.id, doc.data().posicao, doc.data().numero_camisa, doc.data().nome);
                 }
             });
         }
         HideLoading()
-    }
-    // Função para a criação do input para o passe
-    CriarInputsPasses(idJogador, tipoPasse) {
-        let elemento = document.createElement("div");
-        // span decremento
-        let spanDecremento = document.createElement("span");
-        spanDecremento.id = `${idJogador}_diminuir_passe_${tipoPasse}`;
-        spanDecremento.innerHTML = `-${tipoPasse}`;
-        spanDecremento.className = "atributos_span";
-        // span incremento
-        let spanIncremento = document.createElement("span");
-        spanIncremento.id = `${idJogador}_aumentar_passe_${tipoPasse}`;
-        spanIncremento.innerHTML = `+${tipoPasse}`;
-        spanIncremento.className = "atributos_span";
-        // input
-        let input = document.createElement("input");
-        input.type = "number";
-        input.className = "input_number";
-        input.min = 0;
-        input.name = `${idJogador}_passe_${tipoPasse}`;
-        input.id = `${idJogador}_passe_${tipoPasse}`;
-        input.readOnly = true;
-        // colocando os elementos na div
-        elemento.appendChild(spanIncremento);
-        elemento.appendChild(input);
-        elemento.appendChild(spanDecremento);
-        return elemento;
-    }
-    // Função para a criação do input Saque
-    CriarInputsAtributos(idJogador, tipo, nomeAtributo) {
-        let span = document.createElement("span");
-        span.innerHTML = `${nomeAtributo}: `;
-        let elemento = document.createElement("div");;
-        elemento.appendChild(span);
-        // span decremento
-        let spanDecremento = document.createElement("span");
-        spanDecremento.id = `${idJogador}_diminuir_${tipo}`;
-        spanDecremento.innerHTML = "-";
-        spanDecremento.className = "atributos_span";
-        // span incremento
-        let spanIncremento = document.createElement("span");
-        spanIncremento.id = `${idJogador}_aumentar_${tipo}`;
-        spanIncremento.innerHTML = '+';
-        spanIncremento.className = "atributos_span";
-        // input
-        let input = document.createElement("input");
-        input.type = "number";
-        input.className = "input_number";
-        input.min = 0;
-        input.name = `${idJogador}_${tipo}`;
-        input.id = `${idJogador}_${tipo}`;
-        input.readOnly = true;
-        // colocando os elementos na div
-        elemento.appendChild(spanIncremento);
-        elemento.appendChild(input);
-        elemento.appendChild(spanDecremento);
-        return elemento;
-    }
-    // Função para aumentar e diminuir a quantidade dos atributos
-    CriarListenersIncrementoDecremento(idIncremento, idDecremento, idAtributo) {
-        idAtributo.value = 0;
-        idIncremento.addEventListener("click", () => idAtributo.value++);
-        idDecremento.addEventListener("click", () => idAtributo.value == 0 ? idAtributo.value : idAtributo.value--);
     }
     // Atualização de todas as informações de todos os jogadores presentes
     async AtualizarInformacoesDeTodosJogadores() {
@@ -403,14 +252,8 @@ export class Jogador {
             querySnapshot.forEach((doc) => {
                 if (id.includes(doc.id)) {
                     // pegando os valores dos campos
-                    // passes
-                    let passesIncrementar = [
-                        document.getElementById(`${doc.id}_passe_A`).value,
-                        document.getElementById(`${doc.id}_passe_B`).value,
-                        document.getElementById(`${doc.id}_passe_C`).value,
-                        document.getElementById(`${doc.id}_passe_D`).value,
-                        document.getElementById(`${doc.id}_passe_DEF`).value
-                    ];
+                    let passesIncrementar;
+                    let defesaIncrementar = document.getElementById(`${doc.id}_defesa`).value
                     let saquesIncrementar = [];
                     let ataquesIncrementar = [];
                     let bloqueiosIncrementar = [];
@@ -433,6 +276,15 @@ export class Jogador {
                             document.getElementById(`${doc.id}_bloqueio_ponto_este`).value,
                             document.getElementById(`${doc.id}_bloqueio_ponto_adversario`).value
                         ]
+                    }
+                    else {
+                        // passes
+                        passesIncrementar = [
+                            document.getElementById(`${doc.id}_passe_A`).value,
+                            document.getElementById(`${doc.id}_passe_B`).value,
+                            document.getElementById(`${doc.id}_passe_C`).value,
+                            document.getElementById(`${doc.id}_passe_D`).value,
+                        ];
                     }
                     // Chamada das funções de atualizção no banco
                     // passes

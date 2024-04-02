@@ -64,6 +64,7 @@ main {
     width: auto;
 }
 
+.defesa,
 .passes,
 .ataques,
 .saques,
@@ -80,6 +81,7 @@ main {
     margin: 1px;
 }
 
+.defesa,
 .passes>div,
 .ataques>div,
 .saques>div,
