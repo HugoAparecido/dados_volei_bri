@@ -247,20 +247,40 @@ export class Time {
             window.location.reload();
         }
     }
+    // Atualização da defesa no Time
+    async AtualizarDefesaJogador(idTime, aIncrementar, idJogador) {
+        try {
+            let inserirNovamenteID = "";
+            const timeDocRef = doc(db, "time", idTime);
+            // atualizando os caminhos incrementado os valores com os que eles já tem
+            await updateDoc(timeDocRef, {
+                [`jogadores.${idJogador}.defesa`]: increment(aIncrementar)
+            });
+            inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador);
+            if (inserirNovamenteID != "") {
+                const timeDocRef = doc(db, "time", inserirNovamenteID);
+                await updateDoc(timeDocRef, {
+                    [`jogadores.${idJogador}.defesa`]: increment(aIncrementar)
+                });
+            }
+        }
+        catch (e) {
+            alert("Falha ao inserir o Passe: " + e);
+        }
+    }
     // Atualização dos passe no Time
     async AtualizarPasseJogador(idTime, aIncrementar, idJogador) {
         try {
             let inserirNovamenteID = "";
             // definindo o caminho no banco
-            let local = [`jogadores.${idJogador}.passe.passe_A`, `jogadores.${idJogador}.passe.passe_B`, `jogadores.${idJogador}.passe.passe_C`, `jogadores.${idJogador}.passe.passe_D`, `jogadores.${idJogador}.defesa`];
+            let local = [`jogadores.${idJogador}.passe.passe_A`, `jogadores.${idJogador}.passe.passe_B`, `jogadores.${idJogador}.passe.passe_C`, `jogadores.${idJogador}.passe.passe_D`];
             const timeDocRef = doc(db, "time", idTime);
             // atualizando os caminhos incrementado os valores com os que eles já tem
             await updateDoc(timeDocRef, {
                 [local[0]]: increment(aIncrementar[0]),
                 [local[1]]: increment(aIncrementar[1]),
                 [local[2]]: increment(aIncrementar[2]),
-                [local[3]]: increment(aIncrementar[3]),
-                [local[4]]: increment(aIncrementar[4])
+                [local[3]]: increment(aIncrementar[3])
             });
             inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador);
             if (inserirNovamenteID != "") {
@@ -269,8 +289,7 @@ export class Time {
                     [local[0]]: increment(aIncrementar[0]),
                     [local[1]]: increment(aIncrementar[1]),
                     [local[2]]: increment(aIncrementar[2]),
-                    [local[3]]: increment(aIncrementar[3]),
-                    [local[4]]: increment(aIncrementar[4])
+                    [local[3]]: increment(aIncrementar[3])
                 });
             }
         }

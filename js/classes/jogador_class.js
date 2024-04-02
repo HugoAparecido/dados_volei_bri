@@ -252,66 +252,43 @@ export class Jogador {
             querySnapshot.forEach((doc) => {
                 if (id.includes(doc.id)) {
                     // pegando os valores dos campos
-                    let passesIncrementar;
-                    let defesaIncrementar = document.getElementById(`${doc.id}_defesa`).value
-                    let saquesIncrementar = [];
-                    let ataquesIncrementar = [];
-                    let bloqueiosIncrementar = [];
+                    this.AtualizarDefesaJogador(doc.id, document.getElementById(`${doc.id}_defesa`).value);
                     if (doc.data().posicao !== "Líbero") {
                         // saques
-                        saquesIncrementar = [
+                        this.AtualizarSaqueJogador(doc.id, [
                             document.getElementById(`${doc.id}_saque_flutuante`).value,
                             document.getElementById(`${doc.id}_saque_ace`).value,
                             document.getElementById(`${doc.id}_saque_viagem`).value,
                             document.getElementById(`${doc.id}_saque_por_cima`).value,
                             document.getElementById(`${doc.id}_saque_fora`).value
-                        ];
+                        ]);
                         // ataques
-                        ataquesIncrementar = [
+                        this.AtualizarAtaqueJogador(doc.id, [
                             document.getElementById(`${doc.id}_ataque_acerto`).value,
                             document.getElementById(`${doc.id}_ataque_erro`).value
-                        ]
+                        ]);
                         // bloqueio
-                        bloqueiosIncrementar = [
+                        this.AtualizarBloqueioJogador(doc.id, [
                             document.getElementById(`${doc.id}_bloqueio_ponto_este`).value,
                             document.getElementById(`${doc.id}_bloqueio_ponto_adversario`).value
-                        ]
+                        ]);
                     }
-                    else {
+                    if (doc.data().posicao !== "Levantador") {
                         // passes
-                        passesIncrementar = [
+                        this.AtualizarPasseJogador(doc.id, [
                             document.getElementById(`${doc.id}_passe_A`).value,
                             document.getElementById(`${doc.id}_passe_B`).value,
                             document.getElementById(`${doc.id}_passe_C`).value,
                             document.getElementById(`${doc.id}_passe_D`).value,
-                        ];
-                    }
-                    // Chamada das funções de atualizção no banco
-                    // passes
-                    this.AtualizarPasseJogador(doc.id, passesIncrementar.map(Number));
-                    time.AtualizarPasseJogador(localStorage.getItem("timeAtualID"), passesIncrementar.map(Number), doc.id);
-                    if (doc.data().posicao !== "Líbero") {
-                        // saques
-                        this.AtualizarSaqueJogador(doc.id, saquesIncrementar.map(Number));
-                        time.AtualizarSaqueJogador(localStorage.getItem("timeAtualID"), saquesIncrementar.map(Number), doc.id);
-                        // ataques
-                        this.AtualizarAtaqueJogador(doc.id, ataquesIncrementar.map(Number));
-                        time.AtualizarAtaqueJogador(localStorage.getItem("timeAtualID"), ataquesIncrementar.map(Number), doc.id);
-                        // bloqueios
-                        this.AtualizarBloqueioJogador(doc.id, bloqueiosIncrementar.map(Number));
-                        time.AtualizarBloqueioJogador(localStorage.getItem("timeAtualID"), bloqueiosIncrementar.map(Number), doc.id);
-                        // Levantamentos
-                        if (doc.data().posicao === "Levantador") {
-                            let levantamentosIncrementar = [
-                                document.getElementById(`${doc.id}_levantamento_centro`).value,
-                                document.getElementById(`${doc.id}_levantamento_errou`).value,
-                                document.getElementById(`${doc.id}_levantamento_oposto`).value,
-                                document.getElementById(`${doc.id}_levantamento_pipe`).value,
-                                document.getElementById(`${doc.id}_levantamento_ponta`).value
-                            ]
-                            this.AtualizarLevantamento(doc.id, levantamentosIncrementar.map(Number));
-                            time.AtualizarLevantamento(localStorage.getItem("timeAtualID"), levantamentosIncrementar.map(Number), doc.id)
-                        }
+                        ]);
+                    } else {
+                        this.AtualizarLevantamento(doc.id, [
+                            document.getElementById(`${doc.id}_levantamento_centro`).value,
+                            document.getElementById(`${doc.id}_levantamento_errou`).value,
+                            document.getElementById(`${doc.id}_levantamento_oposto`).value,
+                            document.getElementById(`${doc.id}_levantamento_pipe`).value,
+                            document.getElementById(`${doc.id}_levantamento_ponta`).value
+                        ]);
                     }
                 }
             });
@@ -323,6 +300,19 @@ export class Jogador {
         HideLoading();
         // window.location.reload();
     }
+    // Atualização defesa jogador
+    async AtualizarDefesaJogador(id, aIncrementar) {
+        try {
+            const timeDocRef = doc(db, "jogador", id)
+            await updateDoc(timeDocRef, {
+                "defesa": increment(aIncrementar)
+            });
+            await new Time().AtualizarDefesaJogador(localStorage.getItem("timeAtualID"), aIncrementar, id);
+        }
+        catch (e) {
+            alert("Falha ao inserir Passe: " + e)
+        }
+    }
     // Atualização do passe de somente um jogador
     async AtualizarPasseJogador(id, aIncrementar) {
         try {
@@ -331,9 +321,9 @@ export class Jogador {
                 "passe.passe_A": increment(aIncrementar[0]),
                 "passe.passe_B": increment(aIncrementar[1]),
                 "passe.passe_C": increment(aIncrementar[2]),
-                "passe.passe_D": increment(aIncrementar[3]),
-                "defesa": increment(aIncrementar[4])
+                "passe.passe_D": increment(aIncrementar[3])
             });
+            await new Time().AtualizarPasseJogador(localStorage.getItem("timeAtualID"), aIncrementar, id);
         }
         catch (e) {
             alert("Falha ao inserir Passe: " + e)
@@ -350,6 +340,7 @@ export class Jogador {
                 "saque.por_cima": increment(saques[3]),
                 "saque.fora": increment(saques[4])
             });
+            await new Time().AtualizarSaqueJogador(localStorage.getItem("timeAtualID"), saques, id);
         }
         catch (e) {
             alert("Falha ao inserir Saque: " + e);
@@ -363,6 +354,7 @@ export class Jogador {
                 "ataque.acertado": increment(ataques[0]),
                 "ataque.errado": increment(ataques[1])
             });
+            await new Time().AtualizarAtaqueJogador(localStorage.getItem("timeAtualID"), ataques, id);
         }
         catch (e) {
             alert("Falha ao inserir ataque: " + e);
@@ -376,6 +368,7 @@ export class Jogador {
                 "bloqueio.ponto_bloqueando": increment(bloqueio[0]),
                 "bloqueio.ponto_adversario": increment(bloqueio[1])
             });
+            await new Time().AtualizarBloqueioJogador(localStorage.getItem("timeAtualID"), bloqueio, id);
         }
         catch (e) {
             alert("Falha ao inserir bloqueio: " + e);
@@ -392,6 +385,7 @@ export class Jogador {
                 "levantou_para.pipe": increment(levantamento[3]),
                 "levantou_para.ponta": increment(levantamento[4]),
             });
+            await new Time().AtualizarLevantamento(localStorage.getItem("timeAtualID"), levantamento, id);
         }
         catch (e) {
             alert("Falha ao inserir levantamento: " + e);
