@@ -27,11 +27,11 @@ export class Auth {
         });
     }
     // Função para login
-    Login(email, senha) {
+    async Login(email, senha) {
         // chamada da tela de carregamento
         ShowLoading();
         // função de login do firebase
-        signInWithEmailAndPassword(auth, email, senha)
+        await signInWithEmailAndPassword(auth, email, senha)
             .then(() => {
                 // se der certo será redirecionado para times.html e fechará a tela de carregamento
                 HideLoading();
