@@ -22,7 +22,7 @@ export class Graficos {
                 let passeB = 0;
                 let passeC = 0;
                 let passeD = 0;
-                let defesa = 0
+                let defesa = [];
                 // inicializando os tipos dos saques em zero
                 let saque = {
                     ace: 0,
@@ -47,13 +47,13 @@ export class Graficos {
                 }
                 // para cada jogador ele incrementará nas variáveis acima o respectivo valor
                 jogadores.forEach((jogador) => {
+                    defesa.push([jogador[1].nome, jogador[1].defesa])
                     // passes
                     if (jogador[1].posicao !== "Levantador") {
                         passeA += jogador[1].passe.passe_A;
                         passeB += jogador[1].passe.passe_B;
                         passeC += jogador[1].passe.passe_C;
                         passeD += jogador[1].passe.passe_D;
-                        defesa += jogador[1].defesa;
                     }
                     if (jogador[1].posicao !== "Líbero") {
                         // saques tipo
@@ -81,7 +81,7 @@ export class Graficos {
                 let acertoSaque = saque.ace + saque.flutuante + saque.por_cima + saque.viagem;
                 let erroSaque = saque.fora;
                 // Chamando a função para criar o gráfico passe e defesas
-                this.GraficoPassesDefesa(passeA, passeB, passeC, passeD, defesa, localGraficoPasseDefesa, "criar_grafico_passe_defesa_time");
+                this.GraficoDefesa(defesa, localGraficoPasseDefesa, "criar_grafico_passe_defesa_time");
                 // Chamando a função para criar o gráfico passe
                 this.GraficoPasses(passeA, passeB, passeC, passeD, localGraficoPasse, "criar_grafico_passe_time");
                 // Chamando a função para criar o gráfico tipo do saque acertado
@@ -107,13 +107,12 @@ export class Graficos {
         querySnapshot.forEach((doc) => {
             // verifica se é o jogador certo pelo id
             if (doc.id === idJogador) {
+                // Chamando a função para criar o gráfico passe e defesa
+                localGraficoPasseDefesa.innerHTML += `<div><h2>Total de defesas: <span>${doc.data().defesa}<span></h2></div>`;
                 if (doc.data().posicao !== "Levantador") {
                     // Chamando a função para criar o gráfico passe
                     this.GraficoPasses(doc.data().passe.passe_A, doc.data().passe.passe_B, doc.data().passe.passe_C, doc.data().passe.passe_D, localGraficoPasse, "criar_grafico_passe_jogador");
                     localGraficoPasse.style.display = "block";
-                    // Chamando a função para criar o gráfico passe e defesa
-                    this.GraficoPassesDefesa(doc.data().passe.passe_A, doc.data().passe.passe_B, doc.data().passe.passe_C, doc.data().passe.passe_D, doc.data().defesa, localGraficoPasseDefesa, "criar_grafico_passe_defesa_jogador");
-                    localGraficoPasseDefesa.style.display = "block";
                 }
                 else {
                     localGraficoPasse.style.display = "none";
@@ -168,48 +167,69 @@ export class Graficos {
         });
     }
     // Gráfico para os passes e defesas do time
-    GraficoPassesDefesa(passeA, passeB, passeC, passeD, defesa, localGrafico, idChart) {
+    GraficoDefesa(defesa, localGrafico, idChart) {
+        let total = 0;
+        let background = [
+            'rgba(255, 99, 132)',
+            'rgba(255, 159, 64)',
+            'rgba(255, 205, 86)',
+            'rgba(75, 192, 192)',
+            'rgba(54, 162, 235)',
+            'rgba(153, 102, 255)',
+            'rgba(201, 203, 207)'
+        ]
+        let jogadorArray = [];
+        let valores = [];
+        let cores = [];
+        defesa.forEach(jogador => {
+            if (jogador[1] > 0) {
+                jogadorArray.push(jogador[0]);
+                valores.push(jogador[1]);
+            }
+            total += jogador[1];
+        });
+        if (jogadorArray.length == background.length)
+            cores = background;
+        else if (jogadorArray.length < background.length)
+            cores = background.slice(0, jogadorArray.length);
+        else {
+            let rodadas = jogadorArray.length / background.length;
+            for (let i = 0; i < rodadas; i++) {
+                cores = cores.concat(background);
+            }
+            let rodadasResto = jogadorArray.length % background.length;
+            cores = cores.concat(background.slice(0, rodadasResto));
+        }
+        localGrafico.innerHTML += `<div><h2>Total de defesas: <span>${total}<span></h2></div>`;
         // criando um h2
         const titulo = document.createElement("h2");
         // colocando o texto no h2
-        titulo.innerHTML = "Passes e Defesa";
+        titulo.innerHTML = "Defesas";
         // colocando a classe
         titulo.className = "titulo_graficos";
         // colocando a tag no html, estando dentro do local do local a vir o gráfico
         localGrafico.appendChild(titulo);
         // verificando se há passes para mostrar
-        if (passeA != 0 || passeB != 0 || passeC != 0 || passeD != 0 || defesa != 0) {
+        if (total != 0) {
             // criando um canva
             const canva = document.createElement('canvas');
             // adicionando o id
             canva.id = `${idChart}`;
-            // colocando ele no html no local especificado
+            //colocando ele no html no local especificado
             localGrafico.appendChild(canva);
             // pegando o id do gráfico
             const ctx = document.getElementById(`${idChart}`);
             // informações a mostrar
             const data = {
                 // escrita legenda
-                labels: [
-                    'Passe A',
-                    'Passe B',
-                    'Passe C',
-                    'Passe D',
-                    'Defesa'
-                ],
+                labels: jogadorArray,
                 datasets: [{
                     // nome dos valores
-                    label: 'Passes',
+                    label: 'defesas',
                     // quantidade dos passes
-                    data: [passeA, passeB, passeC, passeD, defesa],
+                    data: valores,
                     // cores a mostrar respectivamente
-                    backgroundColor: [
-                        'rgb(0, 37, 228)',
-                        'rgb(2, 183, 86)',
-                        'rgb(230, 197, 1)',
-                        'rgb(242, 92, 5)',
-                        'rgba(54, 162, 235)'
-                    ],
+                    backgroundColor: cores,
                     hoverOffset: 4
                 }]
             };
