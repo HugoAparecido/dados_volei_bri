@@ -103,12 +103,14 @@ export class Time {
     async PopularSelect(localSelect) {
         const querySnapshot = await getDocs(collection(db, "time"));
         querySnapshot.forEach((doc) => {
-            localSelect.innerHTML += `<option value="${doc.id}">${doc.data().nome}</option>`;
+            localSelect.innerHTML += `<option value="${doc.id}">${doc.data().nome} (${doc.data().sexo})</option>`;
         });
     }
     // Retorna jogadores no time
     async JogadoresNoTime(idTime, nomeTime, mostrarJogador) {
         mostrarJogador.innerHTML = "";
+        nomeTime = nomeTime.split(' (');
+        nomeTime = nomeTime[0];
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {

@@ -8,6 +8,8 @@ export class Graficos {
     // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
     async InserirGraficosTime(idTime, nomeTime, localGraficoPasse, localGraficoTipoSaque, localGraficoSaqueAcerto, localGraficoAtaque, localGraficoBloqueio, localGraficoLevantamento, localGraficoPasseDefesa) {
         // colocando as condições para a porcura no banco
+        nomeTime = nomeTime.split(' (');
+        nomeTime = nomeTime[0];
         const q = query(collection(db, "time"), where("nome", "==", nomeTime));
         // tipo um select, onde o q é a condição, o await é para a função esperar o getDocs executar para continuar, pois este é uma promise
         const querySnapshot = await getDocs(q);

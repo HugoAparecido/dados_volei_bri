@@ -120,12 +120,20 @@ main {
     margin-bottom: 10px;
 }
 
-#jogadores_no_time,
-#adicionar_jogador {
+#jogadores_no_time {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#adicionar_jogador {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
     align-items: center;
     justify-content: space-around;
 }
