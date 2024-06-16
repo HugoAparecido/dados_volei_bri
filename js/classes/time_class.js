@@ -97,6 +97,13 @@ export class Time {
         }
         finally {
             HideLoading();
+            // Verificar se a flag foi definida
+            if (sessionStorage.getItem('deveClicarNoBotao') === 'true') {
+                // Remover a flag para evitar cliques futuros indesejados
+                sessionStorage.removeItem('deveClicarNoBotao');
+                // Encontrar o botão e clicar nele
+                document.getElementById(localStorage.getItem('timeAtualID')).click();
+            }
         }
     }
     // Popular tag select com todos os times
@@ -246,7 +253,9 @@ export class Time {
             alert("Falha ao cadastrar: " + e);
         }
         finally {
-            window.location.reload();
+            // Armazenar uma flag
+            sessionStorage.setItem('deveClicarNoBotao', 'true');
+            window.location.reload()
         }
     }
     // Atualização da defesa no Time
