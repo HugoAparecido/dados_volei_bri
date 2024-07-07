@@ -71,3 +71,11 @@ main {
     border-radius: 25px;
     padding: 10px;
 }
+
+.jogadores_principais {
+    width: auto;
+    min-width: 150px;
+    height: auto;
+    min-height: 150px;
+    border: 1px solid var(--laranja-escuro);
+}
