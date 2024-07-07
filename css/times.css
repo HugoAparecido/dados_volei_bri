@@ -1,3 +1,13 @@
+:root {
+    --preto: #000;
+    --laranja: #F24405;
+    --marrom: #261515;
+    --laranja-escuro: #590902;
+    --laranja-claro: #F25C05;
+    --branco: #fff;
+    --cinza: #F2F2F2;
+}
+
 main {
     width: 100%;
     display: flex;
@@ -45,4 +55,19 @@ main {
 
 #duvidas>#botao_duvidas>button:hover {
     background-color: #590902;
+}
+
+.jogadores_principais_pai {
+    background-color: var(--laranja-claro);
+    flex-wrap: wrap;
+    width: auto;
+    height: auto;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+    margin: 10px;
+    border-radius: 25px;
+    padding: 10px;
 }

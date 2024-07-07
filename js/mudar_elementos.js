@@ -27,9 +27,3 @@ function getNewPosition(column, posY) {
     }
     return result;
 }
-// organizando os que estão jogando
-const jogadores_jogando = {
-    levantadorLibero: () => document.getElementById('levantador_e_libero'),
-    pontas: () => document.getElementById('pontas'),
-    opostoCentral: () => document.getElementById('oposto_e_central'),
-}
