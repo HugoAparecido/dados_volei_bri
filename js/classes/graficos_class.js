@@ -178,7 +178,7 @@ export class Graficos {
         let passeB = 0;
         let passeC = 0;
         let passeD = 0;
-        let defesa = [];
+        let defesa = 0;
         // inicializando os tipos dos saques em zero
         let saque = {
             ace: 0,
@@ -204,6 +204,7 @@ export class Graficos {
         // para cada documento que encontrar, o forEach é para ler arrays, é tipo um for para array
         querySnapshot.forEach((doc) => {
             // para cada jogador ele incrementará nas variáveis acima o respectivo valor
+            defesa += doc.data().defesa;
             // passes
             if (doc.data().posicao !== "Levantador") {
                 passeA += doc.data().passe.passe_A;
@@ -236,9 +237,8 @@ export class Graficos {
         // saque acerto
         let acertoSaque = saque.ace + saque.flutuante + saque.por_cima + saque.viagem;
         let erroSaque = saque.fora;
+        localGraficoPasseDefesa.innerHTML += `<div><h2>Total de defesas: <span>${defesa}<span></h2></div>`;
         // Chamando a função para criar o gráfico passe e defesas
-        this.GraficoDefesa(defesa, localGraficoPasseDefesa, "criar_grafico_passe_defesa_Total");
-        // Chamando a função para criar o gráfico passe
         this.GraficoPasses(passeA, passeB, passeC, passeD, localGraficoPasse, "criar_grafico_passe_Total");
         // Chamando a função para criar o gráfico tipo do saque acertado
         this.GraficoTipoSaque(saque, localGraficoTipoSaque, "criar_grafico_tipo_saque_Total");
