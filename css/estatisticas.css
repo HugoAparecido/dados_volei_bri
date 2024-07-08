@@ -66,8 +66,10 @@ canvas {
 }
 
 #exibir_graficos_time,
-#exibir_graficos_jogador {
+#exibir_graficos_jogador,
+#exibir_graficos_total {
     background-color: var(--laranja);
+    margin: 10px;
 }
 
 #time {

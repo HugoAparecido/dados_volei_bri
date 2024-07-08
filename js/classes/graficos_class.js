@@ -168,6 +168,89 @@ export class Graficos {
             }
         });
     }
+    // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
+    async InserirGraficosTotal(localGraficoPasse, localGraficoTipoSaque, localGraficoSaqueAcerto, localGraficoAtaque, localGraficoBloqueio, localGraficoLevantamento, localGraficoPasseDefesa) {
+        const q = query(collection(db, "jogador"));
+        // tipo um select, onde o q é a condição, o await é para a função esperar o getDocs executar para continuar, pois este é uma promise
+        const querySnapshot = await getDocs(q);
+        // inicializando os passes em zero
+        let passeA = 0;
+        let passeB = 0;
+        let passeC = 0;
+        let passeD = 0;
+        let defesa = [];
+        // inicializando os tipos dos saques em zero
+        let saque = {
+            ace: 0,
+            flutuante: 0,
+            viagem: 0,
+            por_cima: 0,
+            fora: 0
+        };
+        // inicializando os acertos e erros dos ataques em zero
+        let ataqueAcertado = 0
+        let ataqueErrado = 0
+        // inicializando os acertos e erros dos bloqueios em zero
+        let pontoDeste = 0
+        let pontoAdversario = 0
+        // inicializando os levantamentos dos bloqueios em zero
+        let levantamento = {
+            ponta: 0,
+            centro: 0,
+            oposto: 0,
+            pipe: 0,
+            errou: 0
+        }
+        // para cada documento que encontrar, o forEach é para ler arrays, é tipo um for para array
+        querySnapshot.forEach((doc) => {
+            // para cada jogador ele incrementará nas variáveis acima o respectivo valor
+            // passes
+            if (doc.data().posicao !== "Levantador") {
+                passeA += doc.data().passe.passe_A;
+                passeB += doc.data().passe.passe_B;
+                passeC += doc.data().passe.passe_C;
+                passeD += doc.data().passe.passe_D;
+            }
+            if (doc.data().posicao !== "Líbero") {
+                // saques tipo
+                saque.flutuante += doc.data().saque.flutuante;
+                saque.por_cima += doc.data().saque.por_cima;
+                saque.viagem += doc.data().saque.viagem;
+                saque.fora += doc.data().saque.fora;
+                saque.ace += doc.data().saque.ace;
+                // ataque
+                ataqueAcertado += doc.data().ataque.acertado
+                ataqueErrado += doc.data().ataque.errado
+                // bloqueio
+                pontoDeste += doc.data().bloqueio.ponto_bloqueando
+                pontoAdversario += doc.data().bloqueio.ponto_adversario
+            }
+            if (doc.data().posicao === "Levantador") {
+                levantamento.ponta += doc.data().levantou_para.ponta
+                levantamento.centro += doc.data().levantou_para.centro
+                levantamento.oposto += doc.data().levantou_para.oposto
+                levantamento.pipe += doc.data().levantou_para.pipe
+                levantamento.errou += doc.data().levantou_para.errou
+            }
+        })
+        // saque acerto
+        let acertoSaque = saque.ace + saque.flutuante + saque.por_cima + saque.viagem;
+        let erroSaque = saque.fora;
+        // Chamando a função para criar o gráfico passe e defesas
+        this.GraficoDefesa(defesa, localGraficoPasseDefesa, "criar_grafico_passe_defesa_Total");
+        // Chamando a função para criar o gráfico passe
+        this.GraficoPasses(passeA, passeB, passeC, passeD, localGraficoPasse, "criar_grafico_passe_Total");
+        // Chamando a função para criar o gráfico tipo do saque acertado
+        this.GraficoTipoSaque(saque, localGraficoTipoSaque, "criar_grafico_tipo_saque_Total");
+        // Chamando a função para criar o gráfico de acerto e erro do saque
+        this.GraficoAcertoSaque(acertoSaque, erroSaque, localGraficoSaqueAcerto, "criar_grafico_acerto_saque_Total");
+        // Chamando a função para criar o gráfico de acerto e erro do ataque
+        this.GraficoAtaque(ataqueAcertado, ataqueErrado, localGraficoAtaque, "criar_grafico_ataque_Total");
+        // Chamando a função para criar o gráfico de acerto e erro do bloqueio
+        this.GraficoBloqueio(pontoDeste, pontoAdversario, localGraficoBloqueio, "criar_grafico_bloqueio_Total");
+        // Chamando a função para criar o gráfico de acerto e erro do bloqueio
+        this.GraficoLevantamento(levantamento, localGraficoLevantamento, "criar_grafico_levantamento_Total");
+    }
     // Gráfico para os passes e defesas do time
     GraficoDefesa(defesa, localGrafico, idChart) {
         let total = 0;
