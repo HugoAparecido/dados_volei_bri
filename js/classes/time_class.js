@@ -198,7 +198,8 @@ export class Time {
                 passe_C: 0,
                 passe_D: 0
             },
-            defesa: 0
+            defesa: 0,
+            erro_defesa: 0
         };
         if (posicao_j !== "Líbero") {
             novoJogador = {
@@ -259,19 +260,21 @@ export class Time {
         }
     }
     // Atualização da defesa no Time
-    async AtualizarDefesaJogador(idTime, aIncrementar, idJogador) {
+    async AtualizarDefesaJogador(idTime, aIncrementarAcerto, aIncrementarErro, idJogador) {
         try {
             let inserirNovamenteID = "";
             const timeDocRef = doc(db, "time", idTime);
             // atualizando os caminhos incrementado os valores com os que eles já tem
             await updateDoc(timeDocRef, {
-                [`jogadores.${idJogador}.defesa`]: increment(aIncrementar)
+                [`jogadores.${idJogador}.defesa`]: increment(aIncrementarAcerto),
+                [`jogadores.${idJogador}.erro_defesa`]: increment(aIncrementarErro)
             });
             inserirNovamenteID = await this.VerificarSeEhMisto(idTime, idJogador);
             if (inserirNovamenteID != "") {
                 const timeDocRef = doc(db, "time", inserirNovamenteID);
                 await updateDoc(timeDocRef, {
-                    [`jogadores.${idJogador}.defesa`]: increment(aIncrementar)
+                    [`jogadores.${idJogador}.defesa`]: increment(aIncrementarAcerto),
+                    [`jogadores.${idJogador}.erro_defesa`]: increment(aIncrementarErro)
                 });
             }
         }

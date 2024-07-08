@@ -172,7 +172,7 @@ export class Jogador {
                     "posicao": posicao,
                     "sexo": sexo,
                     "altura": altura,
-                    "peso": peso
+                    "peso": peso,
                 });
                 if (!dadosLevantador && posicao === "Levantador") {
                     await updateDoc(timeDocRef, {
@@ -252,7 +252,7 @@ export class Jogador {
             querySnapshot.forEach((doc) => {
                 if (id.includes(doc.id)) {
                     // pegando os valores dos campos
-                    this.AtualizarDefesaJogador(doc.id, document.getElementById(`${doc.id}_defesa`).value);
+                    this.AtualizarDefesaJogador(doc.id, document.getElementById(`${doc.id}_defesa`).value, document.getElementById(`${doc.id}_erro_defesa`).value);
                     if (doc.data().posicao !== "Líbero") {
                         // saques
                         this.AtualizarSaqueJogador(doc.id, [
@@ -301,13 +301,14 @@ export class Jogador {
         // window.location.reload();
     }
     // Atualização defesa jogador
-    async AtualizarDefesaJogador(id, aIncrementar) {
+    async AtualizarDefesaJogador(id, aIncrementarAcerto, aIncrementarErro) {
         try {
             const timeDocRef = doc(db, "jogador", id)
             await updateDoc(timeDocRef, {
-                "defesa": increment(aIncrementar)
+                "defesa": increment(aIncrementarAcerto),
+                "erro_defesa": increment(aIncrementarErro)
             });
-            await new Time().AtualizarDefesaJogador(localStorage.getItem("timeAtualID"), aIncrementar, id);
+            await new Time().AtualizarDefesaJogador(localStorage.getItem("timeAtualID"), aIncrementarAcerto, aIncrementarErro, id);
         }
         catch (e) {
             alert("Falha ao inserir Passe: " + e)

@@ -1,7 +1,6 @@
 export class Componentes {
   TabelaJogadores(id, nome, numero, posicao, sexo) {
-    return `<tr>
-              <td>${id}</td>
+    return `<tr><td>${id}</td>
               <td>${nome}</td>
               <td>${numero}</td>
               <td>${posicao}</td>
@@ -22,7 +21,16 @@ export class Componentes {
                               <input type="number" value="0" readonly class="input_number" name="${id}_defesa" id="${id}_defesa"/>
                               <span id="${id}_diminuir_defesa" class="atributos_span" onclick="document.getElementById('${id}_defesa').value == 0 ? document.getElementById('${id}_defesa').value = 0 : document.getElementById('${id}_defesa').value--">-</span>
                             </div>
-                          </div>`;
+                          </div>
+                          <div class="insercao_individual">
+                            <div class="defesa">
+                              <span><strong>Err_def: </strong></span>
+                              <div>
+                                <span id="${id}_aumentar_erro_defesa" class="atributos_span" onclick="document.getElementById('${id}_erro_defesa').value++">+</span>
+                                <input type="number" value="0" readonly class="input_number" name="${id}_erro_defesa" id="${id}_erro_defesa"/>
+                                <span id="${id}_diminuir_erro_defesa" class="atributos_span" onclick="document.getElementById('${id}_erro_defesa').value == 0 ? document.getElementById('${id}_erro_defesa').value = 0 : document.getElementById('${id}_erro_defesa').value--">-</span>
+                              </div>
+                            </div>`;
     if (posicao != "Levantador")
       divJogador += `<div class="passes">
                               <span><strong>Pas: </strong></span>
