@@ -179,6 +179,7 @@ export class Graficos {
         let passeC = 0;
         let passeD = 0;
         let defesa = 0;
+        let erroDefesa = 0;
         // inicializando os tipos dos saques em zero
         let saque = {
             ace: 0,
@@ -205,6 +206,7 @@ export class Graficos {
         querySnapshot.forEach((doc) => {
             // para cada jogador ele incrementará nas variáveis acima o respectivo valor
             defesa += doc.data().defesa;
+            erroDefesa += doc.data().erro_defesa;
             // passes
             if (doc.data().posicao !== "Levantador") {
                 passeA += doc.data().passe.passe_A;
@@ -237,7 +239,7 @@ export class Graficos {
         // saque acerto
         let acertoSaque = saque.ace + saque.flutuante + saque.por_cima + saque.viagem;
         let erroSaque = saque.fora;
-        localGraficoPasseDefesa.innerHTML += `<div><h2>Total de defesas: <span>${defesa}<span></h2></div>`;
+        this.GraficoErrosAcertosDefesa(defesa, erroDefesa, localGraficoPasseDefesa, "criar_grafico_erro_acerto_defesa_total");
         // Chamando a função para criar o gráfico passe e defesas
         this.GraficoPasses(passeA, passeB, passeC, passeD, localGraficoPasse, "criar_grafico_passe_Total");
         // Chamando a função para criar o gráfico tipo do saque acertado
@@ -631,6 +633,53 @@ export class Graficos {
                         'rgb(255, 205, 86)',
                         'rgb(201, 203, 207)',
                         'rgb(54, 162, 235)'
+                    ]
+                }]
+            }
+            // configurando o gráfico
+            const config = {
+                // tipo área polar
+                type: 'pie',
+                // os valores citados acima
+                data: data
+            };
+            // função de criação do gráfico (local, confuguração)
+            new Chart(ctx, config);
+        }
+        // se não hover levantamento para apresentar, haverá uma mensagem no formato parágrafo
+        else localGrafico.innerHTML += "<p>Não há dados disponíveis no momento</p>"
+    }
+    // Gráfico de levantamento efetuados no time
+    GraficoErrosAcertosDefesa(acerto, erro, localGrafico, idChart) {
+        // criando um h2
+        const titulo = document.createElement("h2")
+        // colocando o texto no h2
+        titulo.innerHTML = "Erros e acertos de defesa";
+        // colocando a classe
+        titulo.className = "titulo_graficos";
+        // colocando a tag no html, estando dentro do local do local a vir o gráfico
+        localGrafico.appendChild(titulo)
+        // verificando se há levantamentos para mostrar
+        if (acerto != 0 || erro != 0) {
+            const canva = document.createElement('canvas')
+            canva.id = `${idChart}`
+            localGrafico.appendChild(canva)
+            // pegando o id do gráfico
+            const ctx = document.getElementById(`${idChart}`)
+            const data = {
+                // escrita legenda
+                labels: [
+                    'Acerto',
+                    'Erro'
+                ],
+                datasets: [{
+                    // nome dos valores
+                    label: 'defesas',
+                    // quantidade dos respectivos levanatmentos
+                    data: [acerto, erro],
+                    backgroundColor: [
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 99, 132)'
                     ]
                 }]
             }
