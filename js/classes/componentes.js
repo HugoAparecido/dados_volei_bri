@@ -22,7 +22,6 @@ export class Componentes {
                               <span id="${id}_diminuir_defesa" class="atributos_span" onclick="document.getElementById('${id}_defesa').value == 0 ? document.getElementById('${id}_defesa').value = 0 : document.getElementById('${id}_defesa').value--">-</span>
                             </div>
                           </div>
-                          <div class="insercao_individual">
                             <div class="defesa">
                               <span><strong>Err_def: </strong></span>
                               <div>
