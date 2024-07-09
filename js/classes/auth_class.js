@@ -15,7 +15,7 @@ export class Auth {
                 window.location.href = "./times.html";
             }
         });
-    }
+    }/*
     // Redirecionamento de time.html para login.html CASO o usuário não esteja logado
     UsuarioNaoLogado() {
         // Verifica o estado do usuário
@@ -26,7 +26,7 @@ export class Auth {
                 return false;
             }
         });
-    }
+    }*/
     // Função para login
     async Login(email, senha) {
         // chamada da tela de carregamento
