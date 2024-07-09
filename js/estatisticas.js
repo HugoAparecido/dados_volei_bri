@@ -30,6 +30,22 @@ const locais = {
     localGraficoAtaqueTodo: () => document.getElementById("grafico_ataque_todo"),
     localGraficoBloqueioTodo: () => document.getElementById("grafico_bloqueio_todo"),
     localGraficoLevantamentoTodo: () => document.getElementById("grafico_levantamento_todo"),
+    // para os gráficos do todo masculino
+    localGraficoSaqueTodoMasculino: () => document.getElementById("grafico_saque_todo_masculino"),
+    localGraficoSaqueTodoMasculinoTipo: () => document.getElementById("grafico_saque_tipo_todo_masculino"),
+    localGraficoPasseTodoMasculino: () => document.getElementById("grafico_passe_todo_masculino"),
+    localGraficoPasseDefesaTodoMasculino: () => document.getElementById("grafico_defesa_todo_masculino"),
+    localGraficoAtaqueTodoMasculino: () => document.getElementById("grafico_ataque_todo_masculino"),
+    localGraficoBloqueioTodoMasculino: () => document.getElementById("grafico_bloqueio_todo_masculino"),
+    localGraficoLevantamentoTodoMasculino: () => document.getElementById("grafico_levantamento_todo_masculino"),
+    // para os gráficos do todo feminino
+    localGraficoSaqueTodoFeminino: () => document.getElementById("grafico_saque_todo_feminino"),
+    localGraficoSaqueTodoFemininoTipo: () => document.getElementById("grafico_saque_tipo_todo_feminino"),
+    localGraficoPasseTodoFeminino: () => document.getElementById("grafico_passe_todo_feminino"),
+    localGraficoPasseDefesaTodoFeminino: () => document.getElementById("grafico_defesa_todo_feminino"),
+    localGraficoAtaqueTodoFeminino: () => document.getElementById("grafico_ataque_todo_feminino"),
+    localGraficoBloqueioTodoFeminino: () => document.getElementById("grafico_bloqueio_todo_feminino"),
+    localGraficoLevantamentoTodoFeminino: () => document.getElementById("grafico_levantamento_todo_feminino"),
     // para o select do time
     jogadorSelecionado: () => document.getElementById("jogador"),
     // local onde está o select e os gráficos do jogador
@@ -69,8 +85,10 @@ botoes.mostrarGraficosJogador().addEventListener('click', () => {
 botoes.mostrarGraficosTodo().addEventListener('click', () => {
     // zerando o html dos locais dos gráficos
     locais.localGraficoBloqueioTodo().innerHTML = locais.localGraficoLevantamentoTodo().innerHTML = locais.localGraficoPasseTodo().innerHTML = locais.localGraficoSaqueTodo().innerHTML = locais.localGraficoAtaqueTodo().innerHTML = locais.localGraficoSaqueTodoTipo().innerHTML = locais.localGraficoPasseDefesaTodo().innerHTML = "";
+    // zerando o html dos locais dos gráficos
+    locais.localGraficoPasseTodoMasculino().innerHTML = locais.localGraficoSaqueTodoMasculinoTipo().innerHTML = locais.localGraficoSaqueTodoMasculino().innerHTML = locais.localGraficoAtaqueTodoMasculino().innerHTML = locais.localGraficoBloqueioTodoMasculino().innerHTML = locais.localGraficoLevantamentoTodoMasculino().innerHTML = locais.localGraficoPasseDefesaTodoMasculino().innerHTML = locais.localGraficoPasseTodoFeminino().innerHTML = locais.localGraficoSaqueTodoFemininoTipo().innerHTML = locais.localGraficoSaqueTodoFeminino().innerHTML = locais.localGraficoAtaqueTodoFeminino().innerHTML = locais.localGraficoBloqueioTodoFeminino().innerHTML = locais.localGraficoLevantamentoTodoFeminino().innerHTML = locais.localGraficoPasseDefesaTodoFeminino().innerHTML = "";
     // colocando os gráficos
-    grafico.InserirGraficosTotal(locais.localGraficoPasseTodo(), locais.localGraficoSaqueTodoTipo(), locais.localGraficoSaqueTodo(), locais.localGraficoAtaqueTodo(), locais.localGraficoBloqueioTodo(), locais.localGraficoLevantamentoTodo(), locais.localGraficoPasseDefesaTodo());
+    grafico.InserirGraficosTotal(locais.localGraficoPasseTodo(), locais.localGraficoSaqueTodoTipo(), locais.localGraficoSaqueTodo(), locais.localGraficoAtaqueTodo(), locais.localGraficoBloqueioTodo(), locais.localGraficoLevantamentoTodo(), locais.localGraficoPasseDefesaTodo(), locais.localGraficoPasseTodoMasculino(), locais.localGraficoSaqueTodoMasculinoTipo(), locais.localGraficoSaqueTodoMasculino(), locais.localGraficoAtaqueTodoMasculino(), locais.localGraficoBloqueioTodoMasculino(), locais.localGraficoLevantamentoTodoMasculino(), locais.localGraficoPasseDefesaTodoMasculino(), locais.localGraficoPasseTodoFeminino(), locais.localGraficoSaqueTodoFemininoTipo(), locais.localGraficoSaqueTodoFeminino(), locais.localGraficoAtaqueTodoFeminino(), locais.localGraficoBloqueioTodoFeminino(), locais.localGraficoLevantamentoTodoFeminino(), locais.localGraficoPasseDefesaTodoFeminino());
 })
 // Função para pegar somente o nome do jogador no texto do select
 function RetirarNumeroDoJogadorEPosicaoSelect(texto) {

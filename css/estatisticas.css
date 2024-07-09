@@ -77,3 +77,12 @@ canvas {
     background-color: var(--laranja);
     border: var(--laranja);
 }
+
+#graficos_do_todo_feminino,
+#graficos_do_todo_masculino {
+    text-align: center;
+}
+
+h2 {
+    color: var(--laranja);
+}

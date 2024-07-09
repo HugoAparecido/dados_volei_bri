@@ -169,7 +169,7 @@ export class Graficos {
         });
     }
     // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
-    async InserirGraficosTotal(localGraficoPasse, localGraficoTipoSaque, localGraficoSaqueAcerto, localGraficoAtaque, localGraficoBloqueio, localGraficoLevantamento, localGraficoPasseDefesa) {
+    async InserirGraficosTotal(localGraficoPasse, localGraficoTipoSaque, localGraficoSaqueAcerto, localGraficoAtaque, localGraficoBloqueio, localGraficoLevantamento, localGraficoPasseDefesa, localGraficoPasseMasculino, localGraficoTipoSaqueMasculino, localGraficoSaqueAcertoMasculino, localGraficoAtaqueMasculino, localGraficoBloqueioMasculino, localGraficoLevantamentoMasculino, localGraficoPasseDefesaMasculino, localGraficoPasseFeminino, localGraficoTipoSaqueFeminino, localGraficoSaqueAcertoFeminino, localGraficoAtaqueFeminino, localGraficoBloqueioFeminino, localGraficoLevantamentoFeminino, localGraficoPasseDefesaFeminino) {
         const q = query(collection(db, "jogador"));
         // tipo um select, onde o q é a condição, o await é para a função esperar o getDocs executar para continuar, pois este é uma promise
         const querySnapshot = await getDocs(q);
@@ -180,8 +180,36 @@ export class Graficos {
         let passeD = 0;
         let defesa = 0;
         let erroDefesa = 0;
+        let passeAMasculino = 0;
+        let passeBMasculino = 0;
+        let passeCMasculino = 0;
+        let passeDMasculino = 0;
+        let defesaMasculino = 0;
+        let erroDefesaMasculino = 0;
+        let passeAFeminino = 0;
+        let passeBFeminino = 0;
+        let passeCFeminino = 0;
+        let passeDFeminino = 0;
+        let defesaFeminino = 0;
+        let erroDefesaFeminino = 0;
         // inicializando os tipos dos saques em zero
         let saque = {
+            ace: 0,
+            flutuante: 0,
+            viagem: 0,
+            por_cima: 0,
+            fora: 0
+        };
+        // inicializando os tipos dos saques em zero
+        let saqueMasculino = {
+            ace: 0,
+            flutuante: 0,
+            viagem: 0,
+            por_cima: 0,
+            fora: 0
+        };
+        // inicializando os tipos dos saques em zero
+        let saqueFeminino = {
             ace: 0,
             flutuante: 0,
             viagem: 0,
@@ -191,11 +219,39 @@ export class Graficos {
         // inicializando os acertos e erros dos ataques em zero
         let ataqueAcertado = 0
         let ataqueErrado = 0
+        // inicializando os acertos e erros dos ataques em zero
+        let ataqueAcertadoMasculino = 0
+        let ataqueErradoMasculino = 0
+        // inicializando os acertos e erros dos ataques em zero
+        let ataqueAcertadoFeminino = 0
+        let ataqueErradoFeminino = 0
         // inicializando os acertos e erros dos bloqueios em zero
         let pontoDeste = 0
         let pontoAdversario = 0
+        // inicializando os acertos e erros dos bloqueios em zero
+        let pontoDesteMasculino = 0
+        let pontoAdversarioMasculino = 0
+        // inicializando os acertos e erros dos bloqueios em zero
+        let pontoDesteFeminino = 0
+        let pontoAdversarioFeminino = 0
         // inicializando os levantamentos dos bloqueios em zero
         let levantamento = {
+            ponta: 0,
+            centro: 0,
+            oposto: 0,
+            pipe: 0,
+            errou: 0
+        }
+        // inicializando os levantamentos dos bloqueios em zero
+        let levantamentoMasculino = {
+            ponta: 0,
+            centro: 0,
+            oposto: 0,
+            pipe: 0,
+            errou: 0
+        }
+        // inicializando os levantamentos dos bloqueios em zero
+        let levantamentoFeminino = {
             ponta: 0,
             centro: 0,
             oposto: 0,
@@ -207,12 +263,31 @@ export class Graficos {
             // para cada jogador ele incrementará nas variáveis acima o respectivo valor
             defesa += doc.data().defesa;
             erroDefesa += doc.data().erro_defesa;
+            if (doc.data().sexo === "M") {
+                defesaMasculino += doc.data().defesa;
+                erroDefesaMasculino += doc.data().erro_defesa;
+            } else {
+                defesaFeminino += doc.data().defesa;
+                erroDefesaFeminino += doc.data().erro_defesa;
+            }
             // passes
             if (doc.data().posicao !== "Levantador") {
                 passeA += doc.data().passe.passe_A;
                 passeB += doc.data().passe.passe_B;
                 passeC += doc.data().passe.passe_C;
                 passeD += doc.data().passe.passe_D;
+                if (doc.data().sexo === "M") {
+                    passeAMasculino += doc.data().passe.passe_A;
+                    passeBMasculino += doc.data().passe.passe_B;
+                    passeCMasculino += doc.data().passe.passe_C;
+                    passeDMasculino += doc.data().passe.passe_D;
+                }
+                else {
+                    passeAFeminino += doc.data().passe.passe_A;
+                    passeBFeminino += doc.data().passe.passe_B;
+                    passeCFeminino += doc.data().passe.passe_C;
+                    passeDFeminino += doc.data().passe.passe_D;
+                }
             }
             if (doc.data().posicao !== "Líbero") {
                 // saques tipo
@@ -227,6 +302,34 @@ export class Graficos {
                 // bloqueio
                 pontoDeste += doc.data().bloqueio.ponto_bloqueando
                 pontoAdversario += doc.data().bloqueio.ponto_adversario
+                if (doc.data().sexo === "M") {
+                    // saques tipo
+                    saqueMasculino.flutuante += doc.data().saque.flutuante;
+                    saqueMasculino.por_cima += doc.data().saque.por_cima;
+                    saqueMasculino.viagem += doc.data().saque.viagem;
+                    saqueMasculino.fora += doc.data().saque.fora;
+                    saqueMasculino.ace += doc.data().saque.ace;
+                    // ataque
+                    ataqueAcertadoMasculino += doc.data().ataque.acertado
+                    ataqueErradoMasculino += doc.data().ataque.errado
+                    // bloqueio
+                    pontoDesteMasculino += doc.data().bloqueio.ponto_bloqueando
+                    pontoAdversarioMasculino += doc.data().bloqueio.ponto_adversario
+                }
+                else {
+                    // saques tipo
+                    saqueFeminino.flutuante += doc.data().saque.flutuante;
+                    saqueFeminino.por_cima += doc.data().saque.por_cima;
+                    saqueFeminino.viagem += doc.data().saque.viagem;
+                    saqueFeminino.fora += doc.data().saque.fora;
+                    saqueFeminino.ace += doc.data().saque.ace;
+                    // ataque
+                    ataqueAcertadoFeminino += doc.data().ataque.acertado
+                    ataqueErradoFeminino += doc.data().ataque.errado
+                    // bloqueio
+                    pontoDesteFeminino += doc.data().bloqueio.ponto_bloqueando
+                    pontoAdversarioFeminino += doc.data().bloqueio.ponto_adversario
+                }
             }
             if (doc.data().posicao === "Levantador") {
                 levantamento.ponta += doc.data().levantou_para.ponta
@@ -234,8 +337,23 @@ export class Graficos {
                 levantamento.oposto += doc.data().levantou_para.oposto
                 levantamento.pipe += doc.data().levantou_para.pipe
                 levantamento.errou += doc.data().levantou_para.errou
+                if (doc.data().sexo === "M") {
+                    levantamentoMasculino.ponta += doc.data().levantou_para.ponta
+                    levantamentoMasculino.centro += doc.data().levantou_para.centro
+                    levantamentoMasculino.oposto += doc.data().levantou_para.oposto
+                    levantamentoMasculino.pipe += doc.data().levantou_para.pipe
+                    levantamentoMasculino.errou += doc.data().levantou_para.errou
+                }
+                else {
+                    levantamentoFeminino.ponta += doc.data().levantou_para.ponta
+                    levantamentoFeminino.centro += doc.data().levantou_para.centro
+                    levantamentoFeminino.oposto += doc.data().levantou_para.oposto
+                    levantamentoFeminino.pipe += doc.data().levantou_para.pipe
+                    levantamentoFeminino.errou += doc.data().levantou_para.errou
+                }
             }
         })
+        // Gráfico todo
         // saque acerto
         let acertoSaque = saque.ace + saque.flutuante + saque.por_cima + saque.viagem;
         let erroSaque = saque.fora;
@@ -252,6 +370,40 @@ export class Graficos {
         this.GraficoBloqueio(pontoDeste, pontoAdversario, localGraficoBloqueio, "criar_grafico_bloqueio_Total");
         // Chamando a função para criar o gráfico de acerto e erro do bloqueio
         this.GraficoLevantamento(levantamento, localGraficoLevantamento, "criar_grafico_levantamento_Total");
+        // Gráfico masculino
+        // saque acerto
+        let acertoSaqueMasculino = saqueMasculino.ace + saqueMasculino.flutuante + saqueMasculino.por_cima + saqueMasculino.viagem;
+        let erroSaqueMasculino = saqueMasculino.fora;
+        this.GraficoErrosAcertosDefesa(defesaMasculino, erroDefesaMasculino, localGraficoPasseDefesaMasculino, "criar_grafico_erro_acerto_defesa_total_masculino");
+        // Chamando a função para criar o gráfico passe e defesas
+        this.GraficoPasses(passeAMasculino, passeBMasculino, passeCMasculino, passeDMasculino, localGraficoPasseMasculino, "criar_grafico_passe_Total_masculino");
+        // Chamando a função para criar o gráfico tipo do saque acertado
+        this.GraficoTipoSaque(saqueMasculino, localGraficoTipoSaqueMasculino, "criar_grafico_tipo_saque_Total_masculino");
+        // Chamando a função para criar o gráfico de acerto e erro do saque
+        this.GraficoAcertoSaque(acertoSaqueMasculino, erroSaqueMasculino, localGraficoSaqueAcertoMasculino, "criar_grafico_acerto_saque_Total_masculino");
+        // Chamando a função para criar o gráfico de acerto e erro do ataque
+        this.GraficoAtaque(ataqueAcertadoMasculino, ataqueErradoMasculino, localGraficoAtaqueMasculino, "criar_grafico_ataque_Total_masculino");
+        // Chamando a função para criar o gráfico de acerto e erro do bloqueio
+        this.GraficoBloqueio(pontoDesteMasculino, pontoAdversarioMasculino, localGraficoBloqueioMasculino, "criar_grafico_bloqueio_Total_masculino");
+        // Chamando a função para criar o gráfico de acerto e erro do bloqueio
+        this.GraficoLevantamento(levantamentoMasculino, localGraficoLevantamentoMasculino, "criar_grafico_levantamento_Total_masculino");
+        // Gráfico feminino
+        // saque acerto
+        let acertoSaqueFeminino = saqueFeminino.ace + saqueFeminino.flutuante + saqueFeminino.por_cima + saqueFeminino.viagem;
+        let erroSaqueFeminino = saqueFeminino.fora;
+        this.GraficoErrosAcertosDefesa(defesaFeminino, erroDefesaFeminino, localGraficoPasseDefesaFeminino, "criar_grafico_erro_acerto_defesa_total_Feminino");
+        // Chamando a função para criar o gráfico passe e defesas
+        this.GraficoPasses(passeAFeminino, passeBFeminino, passeCFeminino, passeDFeminino, localGraficoPasseFeminino, "criar_grafico_passe_Total_Feminino");
+        // Chamando a função para criar o gráfico tipo do saque acertado
+        this.GraficoTipoSaque(saqueFeminino, localGraficoTipoSaqueFeminino, "criar_grafico_tipo_saque_Total_Feminino");
+        // Chamando a função para criar o gráfico de acerto e erro do saque
+        this.GraficoAcertoSaque(acertoSaqueFeminino, erroSaqueFeminino, localGraficoSaqueAcertoFeminino, "criar_grafico_acerto_saque_Total_Feminino");
+        // Chamando a função para criar o gráfico de acerto e erro do ataque
+        this.GraficoAtaque(ataqueAcertadoFeminino, ataqueErradoFeminino, localGraficoAtaqueFeminino, "criar_grafico_ataque_Total_Feminino");
+        // Chamando a função para criar o gráfico de acerto e erro do bloqueio
+        this.GraficoBloqueio(pontoDesteFeminino, pontoAdversarioFeminino, localGraficoBloqueioFeminino, "criar_grafico_bloqueio_Total_Feminino");
+        // Chamando a função para criar o gráfico de acerto e erro do bloqueio
+        this.GraficoLevantamento(levantamentoFeminino, localGraficoLevantamentoFeminino, "criar_grafico_levantamento_Total_Feminino");
     }
     // Gráfico para os passes e defesas do time
     GraficoDefesa(defesa, localGrafico, idChart) {
