@@ -17,6 +17,45 @@
     --cinza: #F2F2F2;
 }
 
+
+/*  PARTE DO LOGIN */
+
+
+.login-form {
+    width: 360px;
+    background-color: var(--laranja); /* Cor de fundo do formulário em laranja */
+    padding: 40px;
+    margin: 100px auto; /* Centraliza o formulário verticalmente e na horizontal */
+    border-radius: 10px; /* Borda arredondada */
+    box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1); /* Sombra suave */
+  }
+  .login-form h2 {
+    color: var(--preto); /* Texto branco */
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .login-form .form-control {
+    background-color: #ffe6c1; /* Cor de fundo dos campos de input em laranja claro */
+    color: var(--preto); /* Cor do texto dos campos de input */
+    border-color: #ffa45c; /* Cor da borda dos campos de input */
+  }
+  .login-form .btn {
+    background-color: #ff814a; /* Botão laranja */
+    border-color: #ff814a; /* Borda do botão laranja */
+  }
+  .login-form .btn:hover {
+    background-color: #ff9d6f; /* Cor do botão ao passar o mouse */
+    border-color: #ff9d6f; /* Cor da borda do botão ao passar o mouse */
+  }
+  .form-label{
+    color: var(--preto);
+  }
+
+
+
+/*PARTE DE LOGIN*/
+
+
 body {
     background-color: var(--preto);
 }
@@ -36,7 +75,6 @@ body {
 #nav_container {
     background-color: var(--laranja);
 }
-
 main {
     background-color: var(--preto);
     width: 100%;
@@ -46,6 +84,7 @@ main {
 li {
     margin-left: 20px;
 }
+
 
 button.botao_deslogar {
     background-color: var(--laranja-claro);
