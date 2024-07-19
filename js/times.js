@@ -18,13 +18,13 @@ const mostrarTimes = {
 }
 // Gerencia de atenticação
 let auth = new Auth;
-auth.UsuarioNaoLogado();
+// Função para Ordenar os times
+let time = new Time
+auth.UsuarioNaoLogado().then(
+    time.OrdenarTimesPorSexo(mostrarTimes.mostrarTimeMasculino, mostrarTimes.mostrarTimeFeminino, mostrarTimes.mostrarTimeMisto, mostrarTimes.mostrarInsercoes, informacoes, form));
 buttons.logoutButton().addEventListener('click', () => {
     auth.Logout();
 })
-// Função para Ordenar os times
-let time = new Time
-time.OrdenarTimesPorSexo(mostrarTimes.mostrarTimeMasculino, mostrarTimes.mostrarTimeFeminino, mostrarTimes.mostrarTimeMisto, mostrarTimes.mostrarInsercoes, informacoes, form)
 // mostrar o que significa os labels
 buttons.botaoDuvidas().addEventListener("click", () => {
     if (duvidas.localDescricao().style.display === 'none')

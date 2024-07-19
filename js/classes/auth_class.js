@@ -17,7 +17,7 @@ export class Auth {
         });
     }
     // Redirecionamento de time.html para login.html CASO o usuário não esteja logado
-    UsuarioNaoLogado() {
+    async UsuarioNaoLogado() {
         // Verifica o estado do usuário
         onAuthStateChanged(auth, (user) => {
             // se ele não estiver logado, ele se redirecionará para o login
