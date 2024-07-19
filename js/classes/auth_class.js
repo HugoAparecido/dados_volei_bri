@@ -22,7 +22,10 @@ export class Auth {
         onAuthStateChanged(auth, (user) => {
             // se ele não estiver logado, ele se redirecionará para o login
             if (!user) {
-                window.location.href = "./login.html";
+                if (confirm("Usuário não logado, deseja fazer o login?"))
+                    window.location.href = "./login.html";
+                else
+                    window.location.href = "../index.html"
             }
         });
     }

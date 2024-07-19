@@ -18,10 +18,10 @@ const mostrarTimes = {
 }
 // Gerencia de atenticação
 let auth = new Auth;
+auth.UsuarioNaoLogado()
 // Função para Ordenar os times
 let time = new Time
-auth.UsuarioNaoLogado().then(
-    time.OrdenarTimesPorSexo(mostrarTimes.mostrarTimeMasculino, mostrarTimes.mostrarTimeFeminino, mostrarTimes.mostrarTimeMisto, mostrarTimes.mostrarInsercoes, informacoes, form));
+time.OrdenarTimesPorSexo(mostrarTimes.mostrarTimeMasculino, mostrarTimes.mostrarTimeFeminino, mostrarTimes.mostrarTimeMisto, mostrarTimes.mostrarInsercoes, informacoes, form)
 buttons.logoutButton().addEventListener('click', () => {
     auth.Logout();
 })
