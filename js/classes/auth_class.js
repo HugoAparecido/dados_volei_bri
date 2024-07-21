@@ -17,15 +17,14 @@ export class Auth {
         });
     }
     // Redirecionamento de time.html para login.html CASO o usuário não esteja logado
-    async UsuarioNaoLogado() {
+    async UsuarioNaoLogado(fazerLogado) {
         // Verifica o estado do usuário
         onAuthStateChanged(auth, (user) => {
             // se ele não estiver logado, ele se redirecionará para o login
             if (!user) {
-                if (confirm("Usuário não logado, deseja fazer o login?"))
-                    window.location.href = "./login.html";
-                else
-                    window.location.href = "../index.html"
+                window.location.href = "./login.html";
+            } else {
+                fazerLogado;
             }
         });
     }
