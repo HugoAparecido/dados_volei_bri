@@ -108,7 +108,7 @@ export class Time {
     }
     // Popular tag select com todos os times
     async PopularSelect(localSelect) {
-        const querySnapshot = await getDocs(collection(db, "time"));
+        const querySnapshot = await getDocs(query(collection(db, "time"), orderBy("data_criacao", "desc")));
         querySnapshot.forEach((doc) => {
             localSelect.innerHTML += `<option value="${doc.id}">${doc.data().nome} (${doc.data().sexo})</option>`;
         });
