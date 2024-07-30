@@ -12,6 +12,7 @@ const locais = {
     localGraficoAtaqueTime: () => document.getElementById("grafico_ataque_time"),
     localGraficoBloqueioTime: () => document.getElementById("grafico_bloqueio_time"),
     localGraficoLevantamentoTime: () => document.getElementById("grafico_levantamento_time"),
+    localGraficoErroDefesaTime: () => document.getElementById("grafico_erro_defesa_time"),
     // para o select do time
     timeSelecionado: () => document.getElementById("time"),
     // para os gráficos do jogador
@@ -64,9 +65,9 @@ time.PopularSelect(locais.timeSelecionado());
 let grafico = new Graficos;
 botoes.mostrarGraficosTime().addEventListener('click', () => {
     // zerando o html dos locais dos gráficos
-    locais.localGraficoBloqueioTime().innerHTML = locais.localGraficoLevantamentoTime().innerHTML = locais.localGraficoPasseTime().innerHTML = locais.localGraficoSaqueTime().innerHTML = locais.localGraficoAtaqueTime().innerHTML = locais.localGraficoSaqueTimeTipo().innerHTML = locais.localGraficoPasseDefesaTime().innerHTML = "";
+    locais.localGraficoBloqueioTime().innerHTML = locais.localGraficoLevantamentoTime().innerHTML = locais.localGraficoPasseTime().innerHTML = locais.localGraficoSaqueTime().innerHTML = locais.localGraficoAtaqueTime().innerHTML = locais.localGraficoSaqueTimeTipo().innerHTML = locais.localGraficoPasseDefesaTime().innerHTML = locais.localGraficoErroDefesaTime().innerHTML = "";
     // colocando os gráficos
-    grafico.InserirGraficosTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoPasseTime(), locais.localGraficoSaqueTimeTipo(), locais.localGraficoSaqueTime(), locais.localGraficoAtaqueTime(), locais.localGraficoBloqueioTime(), locais.localGraficoLevantamentoTime(), locais.localGraficoPasseDefesaTime());
+    grafico.InserirGraficosTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.localGraficoPasseTime(), locais.localGraficoSaqueTimeTipo(), locais.localGraficoSaqueTime(), locais.localGraficoAtaqueTime(), locais.localGraficoBloqueioTime(), locais.localGraficoLevantamentoTime(), locais.localGraficoPasseDefesaTime(), locais.localGraficoErroDefesaTime());
     // populadno o select com os jogadores do time
     time.JogadoresNoTime(locais.timeSelecionado().value, locais.timeSelecionado().options[locais.timeSelecionado().selectedIndex].text, locais.jogadorSelecionado());
     // aparecendo o local para selecionar o jogador

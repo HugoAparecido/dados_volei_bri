@@ -6,7 +6,7 @@ import { collection, query, where, getDocs } from "https://www.gstatic.com/fireb
 // o Chart é uma função retirada do caminho https://cdn.jsdelivr.net/npm/chart.js referenciado no estatisticas.html
 export class Graficos {
     // criando uma função assíncrona, ou seja, que é executada paralelamente, não segue a estrutura
-    async InserirGraficosTime(idTime, nomeTime, localGraficoPasse, localGraficoTipoSaque, localGraficoSaqueAcerto, localGraficoAtaque, localGraficoBloqueio, localGraficoLevantamento, localGraficoPasseDefesa) {
+    async InserirGraficosTime(idTime, nomeTime, localGraficoPasse, localGraficoTipoSaque, localGraficoSaqueAcerto, localGraficoAtaque, localGraficoBloqueio, localGraficoLevantamento, localGraficoPasseDefesa, localGraficoErroDefesa) {
         // colocando as condições para a porcura no banco
         nomeTime = nomeTime.split(' (');
         nomeTime = nomeTime[0];
@@ -25,6 +25,8 @@ export class Graficos {
                 let passeC = 0;
                 let passeD = 0;
                 let defesa = [];
+                let erroDefesa = 0;
+                let acertoDefesa = 0;
                 // inicializando os tipos dos saques em zero
                 let saque = {
                     ace: 0,
@@ -50,6 +52,8 @@ export class Graficos {
                 // para cada jogador ele incrementará nas variáveis acima o respectivo valor
                 jogadores.forEach((jogador) => {
                     defesa.push([jogador[1].nome, jogador[1].defesa])
+                    erroDefesa += jogador[1].erro_defesa;
+                    acertoDefesa += jogador[1].defesa;
                     // passes
                     if (jogador[1].posicao !== "Levantador") {
                         passeA += jogador[1].passe.passe_A;
@@ -96,6 +100,7 @@ export class Graficos {
                 this.GraficoBloqueio(pontoDesteTime, pontoAdversario, localGraficoBloqueio, "criar_grafico_bloqueio_time");
                 // Chamando a função para criar o gráfico de acerto e erro do bloqueio
                 this.GraficoLevantamento(levantamento, localGraficoLevantamento, "criar_grafico_levantamento_time");
+                this.GraficoErrosAcertosDefesa(acertoDefesa, erroDefesa, localGraficoPasseDefesa, "criar_grafico_erro_acerto_defesa_time");
             }
         });
     }
@@ -110,7 +115,7 @@ export class Graficos {
             // verifica se é o jogador certo pelo id
             if (doc.id === idJogador) {
                 // Chamando a função para criar o gráfico passe e defesa
-                localGraficoPasseDefesa.innerHTML += `<div><h2>Total de defesas: <span>${doc.data().defesa}<span></h2></div>`;
+                this.GraficoErrosAcertosDefesa(doc.data().defesa, doc.data().erro_defesa, localGraficoPasseDefesa, "criar_grafico_erro_acerto_defesa_jogador");
                 if (doc.data().posicao !== "Levantador") {
                     // Chamando a função para criar o gráfico passe
                     this.GraficoPasses(doc.data().passe.passe_A, doc.data().passe.passe_B, doc.data().passe.passe_C, doc.data().passe.passe_D, localGraficoPasse, "criar_grafico_passe_jogador");
